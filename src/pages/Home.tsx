@@ -1,11 +1,14 @@
+import AboutUs from "@/components/home/AboutUs";
+import Hero from "@/components/home/Hero";
 import React from "react";
 
-const Home = () => {
+const Homepage = () => {
   return (
     <>
-      <h1>Home</h1>
+      <Hero />
+      <AboutUs />
     </>
   );
 };
 
-export default Home;
+export default Homepage;
