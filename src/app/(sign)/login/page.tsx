@@ -1,9 +1,11 @@
-import { Form } from "@/components/sign/form-login";
+import { FormLogin } from "@/components/sign/form-login";
 
- const Login = () => {
-    return (
-        <Form/>
-    )
+const Login = () => {
+  return (
+    <>
+      <FormLogin />
+    </>
+  );
 };
 
-export default Login
+export default Login;

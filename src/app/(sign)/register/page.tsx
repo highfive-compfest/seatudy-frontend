@@ -1,9 +1,11 @@
-import { Form } from "@/components/sign/form-register";
+import { FormRegister } from "@/components/sign/form-register";
 
- const Register = () => {
-    return (
-        <Form/>
-    )
+const Register = () => {
+  return (
+    <>
+      <FormRegister />
+    </>
+  );
 };
 
-export default Register
+export default Register;

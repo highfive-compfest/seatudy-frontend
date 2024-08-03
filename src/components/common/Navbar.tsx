@@ -47,12 +47,12 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/login">
+            <Link href="/register">
               <p className="bg-white border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-gray-100 cursor-pointer mr-[-0.75em]">Register</p>
             </Link>
           </li>
           <li>
-            <Link href="/register">
+            <Link href="/login">
               <p className="bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Login</p>
             </Link>
           </li>
