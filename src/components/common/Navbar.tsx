@@ -88,7 +88,8 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden absolute inset-0 bg-white shadow-lg transition-transform transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"} z-40 pt-16`}>
+      {/*md:hidden absolute inset-0 bg-white shadow-lg  ${isMenuOpen ? "translate-x-0 block transition-transform transform" : "translate-x-full hidden transition-transform transform"} z-40 pt-16*/}
+      <div className={isMenuOpen ? "md:hidden absolute inset-0 bg-white shadow-lg z-40 pt-16 ease-in-out duration-500" : "ease-in-out duration-500 fixed"}>
         <ul className="flex flex-col p-5 space-y-4">
           <li>
             <Link href="/">
