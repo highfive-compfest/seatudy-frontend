@@ -44,10 +44,13 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="relative group">
-            <p className="flex items-center hover:text-blue-500 cursor-pointer">
-              Courses
-              <AiOutlineDown className="ml-1" />
-            </p>
+            <Link href="/courses">
+              <p className="flex items-center hover:text-blue-500 cursor-pointer">
+                Courses
+                <AiOutlineDown className="ml-1" />
+              </p>
+            </Link>
+
             <div className="absolute hidden group-hover:block bg-gray-100 shadow-lg p-3 rounded min-w-48">
               <Link href="/courses/1">
                 <p className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Course 1</p>

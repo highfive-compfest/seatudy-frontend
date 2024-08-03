@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import CourseCard from "../common/CourseCard";
 
 const Explore = () => {
   // Dummy data
@@ -43,34 +44,25 @@ const Explore = () => {
   ];
 
   return (
-    <div className="bg-blue-100 min-h-screen p-10">
+    <div className="bg-blue-100 min-h-screen py-10">
       <h1 className="text-3xl font-bold text-center mb-2 mt-8">Explore Courses</h1>
       <p className="text-center mb-8">Our most popular course subjects</p>
+
       <div className="overflow-x-auto scrollbar-hide">
-        <div className="flex space-x-4 py-y">
+        <div className="flex space-x-4 px-4">
+          <div className="flex-shrink-0 w-[1em]"></div>
+
           {courses.map((course) => (
-            <div key={course.id} className="bg-white p-6 rounded-lg shadow-lg flex-shrink-0 w-[24em]">
-              <div className="relative" style={{ height: "12em" }}>
-                <img src={course.image} alt={course.title} className="rounded-t-lg absolute inset-0 w-full h-full object-cover" />
-              </div>
-              <h2 className="text-xl font-bold mt-4">{course.title}</h2>
-              <p className="text-gray-600 mt-2">{course.description}</p>
-              <div className="flex justify-between items-center mt-4">
-                <span>
-                  Ages <strong>{course.age}</strong>
-                </span>
-                <span>
-                  Duration <strong>{course.duration}</strong>
-                </span>
-                <span>
-                  Price <strong>{course.price}</strong>
-                </span>
-              </div>
-              <Link href="/course_detail">
-                <button className="mt-4 text-blue-500 underline">Show more &rarr;</button>
-              </Link>
-            </div>
+            <CourseCard course={course} />
           ))}
+
+          <div className="bg-blue-200 p-6 rounded-lg shadow-lg flex-shrink-0 w-[14em] flex items-center justify-center">
+            <Link href="/courses">
+              <button className="text-blue-600 font-bold text-lg">See All Courses &rarr;</button>
+            </Link>
+          </div>
+
+          <div className="flex-shrink-0 w-[1em]"></div>
         </div>
       </div>
     </div>
