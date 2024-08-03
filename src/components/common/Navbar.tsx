@@ -63,11 +63,6 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/contact">
-              <p className="hover:text-blue-500 cursor-pointer">About Us</p>
-            </Link>
-          </li>
-          <li>
             <Link href="/register">
               <p className="bg-white border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-gray-100 cursor-pointer mr-[-0.75em]">Register</p>
             </Link>
@@ -88,8 +83,7 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Menu */}
-      {/*md:hidden absolute inset-0 bg-white shadow-lg  ${isMenuOpen ? "translate-x-0 block transition-transform transform" : "translate-x-full hidden transition-transform transform"} z-40 pt-16*/}
-      <div className={isMenuOpen ? "md:hidden absolute inset-0 bg-white shadow-lg z-40 pt-16 ease-in-out duration-500" : "ease-in-out duration-500 fixed"}>
+      <div className={isMenuOpen ? "md:hidden absolute inset-0 bg-white shadow-lg pt-16 ease-in-out duration-500 z-40" : "ease-in-out duration-500 fixed z-[-1] w-0 overflow-hidden opacity-0 pointer-events-none"}>
         <ul className="flex flex-col p-5 space-y-4">
           <li>
             <Link href="/">
@@ -142,13 +136,6 @@ const Navbar = () => {
             <Link href="/blog">
               <p className="hover:text-blue-500 cursor-pointer px-3 mb-3" onClick={toggleMenu}>
                 Reviews
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact">
-              <p className="hover:text-blue-500 cursor-pointer px-3 mb-3" onClick={toggleMenu}>
-                About Us
               </p>
             </Link>
           </li>
