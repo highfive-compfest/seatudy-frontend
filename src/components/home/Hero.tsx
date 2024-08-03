@@ -15,7 +15,7 @@ const Hero = () => {
       </div>
 
       <div>
-        <div className="bg-blue-500 md:mx-32 lg:mx-64 md:mb-8 md:rounded-lg absolute bottom-0 left-0 right-0 p-4 md:bg-white text-black flex justify-around shadow-md">
+        <div className="bg-blue-500 md:mx-32 lg:mx-64 mb-0 md:mb-8 md:rounded-lg absolute bottom-0 left-0 right-0 p-4 md:bg-white text-black flex justify-around shadow-md">
           <div className="flex flex-col items-center transition-transform duration-300 ease-in-out hover:scale-95">
             <FaBook className="h-6 w-6 text-white md:text-blue-500 mb-2" />
             <p className="text-white md:text-black text-xl font-bold">1400+</p>

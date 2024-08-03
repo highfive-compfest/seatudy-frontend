@@ -1,4 +1,5 @@
 import AboutUs from "@/components/home/AboutUs";
+import Explore from "@/components/home/Explore";
 import Hero from "@/components/home/Hero";
 import React from "react";
 
@@ -7,6 +8,7 @@ const Homepage = () => {
     <>
       <Hero />
       <AboutUs />
+      <Explore />
     </>
   );
 };
