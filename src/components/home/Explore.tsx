@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Explore = () => {
@@ -65,7 +66,9 @@ const Explore = () => {
                   Price <strong>{course.price}</strong>
                 </span>
               </div>
-              <button className="mt-4 text-blue-500 underline">Show more &rarr;</button>
+              <Link href="/course_detail">
+                <button className="mt-4 text-blue-500 underline">Show more &rarr;</button>
+              </Link>
             </div>
           ))}
         </div>

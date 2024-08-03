@@ -16,8 +16,12 @@ const Navbar = () => {
     <>
       <nav className="flex w-full justify-between items-center py-4 px-5 bg-white shadow-md absolute z-50">
         <div className="text-xl font-bold text-black">
-          <span className="text-blue-600">SEA</span>TUDY.
+          <Link href="/">
+            {" "}
+            <span className="text-blue-600">SEA</span>TUDY.
+          </Link>
         </div>
+
         {/* Desktop Menu */}
         <ul className="space-x-5 text-black h-max items-center hidden md:flex">
           <li className="relative group">
