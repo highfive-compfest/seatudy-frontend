@@ -2,19 +2,33 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu, AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCoursesOpen, setIsCoursesOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [scrollingUp, setScrollingUp] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleCourses = () => setIsCoursesOpen(!isCoursesOpen);
   const toggleCategory = () => setIsCategoryOpen(!isCategoryOpen);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setScrollingUp(prevScrollPos > currentScrollPos);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos]);
+
   return (
     <>
-      <nav className="flex w-full justify-between items-center py-4 px-5 bg-white shadow-md absolute z-50">
+      <nav className={`flex w-full justify-between items-center py-4 px-5 bg-white shadow-md fixed top-0 left-0 z-50 transition-transform duration-300 ${scrollingUp ? "translate-y-0" : "-translate-y-24"}`}>
         <div className="text-xl font-bold text-black">
           <Link href="/">
             {" "}
