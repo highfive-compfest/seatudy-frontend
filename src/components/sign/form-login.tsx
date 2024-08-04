@@ -2,10 +2,12 @@
 import { Submit } from "@/components/sign/button";
 import { useState, ChangeEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function FormLogin() {
   const [info, setInfo] = useState("");
   const [data, setData] = useState({});
+  const router = useRouter()
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const name = event.target.name;
@@ -13,8 +15,13 @@ export function FormLogin() {
     setData((values) => ({ ...values, [name]: value }));
   }
 
+  const handleSubmit = (e:any) => {
+    e.preventDefault()
+    router.push("dashboard/user/courses")
+  }
+
   return (
-    <form onSubmit={() => console.log(data)}>
+    <form onSubmit={handleSubmit}>
       <div className="text-center">
         <Link href="/" className="text-2xl font-bold text-black">
           <span className="text-blue-600">SEA</span>TUDY.
