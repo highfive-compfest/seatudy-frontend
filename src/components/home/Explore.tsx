@@ -52,7 +52,7 @@ const Explore = () => {
         <div className="flex space-x-4 px-4">
           <div className="flex-shrink-0 w-[1em]"></div>
 
-          {courses.map((course) => (
+          {courses.map((course, key) => (
             <CourseCard course={course} />
           ))}
 

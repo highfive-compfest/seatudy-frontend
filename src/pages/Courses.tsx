@@ -70,7 +70,7 @@ const Courses = () => {
       <div className="overflow-x-auto scrollbar-hide mb-12">
         <div className="flex space-x-4 px-4">
           <div className="flex-shrink-0 w-[0.2em]"></div>
-          {courses.map((course) => (
+          {courses.map((course, key) => (
             <CourseCard course={course} />
           ))}
           <div className="flex-shrink-0 w-[1em]"></div>
