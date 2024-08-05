@@ -4,6 +4,7 @@ import Hero from "@/components/discover_courses/Hero";
 import { courses } from "@/types/dummy/CourseDummy";
 import Navbar from "@/components/common/Navbar";
 import React from "react";
+import Footer from "@/components/common/Footer";
 
 const DiscoverCoursesPage = () => {
   fetch("course");
@@ -21,6 +22,8 @@ const DiscoverCoursesPage = () => {
           <div className="flex-shrink-0 w-[1em]"></div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };

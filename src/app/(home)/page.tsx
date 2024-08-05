@@ -1,3 +1,4 @@
+import Footer from "@/components/common/Footer";
 import AboutUs from "@/components/home/AboutUs";
 import Explore from "@/components/home/Explore";
 import Hero from "@/components/home/Hero";
@@ -9,6 +10,7 @@ export default function Home() {
       <Hero />
       <AboutUs />
       <Explore />
+      <Footer />
     </>
   );
 }
