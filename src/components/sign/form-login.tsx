@@ -21,17 +21,17 @@ export function FormLogin() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="bg-white h-fit m-auto p-6 rounded-lg" onSubmit={handleSubmit}>
       <div className="text-center">
         <Link href="/" className="text-2xl font-bold text-black">
           <span className="text-blue-600">SEA</span>TUDY.
         </Link>
       </div>
       <h2 className="text-3xl my-10 text-center font-bold">Log In</h2>
-      <input required className="border-2 text-lg py-1 px-4 border-solid border-black rounded-full placeholder-slate-900 outline-none block my-4 font-bold w-full" name="email" onChange={handleChange} placeholder="Email" type="email" />
+      <input required className="border-2 text-lg py-1 px-4 border-solid border-black rounded-full placeholder-black outline-none block my-4 font-bold w-full" name="email" onChange={handleChange} placeholder="Email" type="email" />
       <input
         required
-        className="border-2 py-1 px-4 border-solid border-black rounded-full placeholder-slate-900 outline-none block my-4 text-lg font-bold w-full"
+        className="border-2 py-1 px-4 border-solid border-black rounded-full placeholder-black outline-none block my-4 text-lg font-bold w-full"
         name="password"
         onChange={handleChange}
         placeholder="Password"

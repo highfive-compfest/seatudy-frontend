@@ -14,7 +14,7 @@ export function FormRegister() {
   }
 
   return (
-    <form onSubmit={() => console.log(data)}>
+    <form className="bg-white h-fit m-auto p-6 rounded-lg" onSubmit={() => console.log(data)}>
       <div className="text-center">
         <Link href="/" className="text-2xl font-bold text-black">
           <span className="text-blue-600">SEA</span>TUDY.
