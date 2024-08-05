@@ -44,20 +44,25 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="relative group">
-            <Link href="/courses">
+            <Link href="/discover_courses">
               <p className="flex items-center hover:text-blue-500 cursor-pointer">
                 Courses
                 <AiOutlineDown className="ml-1" />
               </p>
             </Link>
 
-            <div className="absolute hidden group-hover:block bg-gray-100 shadow-lg p-3 rounded min-w-48">
-              <Link href="/courses/1">
-                <p className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Course 1</p>
-              </Link>
-              <Link href="/courses/2">
-                <p className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Course 2</p>
-              </Link>
+            <div className="absolute hidden group-hover:block bg-gray-100 shadow-lg p-4 rounded-lg min-w-72">
+              <div className="mb-3">
+                <input type="text" placeholder="Search courses..." className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+              </div>
+              <div className="">
+                <select className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                  <option value="most-rated">Most Rated</option>
+                  <option value="newest">Newest</option>
+                  <option value="price-low-to-high">Price: Low to High</option>
+                  <option value="price-high-to-low">Price: High to Low</option>
+                </select>
+              </div>
             </div>
           </li>
           <li className="relative group">
