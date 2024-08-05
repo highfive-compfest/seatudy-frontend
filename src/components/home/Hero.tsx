@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaBook, FaChalkboardTeacher, FaStar } from "react-icons/fa";
 
@@ -9,7 +10,9 @@ const Hero = () => {
           <div className="text-center text-white px-4">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Self-Paced Learning Courses Online</h1>
             <p className="text-m m:text-l lg:text-xl mb-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, vestibulum euismod nullam elementum.</p>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Start a course</button>
+            <Link href="/discover_courses">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Start a course</button>
+            </Link>
           </div>
         </div>
       </div>

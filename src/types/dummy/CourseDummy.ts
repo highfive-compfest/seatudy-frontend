@@ -1,8 +1,43 @@
-"use client";
-import CourseInfo from "@/components/course_detail/CourseInfo";
-import CourseProgress from "@/components/course_detail/CourseProgress";
+export const courses = [
+  {
+    id: 1,
+    title: "Design Thinking",
+    description: "Lorem ipsum dolor amet, consectetur adipiscing elit. Mattis et sed nam sem tellus erat.",
+    age: "15+",
+    duration: "60 mins",
+    price: "100k",
+    image: "https://awsimages.detik.net.id/community/media/visual/2023/01/20/design-thinking_169.jpeg?w=1200",
+  },
+  {
+    id: 2,
+    title: "Build Mobile App",
+    description: "Lorem ipsum dolor amet, consectetur adipiscing elit. Mattis et sed nam sem tellus erat.",
+    age: "15+",
+    duration: "60 mins",
+    price: "100k",
+    image: "https://learn.g2.com/hubfs/apple-applications-apps-607812.jpg",
+  },
+  {
+    id: 3,
+    title: "Leadership",
+    description: "Lorem ipsum dolor amet, consectetur adipiscing elit. Mattis et sed nam sem tellus erat.",
+    age: "15+",
+    duration: "60 mins",
+    price: "100k",
+    image: "https://asset.gallup.com/p/CSFCMSEN/742a568e-cef5-48a2-a019-7eb845c43df9.jpg",
+  },
+  {
+    id: 4,
+    title: "Advanced Programming",
+    description: "Learn advanced programming techniques and best practices for professional development.",
+    age: "18+",
+    duration: "90 mins",
+    price: "150k",
+    image: "https://cdn-blog.superprof.com/blog_in/wp-content/uploads/2022/11/programming-language.jpg",
+  },
+];
 
-const courseDetailDummy = {
+export const courseDetail = {
   title: "Project Management Processes",
   instructor: {
     name: "Prof. John Breaker",
@@ -17,31 +52,3 @@ const courseDetailDummy = {
   imageUrl: "https://media.graphassets.com/6ciyrxFdTcm36fQRrAlW",
   chapters: Array.from({ length: 12 }, (_, i) => i + 1),
 };
-
-const CourseDetail = () => {
-  return (
-    <>
-      <div className="container mx-auto pt-24 px-8 pb-32">
-        <div className="breadcrumb text-gray-600 text-sm mb-4">
-          <a href="#" className="hover:underline">
-            My Courses
-          </a>{" "}
-          &gt;
-          <a href="#" className="hover:underline">
-            {" "}
-            <span> Management</span>
-          </a>{" "}
-          &gt;
-          <span> {courseDetailDummy.title}</span>
-        </div>
-
-        <div className="flex flex-col md:flex-row">
-          <CourseInfo courseDetail={courseDetailDummy} />
-          <CourseProgress courseDetail={courseDetailDummy} />
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default CourseDetail;

@@ -18,7 +18,7 @@ interface CourseCardProps {
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   return (
     <>
-      <div key={course.id} className="bg-white rounded-lg shadow-lg flex-shrink-0 w-[24em]">
+      <div key={course.id} className="bg-white rounded-lg shadow-lg flex-shrink-0 w-[18em] md:w-[24em]">
         <div className="relative h-48">
           {" "}
           <img src={course.image} alt={course.title} className="absolute inset-0 w-full h-full object-cover rounded-t-lg" />
