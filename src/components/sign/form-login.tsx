@@ -28,7 +28,7 @@ export function FormLogin() {
       const response = await loginUser(data);
       const access_token = response.payload?.access_token;
       const refresh_token = response.payload?.refresh_token;
-      const user = response.payload?.user;
+      const user = response.payload;
 
       if (access_token) {
         setCookie("authToken", access_token, { path: "/", maxAge: 60 * 60 * 24 });
