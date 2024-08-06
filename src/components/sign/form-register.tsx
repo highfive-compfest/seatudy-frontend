@@ -1,33 +1,34 @@
 "use client";
 import React, { useState, ChangeEvent } from "react";
 import Link from "next/link";
-import { Submit } from "./button";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Submit } from "./button";
+import { registerUser } from "@/services/auth";
 
 export function FormRegister() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "student",
+  });
   const [isPending, setPending] = useState(false);
 
   const router = useRouter();
 
-  function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData((values) => ({ ...values, [name]: value, role: "student" }));
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    setData((prev) => ({ ...prev, [name]: value }));
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true);
     try {
-      const res = await axios.post("http://35.219.85.172:8080/v1/auth/register", data);
-      if (res.status == 201) {
-        router.push("/login");
-        setPending(false);
-      }
+      await registerUser(data);
+      router.push("/login");
     } catch (error) {
-      console.log(error);
+      console.error("Error registering user:", error);
     } finally {
       setPending(false);
     }
@@ -45,6 +46,7 @@ export function FormRegister() {
         required
         className="border text-lg py-2 px-4 border-solid border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 outline-none block my-4 w-full"
         name="name"
+        value={data.name}
         onChange={handleChange}
         placeholder="Name"
         type="text"
@@ -53,6 +55,7 @@ export function FormRegister() {
         required
         className="border text-lg py-2 px-4 border-solid border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 outline-none block my-4 w-full"
         name="email"
+        value={data.email}
         onChange={handleChange}
         placeholder="Email"
         type="email"
@@ -61,16 +64,17 @@ export function FormRegister() {
         required
         className="border text-lg py-2 px-4 border-solid border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 outline-none block my-4 w-full"
         name="password"
+        value={data.password}
         onChange={handleChange}
         placeholder="Password"
         type="password"
         minLength={8}
       />
       <Submit isPending={isPending} name="Register" />
-      <div className={`loader animate-spin bg-slate-900 w-12 h-12 rounded-full m-auto my-4`} style={{ display: isPending ? "block" : "none" }}></div>
+      {isPending && <div className="loader animate-spin bg-slate-900 w-12 h-12 rounded-full m-auto my-4"></div>}
       <p className="text-sm mt-6 text-center">
         Already have an account?{" "}
-        <Link className="text-blue-700 font-medium hover:underline" href="login">
+        <Link className="text-blue-700 font-medium hover:underline" href="/login">
           Log In
         </Link>
       </p>

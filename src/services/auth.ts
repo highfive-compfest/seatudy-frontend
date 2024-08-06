@@ -2,6 +2,17 @@ import { PasswordResetRequest, PasswordResetResponse } from "@/types/sign/reset-
 import { axiosInstance } from "../services/api-config";
 import { VerifyPasswordResetRequest, VerifyPasswordResetResponse } from "@/types/sign/verify-password";
 import { ChangePasswordRequest, ChangePasswordResponse } from "@/types/sign/change-password";
+import { RegisterUserRequest, RegisterUserResponse } from "@/types/sign/register";
+
+export const registerUser = async (data: RegisterUserRequest): Promise<RegisterUserResponse> => {
+  try {
+    const response = await axiosInstance.post<RegisterUserResponse>("auth/register", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw error;
+  }
+};
 
 export const requestPasswordReset = async (data: PasswordResetRequest): Promise<PasswordResetResponse> => {
   try {
