@@ -23,9 +23,13 @@ export const verifyPasswordReset = async (data: VerifyPasswordResetRequest): Pro
   }
 };
 
-export const changePassword = async (data: ChangePasswordRequest): Promise<ChangePasswordResponse> => {
+export const changePassword = async (data: ChangePasswordRequest, accessToken: string): Promise<ChangePasswordResponse> => {
   try {
-    const response = await axiosInstance.patch<ChangePasswordResponse>("auth/password/change", data);
+    const response = await axiosInstance.patch<ChangePasswordResponse>("auth/password/change", data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error changing password:", error);
