@@ -9,12 +9,12 @@ import { setCookie } from "cookies-next";
 
 export function FormLogin() {
   const [data, setData] = useState({});
-  const [info, setInfo] = useState("")
-  const [isPending, setPending] = useState(false)
+  const [info, setInfo] = useState("");
+  const [isPending, setPending] = useState(false);
 
-  const { setUser } = useUser()
+  const { setUser } = useUser();
 
-  const router = useRouter()
+  const router = useRouter();
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const name = event.target.name;
@@ -22,31 +22,31 @@ export function FormLogin() {
     setData((values) => ({ ...values, [name]: value }));
   }
 
-  const handleSubmit = async (e:React.FormEvent) => {
-    e.preventDefault()
-    setPending(true)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPending(true);
     try {
-      const res = await axios.post("http://35.219.85.172:8080/v1/auth/login", data)
-      const accToken = res.data.payload.access_token
+      const res = await axios.post("http://35.219.85.172:8080/v1/auth/login", data);
+      const accToken = res.data.payload.access_token;
       if (res.status === 200) {
-        setCookie('authToken', accToken, { path: '/', maxAge: 60 * 60 * 24 })
-        setUser(res.data.payload)
-        router.push("dashboard/user/courses")
-        setPending(false)
+        setCookie("authToken", accToken, { path: "/", maxAge: 60 * 60 * 24 });
+        setUser(res.data.payload);
+        router.push("dashboard/user/courses");
+        setPending(false);
       }
       if (res.status === 401) {
-        setInfo("Email or Password Incorrect")
-        return
+        setInfo("Email or Password Incorrect");
+        return;
       }
-     } catch (error:any) {
-        const status = error.response.status
-        if (status === 401) {
-          setInfo("Email or Password Incorrect")
-        }
-     } finally {
-        setPending(false)
-     }
-  }
+    } catch (error: any) {
+      const status = error.response.status;
+      if (status === 401) {
+        setInfo("Email or Password Incorrect");
+      }
+    } finally {
+      setPending(false);
+    }
+  };
 
   return (
     <form className="bg-white h-fit m-auto p-6 rounded-lg" onSubmit={handleSubmit}>
@@ -67,7 +67,7 @@ export function FormLogin() {
         minLength={8}
       />
       <p className="ml-2 font-medium mb-4 text-red-500">{info}</p>
-      <Submit isPending={isPending} name="Log In"/>
+      <Submit isPending={isPending} name="Log In" />
       <p className="text-sm mt-6 text-center">
         don&apos;t have an account?{" "}
         <Link className="text-blue-700 font-black" href="register">

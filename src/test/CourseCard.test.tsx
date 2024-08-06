@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen, cleanup } from "@testing-library/react";
-import CourseCard from "../components/common/CourseCard";
+import CourseCard from "../components/common/course-card";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import React from "react";
 import "@testing-library/jest-dom/vitest";

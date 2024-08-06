@@ -1,10 +1,10 @@
 "use client";
-import CourseInfo from "@/components/course_detail/CourseInfo";
-import CourseProgress from "@/components/course_detail/CourseProgress";
+import CourseInfo from "@/components/course_detail/course-info";
+import CourseProgress from "@/components/course_detail/course-progress";
 import { courseDetail } from "@/types/dummy/CourseDummy";
-import Navbar from "@/components/common/Navbar";
+import Navbar from "@/components/common/main-navbar";
 import React from "react";
-import Footer from "@/components/common/Footer";
+import Footer from "@/components/common/footer";
 
 const CourseDetailPage = () => {
   return (

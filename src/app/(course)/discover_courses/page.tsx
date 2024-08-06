@@ -1,10 +1,10 @@
 "use client";
-import CourseCard from "@/components/common/CourseCard";
-import Hero from "@/components/discover_courses/Hero";
+import CourseCard from "@/components/common/course-card";
+import Hero from "@/components/discover_courses/hero";
 import { courses } from "@/types/dummy/CourseDummy";
-import Navbar from "@/components/common/Navbar";
+import Navbar from "@/components/common/main-navbar";
 import React from "react";
-import Footer from "@/components/common/Footer";
+import Footer from "@/components/common/footer";
 
 const DiscoverCoursesPage = () => {
   fetch("course");

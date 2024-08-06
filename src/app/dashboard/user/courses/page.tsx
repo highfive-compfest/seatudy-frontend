@@ -1,4 +1,4 @@
-import CourseCard from "@/components/common/CourseCard";
+import CourseCard from "@/components/common/course-card";
 import { courses } from "@/types/dummy/CourseDummy";
 
 const Courses = () => {

@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import Navbar from "../components/common/Navbar";
+import Navbar from "../components/common/main-navbar";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import React from "react";
 import "@testing-library/jest-dom/vitest";

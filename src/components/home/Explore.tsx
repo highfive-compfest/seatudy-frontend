@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import CourseCard from "../common/CourseCard";
+import CourseCard from "../common/course-card";
 import { courses } from "@/types/dummy/CourseDummy";
 
 const Explore = () => {
