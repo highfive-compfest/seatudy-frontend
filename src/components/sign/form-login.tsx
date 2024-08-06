@@ -49,28 +49,40 @@ export function FormLogin() {
   };
 
   return (
-    <form className="bg-white h-fit m-auto p-6 rounded-lg" onSubmit={handleSubmit}>
+    <form className="bg-white max-w-md mx-auto p-6 rounded-lg shadow-md" style={{ height: "fit-content", minHeight: "400px" }} onSubmit={handleSubmit}>
       <div className="text-center">
         <Link href="/" className="text-2xl font-bold text-black">
           <span className="text-blue-600">SEA</span>TUDY.
         </Link>
       </div>
       <h2 className="text-3xl my-10 text-center font-bold">Log In</h2>
-      <input required className="border-2 text-lg py-1 px-4 border-solid border-black rounded-full placeholder-black outline-none block my-4 font-bold w-full" name="email" onChange={handleChange} placeholder="Email" type="email" />
       <input
         required
-        className="border-2 py-1 px-4 border-solid border-black rounded-full placeholder-black outline-none block my-4 text-lg font-bold w-full"
+        className="border text-lg py-2 px-4 border-solid border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 outline-none block my-4 w-full"
+        name="email"
+        onChange={handleChange}
+        placeholder="Email"
+        type="email"
+      />
+      <input
+        required
+        className="border text-lg py-2 px-4 border-solid border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 outline-none block my-4 w-full"
         name="password"
         onChange={handleChange}
         placeholder="Password"
         type="password"
         minLength={8}
       />
-      <p className="ml-2 font-medium mb-4 text-red-500">{info}</p>
+      <div className="text-right mb-4">
+        <Link className="text-blue-600 font-medium hover:underline" href="forgot-password">
+          Forgot Password?
+        </Link>
+      </div>
+      <p className="text-center text-red-500 mb-4">{info}</p>
       <Submit isPending={isPending} name="Log In" />
       <p className="text-sm mt-6 text-center">
-        don&apos;t have an account?{" "}
-        <Link className="text-blue-700 font-black" href="register">
+        Don&apos;t have an account?{" "}
+        <Link className="text-blue-600 font-medium hover:underline" href="register">
           Register
         </Link>
       </p>
