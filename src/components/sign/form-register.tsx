@@ -34,7 +34,7 @@ export function FormRegister() {
   };
 
   return (
-    <form className="bg-white max-w-md mx-auto p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+    <form className="bg-white max-w-md mx-auto p-6 rounded-lg md:shadow-md" onSubmit={handleSubmit}>
       <div className="text-center">
         <Link href="/" className="text-2xl font-bold text-black">
           <span className="text-blue-600">SEA</span>TUDY.

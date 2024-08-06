@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <section className="lg:grid lg:grid-cols-2 flex py-4 lc:py-0 lc:h-screen justify-center lg:justify-items-center items-center">
       <Hero />
-      <div className="bg-blue-200 w-full h-full flex items-center">{children}</div>
+      <div className="bg-white md:bg-blue-200 w-full h-full flex items-center">{children}</div>
     </section>
   );
 }
