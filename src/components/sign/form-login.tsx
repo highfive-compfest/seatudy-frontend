@@ -3,17 +3,16 @@ import { Submit } from "@/components/sign/button";
 import React, { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useUser } from "@/context/user";
 import { setCookie } from "cookies-next";
+import { loginUser } from "../../services/auth";
 
 export function FormLogin() {
-  const [data, setData] = useState({});
-  const [info, setInfo] = useState("");
-  const [isPending, setPending] = useState(false);
+  const [data, setData] = useState<{ email: string; password: string }>({ email: "", password: "" });
+  const [info, setInfo] = useState<string>("");
+  const [isPending, setPending] = useState<boolean>(false);
 
   const { setUser } = useUser();
-
   const router = useRouter();
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -26,22 +25,25 @@ export function FormLogin() {
     e.preventDefault();
     setPending(true);
     try {
-      const res = await axios.post("http://35.219.85.172:8080/v1/auth/login", data);
-      const accToken = res.data.payload.access_token;
-      if (res.status === 200) {
-        setCookie("authToken", accToken, { path: "/", maxAge: 60 * 60 * 24 });
-        setUser(res.data.payload);
-        router.push("dashboard/user/courses");
-        setPending(false);
-      }
-      if (res.status === 401) {
-        setInfo("Email or Password Incorrect");
-        return;
+      const response = await loginUser(data);
+      const access_token = response.payload?.access_token;
+      const refresh_token = response.payload?.refresh_token;
+      const user = response.payload?.user;
+
+      if (access_token) {
+        setCookie("authToken", access_token, { path: "/", maxAge: 60 * 60 * 24 });
+        setCookie("refreshToken", refresh_token, { path: "/", maxAge: 60 * 60 * 24 * 7 });
+        setUser(user);
+        router.push("/dashboard/user/courses");
+      } else {
+        setInfo("Login failed");
       }
     } catch (error: any) {
-      const status = error.response.status;
+      const status = error.response?.status;
       if (status === 401) {
         setInfo("Email or Password Incorrect");
+      } else {
+        setInfo("An error occurred");
       }
     } finally {
       setPending(false);

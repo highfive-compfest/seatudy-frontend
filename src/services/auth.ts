@@ -3,6 +3,7 @@ import { axiosInstance } from "../services/api-config";
 import { VerifyPasswordResetRequest, VerifyPasswordResetResponse } from "@/types/sign/verify-password";
 import { ChangePasswordRequest, ChangePasswordResponse } from "@/types/sign/change-password";
 import { RegisterUserRequest, RegisterUserResponse } from "@/types/sign/register";
+import { LoginRequest, LoginResponse } from "@/types/sign/login";
 
 export const registerUser = async (data: RegisterUserRequest): Promise<RegisterUserResponse> => {
   try {
@@ -10,6 +11,16 @@ export const registerUser = async (data: RegisterUserRequest): Promise<RegisterU
     return response.data;
   } catch (error) {
     console.error("Error registering user:", error);
+    throw error;
+  }
+};
+
+export const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
+  try {
+    const response = await axiosInstance.post<LoginResponse>("auth/login", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error logging in:", error);
     throw error;
   }
 };
