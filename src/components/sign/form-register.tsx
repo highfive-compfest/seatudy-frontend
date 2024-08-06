@@ -1,20 +1,35 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import { Submit } from "./button";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export function FormRegister() {
-  const [info, setInfo] = useState("");
   const [data, setData] = useState({});
+
+  const router = useRouter()
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const name = event.target.name;
     const value = event.target.value;
-    setData((values) => ({ ...values, [name]: value }));
+    setData((values) => ({ ...values, [name]: value, role : "student" }));
+  }
+
+  const handleSubmit = async (e:React.FormEvent) => {
+    e.preventDefault()
+    try {
+     const res = await axios.post("http://35.219.85.172:8080/v1/auth/register", data)
+     if (res.status == 201) {
+      router.push("/login")
+     }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
-    <form className="bg-white h-fit m-auto p-6 rounded-lg" onSubmit={() => console.log(data)}>
+    <form className="bg-white h-fit m-auto p-6 rounded-lg" onSubmit={handleSubmit}>
       <div className="text-center">
         <Link href="/" className="text-2xl font-bold text-black">
           <span className="text-blue-600">SEA</span>TUDY.
@@ -30,8 +45,8 @@ export function FormRegister() {
         onChange={handleChange}
         placeholder="Password"
         type="password"
+        minLength={8}
       />
-      <p className="text-sm mb-4 font-bold">{info}</p>
       <Submit name="Register" />
       <div className={`loader animate-spin bg-slate-900 w-12 m-auto`}></div>
       <p className="text-sm mt-6 text-center">
