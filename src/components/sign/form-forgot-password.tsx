@@ -2,9 +2,10 @@
 import Link from "next/link";
 import React, { ChangeEvent, useState } from "react";
 import { Submit } from "./button";
+import { requestPasswordReset } from "../../services/auth";
 
 export const FormForgotPassword = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState<{ email: string }>({ email: "" });
   const [info, setInfo] = useState("");
   const [isPending, setPending] = useState(false);
 
@@ -14,7 +15,20 @@ export const FormForgotPassword = () => {
     setData((values) => ({ ...values, [name]: value }));
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPending(true);
+    setInfo("");
+
+    try {
+      const response = await requestPasswordReset(data);
+      setInfo(response.message);
+    } catch (error) {
+      setInfo("Failed to request password reset. Please try again later.");
+    } finally {
+      setPending(false);
+    }
+  };
 
   return (
     <>
@@ -33,9 +47,11 @@ export const FormForgotPassword = () => {
           onChange={handleChange}
           placeholder="Email"
           type="email"
+          value={data.email}
         />
-        <p className="text-center text-red-500 mb-4">{info}</p>
+
         <Submit isPending={isPending} name="Reset Password" />
+        <p className="text-center text-red-500 mt-4 text-sm">{info}</p>
         <p className="text-sm mt-6 text-center">
           Remembered your password?{" "}
           <Link className="text-blue-700 font-medium hover:underline" href="login">
