@@ -1,6 +1,6 @@
-import Footer from "@/components/common/footer";
+import Footer from "@/components/common/main-footer";
 import AboutUs from "@/components/home/about-us";
-import Explore from "@/components/home/explore";
+import Explore from "@/components/home/home-explore";
 import Hero from "@/components/home/hero";
 
 export default function Home() {

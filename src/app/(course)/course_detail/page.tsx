@@ -4,7 +4,7 @@ import CourseProgress from "@/components/course_detail/course-progress";
 import { courseDetail } from "@/types/dummy/CourseDummy";
 import Navbar from "@/components/common/main-navbar";
 import React from "react";
-import Footer from "@/components/common/footer";
+import Footer from "@/components/common/main-footer";
 
 const CourseDetailPage = () => {
   return (
