@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 export function FormRegister() {
   const [data, setData] = useState({});
+  const [isPending, setPending] = useState(false)
 
   const router = useRouter()
 
@@ -18,13 +19,17 @@ export function FormRegister() {
 
   const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault()
+    setPending(true)
     try {
      const res = await axios.post("http://35.219.85.172:8080/v1/auth/register", data)
      if (res.status == 201) {
       router.push("/login")
+      setPending(false)
      }
     } catch (error) {
       console.log(error)
+    } finally {
+      setPending(false)
     }
   }
 
@@ -47,7 +52,7 @@ export function FormRegister() {
         type="password"
         minLength={8}
       />
-      <Submit name="Register" />
+      <Submit isPending={isPending} name="Register" />
       <div className={`loader animate-spin bg-slate-900 w-12 m-auto`}></div>
       <p className="text-sm mt-6 text-center">
         already have an account?{" "}

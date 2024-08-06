@@ -1,12 +1,19 @@
 "use client";
 import { Submit } from "@/components/sign/button";
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useUser } from "@/context/user";
+import { setCookie } from "cookies-next";
 
 export function FormLogin() {
-  const [info, setInfo] = useState("");
   const [data, setData] = useState({});
+  const [info, setInfo] = useState("")
+  const [isPending, setPending] = useState(false)
+
+  const { setUser } = useUser()
+
   const router = useRouter()
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -15,9 +22,30 @@ export function FormLogin() {
     setData((values) => ({ ...values, [name]: value }));
   }
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault()
-    router.push("dashboard/user/courses")
+    setPending(true)
+    try {
+      const res = await axios.post("http://35.219.85.172:8080/v1/auth/login", data)
+      const accToken = res.data.payload.access_token
+      if (res.status === 200) {
+        setCookie('authToken', accToken, { path: '/', maxAge: 60 * 60 * 24 })
+        setUser(res.data.payload)
+        router.push("dashboard/user/courses")
+        setPending(false)
+      }
+      if (res.status === 401) {
+        setInfo("Email or Password Incorrect")
+        return
+      }
+     } catch (error:any) {
+        const status = error.response.status
+        if (status === 401) {
+          setInfo("Email or Password Incorrect")
+        }
+     } finally {
+        setPending(false)
+     }
   }
 
   return (
@@ -36,9 +64,10 @@ export function FormLogin() {
         onChange={handleChange}
         placeholder="Password"
         type="password"
+        minLength={8}
       />
-      <p className="text-sm mb-4 font-bold">{info}</p>
-      <Submit name="Log In" />
+      <p className="ml-2 font-medium mb-4 text-red-500">{info}</p>
+      <Submit isPending={isPending} name="Log In"/>
       <p className="text-sm mt-6 text-center">
         don&apos;t have an account?{" "}
         <Link className="text-blue-700 font-black" href="register">
