@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { FaMoneyBill } from "react-icons/fa6";
@@ -37,29 +37,34 @@ export const ProfileIcon = () => {
   //   }
   // }, [])
 
-
-  const router = useRouter()
+  const router = useRouter();
+  const [user, setUser] = useState<any>();
+  useEffect(() => {
+    const userString: any = sessionStorage.getItem("user");
+    const data = JSON.parse(userString);
+    setUser(data);
+  }, []);
 
   const logOut = () => {
-    deleteCookie("authToken")
-    deleteCookie("refreshToken")
-    router.replace("/login")
-  }
+    deleteCookie("authToken");
+    deleteCookie("refreshToken");
+    router.replace("/login");
+  };
 
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
-        <Avatar isBordered as="button" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+        <Avatar isBordered as="button" className="transition-transform" src={user?.image_url} />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem textValue="Top Up" as="a" href="/topup" key="topup" startContent={<FaMoneyBill />}>
-            <span>{}</span>
+          <span>{}</span>
         </DropdownItem>
         <DropdownItem textValue="Profile" as="a" href="/dashboard/user/profile" key="profile" startContent={<IoMdPerson />}>
-            <span>My Profile</span>
+          <span>My Profile</span>
         </DropdownItem>
         <DropdownItem textValue="Dashboard" as="a" href="/dashboard/user/courses" key="dashboard" startContent={<MdSpaceDashboard />}>
-            <span>Dashboard</span>
+          <span>Dashboard</span>
         </DropdownItem>
         <DropdownItem textValue="Log Out" onClick={logOut} key="logout" color="danger" startContent={<MdLogout />}>
           <span>Log Out</span>
