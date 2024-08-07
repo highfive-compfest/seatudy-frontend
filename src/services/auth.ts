@@ -1,10 +1,17 @@
-import { PasswordResetRequest, PasswordResetResponse } from "@/types/sign/reset-password";
+import { PasswordResetRequest, PasswordResetResponse } from "../types/sign/reset-password";
 import { axiosInstance } from "../services/api-config";
+<<<<<<< HEAD
 import { VerifyPasswordResetRequest, VerifyPasswordResetResponse } from "@/types/sign/verify-password";
 import { ChangePasswordRequest, ChangePasswordResponse } from "@/types/sign/change-password";
 import { RegisterUserRequest, RegisterUserResponse } from "@/types/sign/register";
 import { LoginRequest, LoginResponse } from "@/types/sign/login";
 import { VerifyEmailResponse } from "@/types/sign/verify-email";
+=======
+import { VerifyPasswordResetRequest, VerifyPasswordResetResponse } from "../types/sign/verify-password";
+import { ChangePasswordRequest, ChangePasswordResponse } from "../types/sign/change-password";
+import { RegisterUserRequest, RegisterUserResponse } from "../types/sign/register-user";
+import { LoginRequest, LoginResponse } from "../types/sign/login-user";
+>>>>>>> 9b3d815400cc1d0610139c8a44e7f24b4c4e8404
 
 export const registerUser = async (data: RegisterUserRequest): Promise<RegisterUserResponse> => {
   try {

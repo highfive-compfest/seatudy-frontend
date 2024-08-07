@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 const Profile = () => {
+<<<<<<< HEAD
     const [isPending, setPending] = useState(false)
     const [user, setUser] = useState<any>()
 
@@ -57,3 +58,13 @@ const Profile = () => {
 }
 
 export default Profile
+=======
+  return (
+    <section className="pt-[7rem] md:pl-[17rem]">
+      <h1 className="text-2xl font-bold ml-4">Profile</h1>
+    </section>
+  );
+};
+
+export default Profile;
+>>>>>>> 9b3d815400cc1d0610139c8a44e7f24b4c4e8404
