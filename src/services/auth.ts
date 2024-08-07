@@ -2,7 +2,7 @@ import { PasswordResetRequest, PasswordResetResponse } from "../types/sign/reset
 import { axiosInstance } from "../services/api-config";
 import { VerifyPasswordResetRequest, VerifyPasswordResetResponse } from "../types/sign/verify-password";
 import { ChangePasswordRequest, ChangePasswordResponse } from "../types/sign/change-password";
-import { RegisterUserRequest, RegisterUserResponse } from "../types/sign/register";
+import { RegisterUserRequest, RegisterUserResponse } from "../types/sign/register-user";
 import { LoginRequest, LoginResponse } from "../types/sign/login";
 
 export const registerUser = async (data: RegisterUserRequest): Promise<RegisterUserResponse> => {
