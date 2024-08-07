@@ -4,6 +4,7 @@ import { VerifyPasswordResetRequest, VerifyPasswordResetResponse } from "@/types
 import { ChangePasswordRequest, ChangePasswordResponse } from "@/types/sign/change-password";
 import { RegisterUserRequest, RegisterUserResponse } from "@/types/sign/register";
 import { LoginRequest, LoginResponse } from "@/types/sign/login";
+import { VerifyEmailResponse } from "@/types/sign/verify-email";
 
 export const registerUser = async (data: RegisterUserRequest): Promise<RegisterUserResponse> => {
   try {
@@ -55,6 +56,44 @@ export const changePassword = async (data: ChangePasswordRequest, accessToken: s
     return response.data;
   } catch (error) {
     console.error("Error changing password:", error);
+    throw error;
+  }
+};
+
+export const reqOTP = async (accessToken: string): Promise<VerifyEmailResponse> => {
+  try {
+    const response = await axiosInstance.post<VerifyEmailResponse>("auth/verification/email/send",{}, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error request OTP:", error);
+    throw error;
+  }
+};
+
+export const verifyEmail = async (code: string, accessToken: string): Promise<VerifyEmailResponse> => {
+  try {
+    const response = await axiosInstance.patch<VerifyEmailResponse>("auth/verification/email/verify", {otp:code}, {
+      headers: {
+        Authorization : `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error request OTP:", error);
+    throw error;
+  }
+};
+
+export const refreshToken = async (refreshToken: string): Promise<VerifyEmailResponse> => {
+  try {
+    const response = await axiosInstance.post<VerifyEmailResponse>("verification/email/verify", refreshToken);
+    return response.data;
+  } catch (error) {
+    console.error("Error request OTP:", error);
     throw error;
   }
 };

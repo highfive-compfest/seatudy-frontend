@@ -12,7 +12,6 @@ export function FormLogin() {
   const [info, setInfo] = useState<string>("");
   const [isPending, setPending] = useState<boolean>(false);
 
-  const { setUser } = useUser();
   const router = useRouter();
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -28,12 +27,12 @@ export function FormLogin() {
       const response = await loginUser(data);
       const access_token = response.payload?.access_token;
       const refresh_token = response.payload?.refresh_token;
-      const user = response.payload;
+      const user = response.payload?.user;
 
       if (access_token) {
         setCookie("authToken", access_token, { path: "/", maxAge: 60 * 60 * 24 });
         setCookie("refreshToken", refresh_token, { path: "/", maxAge: 60 * 60 * 24 * 7 });
-        setUser(user);
+        sessionStorage.setItem('user', JSON.stringify(user));
         router.push("/dashboard/user/courses");
       } else {
         setInfo("Login failed");

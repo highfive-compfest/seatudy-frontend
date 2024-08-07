@@ -13,6 +13,7 @@ export function FormRegister() {
     role: "student",
   });
   const [isPending, setPending] = useState(false);
+  const [info, setInfo] = useState<string>("");
 
   const router = useRouter();
 
@@ -27,8 +28,13 @@ export function FormRegister() {
     try {
       await registerUser(data);
       router.push("/login");
-    } catch (error) {
-      console.error("Error registering user:", error);
+    } catch (error:any) {
+      const status = error.response?.status;
+      if (status === 409) {
+        setInfo("Email Already Used");
+      } else {
+        setInfo("An error occurred");
+      }
     } finally {
       setPending(false);
     }
@@ -70,6 +76,7 @@ export function FormRegister() {
         type="password"
         minLength={8}
       />
+      <p className="text-center text-red-500 mb-4">{info}</p>
       <Submit isPending={isPending} name="Register" />
       {isPending && <div className="loader animate-spin bg-slate-900 w-12 h-12 rounded-full m-auto my-4"></div>}
       <p className="text-sm mt-6 text-center">
