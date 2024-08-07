@@ -2,8 +2,8 @@ import { PasswordResetRequest, PasswordResetResponse } from "../types/sign/reset
 import { axiosInstance } from "../services/api-config";
 import { VerifyPasswordResetRequest, VerifyPasswordResetResponse } from "@/types/sign/verify-password";
 import { ChangePasswordRequest, ChangePasswordResponse } from "@/types/sign/change-password";
-import { RegisterUserRequest, RegisterUserResponse } from "@/types/sign/register";
-import { LoginRequest, LoginResponse } from "@/types/sign/login";
+import { RegisterUserRequest, RegisterUserResponse } from "@/types/sign/register-user";
+import { LoginRequest, LoginResponse } from "@/types/sign/login-user";
 import { VerifyEmailResponse } from "@/types/sign/verify-email";
 
 export const registerUser = async (data: RegisterUserRequest): Promise<RegisterUserResponse> => {
@@ -62,11 +62,15 @@ export const changePassword = async (data: ChangePasswordRequest, accessToken: s
 
 export const reqOTP = async (accessToken: string): Promise<VerifyEmailResponse> => {
   try {
-    const response = await axiosInstance.post<VerifyEmailResponse>("auth/verification/email/send",{}, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axiosInstance.post<VerifyEmailResponse>(
+      "auth/verification/email/send",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error request OTP:", error);
@@ -76,11 +80,15 @@ export const reqOTP = async (accessToken: string): Promise<VerifyEmailResponse> 
 
 export const verifyEmail = async (code: string, accessToken: string): Promise<VerifyEmailResponse> => {
   try {
-    const response = await axiosInstance.patch<VerifyEmailResponse>("auth/verification/email/verify", {otp:code}, {
-      headers: {
-        Authorization : `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axiosInstance.patch<VerifyEmailResponse>(
+      "auth/verification/email/verify",
+      { otp: code },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error request OTP:", error);
