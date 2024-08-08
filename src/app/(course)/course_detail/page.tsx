@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Navbar from "@/components/common/main-navbar";
 import Footer from "@/components/common/main-footer";
 import CourseInfo from "@/components/course_detail/course-info";
 import CourseProgress from "@/components/course_detail/course-progress";
 import { getCourseById } from "../../../services/course";
 import { Course } from "../../../types/course/course";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const CourseDetailPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
