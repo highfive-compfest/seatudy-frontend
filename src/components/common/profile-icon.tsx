@@ -9,36 +9,10 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export const ProfileIcon = () => {
-  // const [balance, setBalance] = useState<number | null>(null);
-
-  // useEffect(() => {
-  //   // Pastikan kode ini hanya dijalankan di sisi browser
-  //   if (typeof window !== "undefined") {
-  //     const userString = sessionStorage.getItem('user');
-
-  //     if (userString) {
-  //       try {
-  //         // Parsing userString dan memastikan tipe data balance
-  //         const user = JSON.parse(userString);
-  //         if (user && typeof user.balance === "number") {
-  //           setBalance(user.balance);
-  //         } else {
-  //           console.warn("Invalid balance data");
-  //           setBalance(null);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error parsing user data:", error);
-  //         setBalance(null);
-  //       }
-  //     } else {
-  //       console.log("No user data found in sessionStorage");
-  //       setBalance(null);
-  //     }
-  //   }
-  // }, [])
 
   const router = useRouter();
   const [user, setUser] = useState<any>();
+  
   useEffect(() => {
     const userString: any = sessionStorage.getItem("user");
     const data = JSON.parse(userString);
