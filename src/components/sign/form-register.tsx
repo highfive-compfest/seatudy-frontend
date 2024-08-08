@@ -4,20 +4,34 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Submit } from "./button";
 import { registerUser } from "@/services/auth";
+import { Select, SelectItem } from "@nextui-org/select";
+import { PiStudentFill } from "react-icons/pi";
+import { FaChalkboardTeacher } from "react-icons/fa";
+
+const roles = [
+  {
+    name : "Student",
+    icon : <PiStudentFill/>
+  },
+  {
+    name : "Teacher",
+    icon : <FaChalkboardTeacher/>
+  },
+]
 
 export function FormRegister() {
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
-    role: "student",
+    role: "",
   });
   const [isPending, setPending] = useState(false);
   const [info, setInfo] = useState<string>("");
 
   const router = useRouter();
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.target;
     setData((prev) => ({ ...prev, [name]: value }));
   }
@@ -66,6 +80,32 @@ export function FormRegister() {
         placeholder="Email"
         type="email"
       />
+      <Select
+        items={roles}
+        name="role"
+        required
+        key="role"
+        radius="sm"
+        label="Role"
+        variant="bordered"
+        onChange={handleChange}
+        classNames={{trigger:"shadow-none", label:"text-gray-400"}}
+        renderValue={roles=>{
+          return roles.map(role => (
+            <div key={role.key} className="flex gap-2 items-center">
+              {role.data?.icon}
+              {role.data?.name}
+            </div>
+          ))
+        }}
+      >
+        {(role)=>(<SelectItem textValue={role.name} key={role.name.toLocaleLowerCase()}>
+          <div className="flex gap-2 items-center">
+            {role.icon}
+            {role.name}
+          </div>
+        </SelectItem>)}
+      </Select>
       <input
         required
         className="border text-lg py-2 px-4 border-solid border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 outline-none block my-4 w-full"
