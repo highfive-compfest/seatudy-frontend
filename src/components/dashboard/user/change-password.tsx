@@ -44,7 +44,7 @@ export const ChangePassword = () => {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl ml-4 border-2 border-gray-200">
+    <div className="bg-white shadow-lg rounded-lg p-8 w-full md:ml-4 border-2 border-gray-200">
       <h1 className="text-2xl font-bold mb-8">Change Password</h1>
 
       {info && <div className={`mb-4 p-4 ${info.startsWith("New") ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"} rounded-md`}>{info}</div>}

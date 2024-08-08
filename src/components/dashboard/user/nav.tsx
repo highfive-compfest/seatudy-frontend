@@ -39,8 +39,8 @@ export const NavUser = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
               key={link.name}
               href={`/dashboard/user/${link.name.toLowerCase()}`}
               className={`flex items-center gap-4 px-6 py-3 rounded-lg text-gray-800 transition-colors duration-200
-                ${path === `/dashboard/user/${link.name.toLowerCase()}` ? "bg-gray-100 text-gray-800" : "hover:bg-gray-200"} 
-                md:text-gray-600 md:hover:bg-blue-200 md:hover:text-blue-600`}
+                ${path === `/dashboard/user/${link.name.toLowerCase()}` ? "bg-gray-200 text-gray-800" : "hover:bg-gray-200"} 
+                md:text-gray-600 md:hover:bg-gray-300`}
             >
               {link.icon}
               <span className="text-lg font-semibold">{link.name}</span>

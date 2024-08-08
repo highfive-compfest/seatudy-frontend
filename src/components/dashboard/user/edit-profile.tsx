@@ -42,7 +42,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl ml-4 border-2 border-gray-200">
+    <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl md:ml-4 border-2 border-gray-200">
       <h1 className="text-2xl font-bold mb-8">Edit Profile</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="col-span-2 flex justify-center items-center flex-col">

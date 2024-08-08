@@ -39,13 +39,13 @@ const Profile = () => {
   };
 
   return (
-    <section className="p-4 pt-28 flex pb-8">
+    <section className="p-4 pt-28 flex flex-col md:flex-row pb-8 h-full">
       {/* Sidebar */}
-      <aside className="w-54 bg-white text-gray-800 py-6 px-4 rounded-lg shadow-lg border-2 border-gray-200">
+      <aside className="w-full md:w-60 bg-white text-gray-800 py-6 px-4 rounded-lg shadow-lg border-2 border-gray-200 mb-6 md:mb-0">
         <h2 className="text-xl font-semibold mb-6">Actions</h2>
         <nav className="space-y-4">
           <button onClick={() => setActiveSection("profile")} className={`block w-full text-left py-2 px-4 rounded-md ${activeSection === "profile" ? "bg-gray-300" : "bg-gray-100"}`}>
-            Profile
+            Your Profile
           </button>
           <button onClick={() => setActiveSection("editProfile")} className={`block w-full text-left py-2 px-4 rounded-md ${activeSection === "editProfile" ? "bg-gray-300" : "bg-gray-100"}`}>
             Edit Profile
@@ -60,7 +60,7 @@ const Profile = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-grow ">
+      <div className="flex-grow">
         {activeSection === "profile" && <ShowProfile user={user} isPending={isPending} handleClick={handleClick} />}
         {activeSection === "editProfile" && <EditProfile user={user} />}
         {activeSection === "changePassword" && <ChangePassword />}
