@@ -1,38 +1,53 @@
-"use client"
+"use client";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBook, FaHistory } from "react-icons/fa";
+import { Button } from "@nextui-org/button";
 
 const links = [
-    {
-      name: "Courses",
-      icon: <FaBook size={20} />,
-    },
-    {
-      name: "Histories",
-      icon: <FaHistory size={20} />,
-    },
-  ];
+  {
+    name: "Courses",
+    icon: <FaBook size={20} />,
+  },
+  {
+    name: "Histories",
+    icon: <FaHistory size={20} />,
+  },
+];
 
-export const NavUser = ({isMenuOpen}:{isMenuOpen:boolean}) => {
-    const [path, setPath] = useState<any>();
+export const NavUser = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
+  const [path, setPath] = useState<string | undefined>(undefined);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const pathname = usePathname();
 
-    const pathname = usePathname();
+  useEffect(() => {
+    setPath(pathname);
+  }, [pathname]);
 
-    useEffect(() => {
-        setPath(pathname);
-    }, [pathname]);
-
-    
-    return (
-        <nav className={`${isMenuOpen ? "translate-x-0" : "-translate-x-full"} z-30 fixed md:static h-screen bg-blue-100 pt-[6rem] px-4 md:-translate-x-0 duration-200`}>
-            {links.map(link=>(
-                <Link key={link.name} className={`${path == `/dashboard/user/${link.name.toLowerCase()}` ? "bg-blue-300" : "hover:bg-gray-300"} flex items-center gap-2 my-2 rounded-full px-10 py-2`} href={`/dashboard/user/${link.name.toLocaleLowerCase()}`}>
-                    {link.icon}
-                    {link.name}
-                </Link>
-            ))}
-        </nav>
-    )
-}
+  return (
+    <nav
+      className={`fixed top-0 left-0 md:ml-4 mt-16 md:mt-28 rounded-lg shadow-lg border-2 border-gray-200 ${
+        isMenuOpen || isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+      } md:translate-x-0 md:static md:w-64 md:bg-transparent w-80 h-screen pt-6 px-4 bg-white transition-transform duration-300`}
+    >
+      <div className="flex flex-col h-full">
+        {/* Menu Items */}
+        <div className="flex flex-col gap-2">
+          {links.map((link) => (
+            <Link
+              key={link.name}
+              href={`/dashboard/user/${link.name.toLowerCase()}`}
+              className={`flex items-center gap-4 px-6 py-3 rounded-lg text-gray-800 transition-colors duration-200
+                ${path === `/dashboard/user/${link.name.toLowerCase()}` ? "bg-gray-100 text-gray-800" : "hover:bg-gray-200"} 
+                md:text-gray-600 md:hover:bg-blue-200 md:hover:text-blue-600`}
+            >
+              {link.icon}
+              <span className="text-lg font-semibold">{link.name}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+};

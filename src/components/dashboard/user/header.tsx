@@ -7,12 +7,11 @@ import { ProfileIcon } from "@/components/common/profile-icon";
 import { NotifIcon } from "@/components/common/notif-icon";
 
 interface Type {
-  isMenuOpen : boolean,
-  setIsMenuOpen : Dispatch<SetStateAction<boolean>>
+  isMenuOpen: boolean;
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const HeaderUser = ({isMenuOpen, setIsMenuOpen}:Type) => {
-
+export const HeaderUser = ({ isMenuOpen, setIsMenuOpen }: Type) => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (

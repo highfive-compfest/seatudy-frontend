@@ -1,9 +1,7 @@
-"use client"
+"use client";
 import { HeaderUser } from "@/components/dashboard/user/header";
 import { NavUser } from "@/components/dashboard/user/nav";
 import { useState } from "react";
-
-
 
 export default function RootLayout({
   children,
@@ -13,13 +11,11 @@ export default function RootLayout({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <>
-      <HeaderUser isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
-      <div className="flex">
-        <NavUser isMenuOpen={isMenuOpen}/>
-        <div className="px-4 md:px-8">
-          {children}
-        </div>
+      <HeaderUser isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <div className="flex h-full">
+        <NavUser isMenuOpen={isMenuOpen} />
+        <div className="px-4 md:px-8">{children}</div>
       </div>
     </>
-  )
+  );
 }

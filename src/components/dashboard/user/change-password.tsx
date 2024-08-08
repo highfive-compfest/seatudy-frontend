@@ -1,4 +1,5 @@
 import { changePassword } from "@/services/auth";
+import { ChangePasswordRequest } from "@/types/sign/change-password";
 import { Button } from "@nextui-org/button";
 import { Spinner } from "@nextui-org/spinner";
 import { getCookie } from "cookies-next";
@@ -28,8 +29,12 @@ export const ChangePassword = () => {
     }
     setPending(true);
     try {
-      //   const res = await changePassword({ currentPassword, newPassword }, accToken);
-      //   setInfo(res.message);
+      const request: ChangePasswordRequest = {
+        old_password: currentPassword,
+        new_password: newPassword,
+      };
+      const res = await changePassword(request, accToken);
+      setInfo(res.message);
     } catch (error: any) {
       const message = error.response.data.message;
       setInfo(message);
