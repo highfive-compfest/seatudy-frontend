@@ -27,9 +27,9 @@ export const NavUser = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 md:ml-4 mt-16 md:mt-28 rounded-lg shadow-lg border-2 border-gray-200 ${
+      className={`fixed top-0 left-0 md:ml-4 mt-16 md:mt-28 rounded-lg shadow-lg border-2 border-gray-200 bg-gray-100 ${
         isMenuOpen || isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-      } md:translate-x-0 md:static md:w-64 md:bg-transparent w-80 h-screen pt-6 px-4 bg-white transition-transform duration-300`}
+      } md:translate-x-0 md:static md:w-64  w-80 h-screen pt-6 px-4 bg-white transition-transform duration-300`}
     >
       <div className="flex flex-col h-full">
         {/* Menu Items */}
