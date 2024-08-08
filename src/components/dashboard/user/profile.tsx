@@ -1,19 +1,10 @@
+import { UserPayload } from "@/types/user/user";
 import { Avatar } from "@nextui-org/avatar";
 import { Spinner } from "@nextui-org/spinner";
 import React from "react";
 
-interface User {
-  image_url?: string;
-  name?: string;
-  email?: string;
-  is_email_verified?: boolean;
-  role?: string;
-  created_at?: string;
-  updated_at?: string;
-}
-
 interface ProfileProps {
-  user: User | null;
+  user: UserPayload | null;
   isPending: boolean;
   handleClick: () => void;
 }
@@ -43,7 +34,7 @@ const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) =
           <label className="block text-sm font-medium text-gray-600">Email</label>
           <div className="flex items-center">
             <input type="email" value={user?.email || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
-            {user?.is_email_verified ? (
+            {/* {user?.is_email_verified ? (
               <div className="ml-2 bg-green-500 px-4 py-1 rounded-md text-white text-sm hidden md:block">Verified</div>
             ) : isPending ? (
               <Spinner className="ml-2 hidden md:block" />
@@ -51,7 +42,7 @@ const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) =
               <button className="ml-2 bg-blue-500 px-4 py-1 rounded-md text-white text-sm hover:bg-blue-400 hidden md:block" onClick={handleClick}>
                 Verify
               </button>
-            )}
+            )} */}
           </div>
         </div>
 
@@ -60,10 +51,10 @@ const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) =
           <input type="text" value={user?.role || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
         </div>
 
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-600">Account Status</label>
           <input type="text" value={user?.is_email_verified ? "Verified" : "Not verified"} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
-        </div>
+        </div> */}
 
         <div>
           <label className="block text-sm font-medium text-gray-600">Created at</label>
@@ -76,7 +67,7 @@ const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) =
         </div>
       </div>
       <div className="flex gap-2 justify-center mt-4">
-        {user?.is_email_verified ? (
+        {/* {user?.is_email_verified ? (
           <div className="bg-green-500 px-4 py-2 rounded-md text-white text-sm block md:hidden">Email Verified</div>
         ) : isPending ? (
           <Spinner className="block md:hidden" />
@@ -84,7 +75,7 @@ const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) =
           <button className="bg-blue-500 px-4 py-2 rounded-md text-white text-sm hover:bg-blue-400 block md:hidden" onClick={handleClick}>
             Verify Email
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );

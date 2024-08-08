@@ -2,37 +2,50 @@
 import { useState, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import ShowProfile from "../../../../components/dashboard/user/profile";
 import { reqOTP } from "@/services/auth";
 import EditProfile from "@/components/dashboard/user/edit-profile";
 import { ChangePassword } from "@/components/dashboard/user/change-password";
+import { getMe } from "@/services/user";
+import { UserPayload } from "@/types/user/user";
 
 const Profile = () => {
   const [isPending, setPending] = useState(false);
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<UserPayload | null>(null);
   const [activeSection, setActiveSection] = useState("profile");
 
   const router = useRouter();
+  const accToken = getCookie("authToken") as string;
 
   useEffect(() => {
-    const userString: any = sessionStorage.getItem("user");
-    const data = JSON.parse(userString);
-    setUser(data);
-  }, []);
+    const fetchUserData = async () => {
+      if (!accToken) {
+        console.error("No authentication token found.");
+        alert("No authentication token found. Please log in again.");
+        router.push("/login");
+        return;
+      }
 
-  const accToken = getCookie("authToken") as any;
-  const refreshToken = getCookie("refreshToken") as any;
+      try {
+        const userData = await getMe(accToken);
+        setUser(userData.payload);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        alert("An error occurred while fetching user data. Please try again.");
+      }
+    };
+
+    fetchUserData();
+  }, [accToken, router]);
 
   const handleClick = async () => {
     setPending(true);
     try {
       await reqOTP(accToken);
-      setPending(false);
       router.push("/verify-otp");
     } catch (error: any) {
-      const message = error.response.data.message;
-      console.log(message);
+      const message = error.response?.data?.message || "An error occurred";
+      alert(message);
     } finally {
       setPending(false);
     }

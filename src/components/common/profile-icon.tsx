@@ -4,20 +4,37 @@ import { Avatar } from "@nextui-org/avatar";
 import { FaMoneyBill } from "react-icons/fa6";
 import { IoMdPerson } from "react-icons/io";
 import { MdLogout, MdSpaceDashboard } from "react-icons/md";
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { getMe } from "@/services/user";
+import { UserPayload } from "@/types/user/user";
 
 export const ProfileIcon = () => {
-
+  const [user, setUser] = useState<UserPayload | null>(null);
   const router = useRouter();
-  const [user, setUser] = useState<any>();
-  
+  const accToken = getCookie("authToken") as string;
+
   useEffect(() => {
-    const userString: any = sessionStorage.getItem("user");
-    const data = JSON.parse(userString);
-    setUser(data);
-  }, []);
+    const fetchUserData = async () => {
+      if (!accToken) {
+        console.error("No authentication token found.");
+        alert("No authentication token found. Please log in again.");
+        router.push("/login");
+        return;
+      }
+
+      try {
+        const userData = await getMe(accToken);
+        setUser(userData.payload);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        alert("An error occurred while fetching user data. Please try again.");
+      }
+    };
+
+    fetchUserData();
+  }, [accToken, router]);
 
   const logOut = () => {
     deleteCookie("authToken");
@@ -28,7 +45,7 @@ export const ProfileIcon = () => {
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
-        <Avatar isBordered as="button" className="transition-transform" src={user?.image_url} />
+        <Avatar isBordered as="button" className="transition-transform" src={user?.image_url || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"} />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem textValue="Top Up" as="a" href="/topup" key="topup" startContent={<FaMoneyBill />}>

@@ -1,28 +1,26 @@
 import React, { useState } from "react";
-
-interface User {
-  image_url?: string;
-  name?: string;
-  email?: string;
-  role?: string;
-  created_at?: string;
-  updated_at?: string;
-}
+import { updateUser } from "@/services/user";
+import { UserPayload } from "@/types/user/user";
+import { getCookie } from "cookies-next";
 
 interface EditProfileProps {
-  user: User | null;
+  user: UserPayload | null;
 }
 
 const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
-  const [editedUser, setEditedUser] = useState<User>({
+  const [editedUser, setEditedUser] = useState<Omit<UserPayload, "id" | "email" | "role" | "created_at" | "updated_at">>({
     name: user?.name || "",
     image_url: user?.image_url || "",
   });
   const [previewImage, setPreviewImage] = useState<string>(editedUser.image_url || "");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+
+  const accToken = getCookie("authToken") as string;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditedUser({ ...editedUser, [name]: value });
+    setEditedUser((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,15 +28,37 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEditedUser({ ...editedUser, image_url: reader.result as string });
+        setEditedUser((prevState) => ({ ...prevState, image_url: reader.result as string }));
         setPreviewImage(reader.result as string);
       };
       reader.readAsDataURL(file);
+      setImageFile(file);
+    } else {
+      setImageFile(undefined);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) {
+      alert("User data is not available.");
+      return;
+    }
+    if (!accToken) {
+      alert("Authentication token is missing.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await updateUser(accToken, user.id, editedUser.name || user.name, imageFile);
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("An error occurred while updating your profile.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -55,7 +75,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
               style={{ clipPath: "circle(50%)" }}
             />
           </div>
-
           <p className="text-gray-500 text-xs mt-2">Click to change profile picture</p>
         </div>
 
@@ -78,14 +97,15 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
           <label className="block text-sm font-medium text-gray-600">Created at</label>
           <input type="text" value={user?.created_at || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-500 sm:text-sm" readOnly />
         </div>
+
         <div>
           <label className="block text-sm font-medium text-gray-600">Updated at</label>
           <input type="text" value={user?.updated_at || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-500 sm:text-sm" readOnly />
         </div>
       </div>
       <div className="flex gap-2 justify-center mt-6">
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400 shadow-sm">
-          Save Changes
+        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-400 shadow-sm" disabled={isSubmitting}>
+          {isSubmitting ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </form>
