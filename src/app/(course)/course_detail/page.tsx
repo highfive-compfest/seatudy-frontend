@@ -37,8 +37,6 @@ const CourseDetailPage = () => {
 
   return (
     <>
-      <Navbar />
-
       <div className="container mx-auto pt-24 px-8 pb-32">
         <div className="breadcrumb text-gray-600 text-sm mb-4">
           <a href="#" className="hover:underline">
@@ -62,8 +60,6 @@ const CourseDetailPage = () => {
           )}
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };
