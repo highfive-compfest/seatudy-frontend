@@ -30,8 +30,8 @@ export function FormLogin() {
       const user = response.payload?.user;
 
       if (access_token) {
-        setCookie("authToken", access_token, { path: "/", maxAge: 60 * 60 * 24 });
-        setCookie("refreshToken", refresh_token, { path: "/", maxAge: 60 * 60 * 24 * 7 });
+        setCookie("authToken", access_token, { path: "/" });
+        setCookie("refreshToken", refresh_token, { path: "/" });
         sessionStorage.setItem('user', JSON.stringify(user));
         router.push("/dashboard/user/courses");
       } else {

@@ -1,38 +1,19 @@
 "use client";
+
 import Link from "next/link";
-import { FaBook, FaHistory } from "react-icons/fa";
-import { usePathname } from "next/navigation";
-import { SetStateAction, useEffect, useState, Dispatch } from "react";
+import { SetStateAction, Dispatch } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { ProfileIcon } from "@/components/common/profile-icon";
 import { NotifIcon } from "@/components/common/notif-icon";
 
-// const links = [
-//   {
-//     name: "Courses",
-//     icon: <FaBook size={20} />,
-//   },
-//   {
-//     name: "Histories",
-//     icon: <FaHistory size={20} />,
-//   },
-// ];
 interface Type {
   isMenuOpen : boolean,
   setIsMenuOpen : Dispatch<SetStateAction<boolean>>
 }
 
 export const HeaderUser = ({isMenuOpen, setIsMenuOpen}:Type) => {
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [path, setPath] = useState<any>();
-
-  // const pathname = usePathname();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  // useEffect(() => {
-  //   setPath(pathname);
-  // }, [pathname]);
 
   return (
     <>
@@ -50,14 +31,6 @@ export const HeaderUser = ({isMenuOpen, setIsMenuOpen}:Type) => {
           <NotifIcon />
         </div>
       </header>
-      {/* <nav className={`absolute top-0 bottom-0  bg-inherit px-4 pt-16 -z-10 md:-translate-x-0 duration-200 bg-blue-300 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        {links.map((link) => (
-          <Link key={link.name} className={`${path == `/dashboard/user/${link.name.toLowerCase()}` ? "bg-blue-300" : "hover:bg-gray-300"} flex items-center gap-2 my-2 rounded-full px-10 py-2`} href={link.name.toLowerCase()}>
-            {link.icon}
-            {link.name}
-          </Link>
-        ))}
-      </nav> */}
     </>
   );
 };
