@@ -1,12 +1,40 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Navbar from "@/components/common/main-navbar";
+import Footer from "@/components/common/main-footer";
 import CourseInfo from "@/components/course_detail/course-info";
 import CourseProgress from "@/components/course_detail/course-progress";
-import { courseDetail } from "@/types/dummy/CourseDummy";
-import Navbar from "@/components/common/main-navbar";
-import React from "react";
-import Footer from "@/components/common/main-footer";
+import { getCourseById } from "../../../services/course";
+import { Course } from "../../../types/course/course";
 
 const CourseDetailPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      const fetchCourse = async () => {
+        try {
+          const data = await getCourseById(id as string);
+          setCourse(data?.payload[0]);
+        } catch (error) {
+          setError(error as Error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchCourse();
+    }
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading course: {error.message}</p>;
+
   return (
     <>
       <Navbar />
@@ -19,15 +47,19 @@ const CourseDetailPage = () => {
           &gt;
           <a href="#" className="hover:underline">
             {" "}
-            <span> Management</span>
+            <span>Management</span>
           </a>{" "}
           &gt;
-          <span> {courseDetail.title}</span>
+          <span>{course?.title}</span>
         </div>
 
         <div className="flex flex-col md:flex-row">
-          <CourseInfo courseDetail={courseDetail} />
-          <CourseProgress courseDetail={courseDetail} />
+          {course && (
+            <>
+              <CourseInfo courseDetail={course} />
+              <CourseProgress courseDetail={course} />
+            </>
+          )}
         </div>
       </div>
 

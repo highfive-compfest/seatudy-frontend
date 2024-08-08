@@ -10,3 +10,13 @@ export const getAllCourses = async (): Promise<CoursesResponse> => {
     throw error;
   }
 };
+
+export const getCourseById = async (courseId: string): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>(`/courses/${courseId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    throw error;
+  }
+};
