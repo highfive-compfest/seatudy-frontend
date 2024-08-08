@@ -4,6 +4,7 @@ import { reqOTP } from "@/services/auth"
 import { Avatar } from "@nextui-org/avatar"
 import { Spinner } from "@nextui-org/spinner"
 import { getCookie } from "cookies-next"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -38,7 +39,7 @@ const Profile = () => {
     }
 
     return (
-        <section className="pt-[7rem] md:pl-[17rem]">
+        <section className="pt-[7rem] ml-10">
             <h1 className="text-2xl font-bold ml-4">Profile</h1>
             <div className="mt-10 ml-4">
                 <Avatar isBordered size="lg" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d"/>
