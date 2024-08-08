@@ -1,9 +1,30 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CourseCard from "../common/course-card";
-import { courses } from "@/types/dummy/CourseDummy";
+import { getAllCourses } from "../../services/course";
+import { Course } from "../../types/course/course";
 
 const Explore = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const getCourses = async () => {
+      try {
+        const data = await getAllCourses();
+        setCourses(data.payload);
+      } catch (error) {
+        setError(error as Error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getCourses();
+  }, []);
+
   return (
     <div className="bg-blue-100 py-10 pb-18">
       <h1 className="text-3xl font-bold text-center mb-2 mt-8">Explore Courses</h1>
