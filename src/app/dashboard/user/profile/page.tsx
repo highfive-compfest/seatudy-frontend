@@ -1,5 +1,7 @@
 "use client";
 
+import { ChangePw } from "@/components/dashboard/user/change-password";
+import { EditProfile } from "@/components/dashboard/user/edit-profile";
 import { reqOTP } from "@/services/auth";
 import { Avatar } from "@nextui-org/avatar";
 import { Spinner } from "@nextui-org/spinner";
@@ -111,6 +113,10 @@ const Profile = () => {
             <label className="block text-sm font-medium text-gray-600">Updated at</label>
             <input type="text" value={user?.updated_at || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
           </div>
+        </div>
+        <div className="flex gap-2 justify-center mt-4">
+            <EditProfile/>
+            <ChangePw/>
         </div>
       </div>
     </section>

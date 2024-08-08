@@ -16,7 +16,9 @@ export default function RootLayout({
       <HeaderUser isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
       <div className="flex">
         <NavUser isMenuOpen={isMenuOpen}/>
-        {children}
+        <div className="px-4 md:px-8">
+          {children}
+        </div>
       </div>
     </>
   )
