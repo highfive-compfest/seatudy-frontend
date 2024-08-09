@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export interface Course {
   id: string;
@@ -19,6 +20,7 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+  const pathname = usePathname()
   const placeholderImage = "https://t4.ftcdn.net/jpg/02/40/63/55/360_F_240635575_EJifwRAbKsVTDnA3QE0bCsWG5TLhUNEZ.jpg";
 
   return (
@@ -41,9 +43,9 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             Price: <strong>Rp.{course.price.toFixed(2)}</strong>
           </span>
         </div>
-        <Link href={`/course_detail/${course.id}`}>
+        <Link href={pathname === "/dashboard/instructor/manage"?`/dashboard/instructor/manage/${course.id}`:`/course_detail/${course.id}`}>
           <p className="mt-4 text-blue-500 underline" data-testid="show-more-button">
-            Show more &rarr;
+            {pathname === "/dashboard/instructor/manage"?"Manage":"Show more"} &rarr;
           </p>
         </Link>
       </div>

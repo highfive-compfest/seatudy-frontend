@@ -45,6 +45,7 @@ const Profile = () => {
       router.push("/verify-otp");
     } catch (error: any) {
       const message = error.response?.data?.message || "An error occurred";
+      console.log(error.response)
       alert(message);
     } finally {
       setPending(false);

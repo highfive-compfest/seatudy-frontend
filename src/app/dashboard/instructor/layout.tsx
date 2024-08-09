@@ -12,9 +12,9 @@ export default function RootLayout({
   return (
     <>
       <HeaderUser isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-      <div className="flex h-full bg-gray-100">
+      <div className="flex h-full">
         <NavInstructor isMenuOpen={isMenuOpen} />
-        <div className="px-4 md:px-8">{children}</div>
+        <div className="px-4 md:px-8 w-full">{children}</div>
       </div>
     </>
   );

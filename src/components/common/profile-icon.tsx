@@ -54,7 +54,7 @@ export const ProfileIcon = () => {
         <DropdownItem textValue="Profile" as="a" href={`/dashboard/${user?.role}/profile`} key="profile" startContent={<IoMdPerson />}>
           <span>My Profile</span>
         </DropdownItem>
-        <DropdownItem textValue="Dashboard" as="a" href={`/dashboard/${user?.role}/courses`} key="dashboard" startContent={<MdSpaceDashboard />}>
+        <DropdownItem textValue="Dashboard" as="a" href={`/dashboard/${user?.role}/${user?.role === "student"?"courses":"manage"}`} key="dashboard" startContent={<MdSpaceDashboard />}>
           <span>Dashboard</span>
         </DropdownItem>
         <DropdownItem textValue="Log Out" onClick={logOut} key="logout" color="danger" startContent={<MdLogout />}>
