@@ -28,7 +28,7 @@ const Manage = () => {
     },[])
 
     return (
-        <section className="w-full p-4 pt-28 w-full">
+        <section className="p-4 pt-28 w-full">
             <nav className="py-6 px-4 bg-white rounded-lg shadow-md flex gap-2">
             {navs.map((content, idx)=>(
                 <button

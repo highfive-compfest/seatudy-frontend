@@ -1,19 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { Course } from "@/types/course/course";
 import { usePathname } from "next/navigation";
-
-export interface Course {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  image_url: string;
-  syllabus_url: string;
-  instructor_id: string;
-  difficulty: string;
-  created_at: string;
-  updated_at: string;
-}
 
 interface CourseCardProps {
   course: Course;

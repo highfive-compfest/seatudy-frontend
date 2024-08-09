@@ -10,7 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto pt-24 px-8 pb-32">
+      <div className="container mx-auto pt-24 px-8">
         <Suspense fallback={<></>}>{children}</Suspense>
       </div>
       <Footer />
