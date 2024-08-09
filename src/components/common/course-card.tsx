@@ -19,10 +19,12 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+  const placeholderImage = "https://t4.ftcdn.net/jpg/02/40/63/55/360_F_240635575_EJifwRAbKsVTDnA3QE0bCsWG5TLhUNEZ.jpg";
+
   return (
     <div key={course.id} className="bg-white rounded-lg shadow-lg flex-shrink-0 w-[18em] md:w-[24em]">
       <div className="relative h-48">
-        <img src={course.image_url} alt={course.title} className="absolute inset-0 w-full h-full object-cover rounded-t-lg" data-testid="course-image" />
+        <img src={course.image_url || placeholderImage} alt={course.title} className="absolute inset-0 w-full h-full object-cover rounded-t-lg" data-testid="course-image" />
       </div>
       <div className="p-4">
         <h2 className="text-xl font-bold" data-testid="course-title">
@@ -36,13 +38,13 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             Difficulty: <strong>{course.difficulty}</strong>
           </span>
           <span data-testid="course-price">
-            Price: <strong>{course.price}</strong>
+            Price: <strong>Rp.{course.price.toFixed(2)}</strong>
           </span>
         </div>
         <Link href={`/course_detail/${course.id}`}>
-          <button className="mt-4 text-blue-500 underline" data-testid="show-more-button">
+          <p className="mt-4 text-blue-500 underline" data-testid="show-more-button">
             Show more &rarr;
-          </button>
+          </p>
         </Link>
       </div>
     </div>
