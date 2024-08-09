@@ -27,14 +27,16 @@ export function FormLogin() {
       const response = await loginUser(data);
       const access_token = response.payload?.access_token;
       const refresh_token = response.payload?.refresh_token;
+      const user_role = response.payload?.user.role;
       const user = response.payload?.user;
 
       if (access_token) {
         setCookie("authToken", access_token, { path: "/" });
         setCookie("refreshToken", refresh_token, { path: "/" });
+        setCookie("userRole", user_role, { path: "/" });
         sessionStorage.setItem("user", JSON.stringify(user));
 
-        if (response.payload?.user.role === "student") {
+        if (user_role === "student") {
           router.push("dashboard/student/courses");
         } else {
           router.push("dashboard/instructor/manage");
