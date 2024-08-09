@@ -1,18 +1,6 @@
 import React from "react";
 import Link from "next/link";
-
-export interface Course {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  image_url: string;
-  syllabus_url: string;
-  instructor_id: string;
-  difficulty: string;
-  created_at: string;
-  updated_at: string;
-}
+import { Course } from "@/types/course/course";
 
 interface CourseCardProps {
   course: Course;
@@ -41,7 +29,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             Price: <strong>Rp.{course.price.toFixed(2)}</strong>
           </span>
         </div>
-        <Link href={`/course_detail/${course.id}`}>
+        <Link href={`/course_detail/?id=${course.id}`}>
           <p className="mt-4 text-blue-500 underline" data-testid="show-more-button">
             Show more &rarr;
           </p>
