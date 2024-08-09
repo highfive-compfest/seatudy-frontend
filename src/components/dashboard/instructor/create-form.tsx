@@ -47,14 +47,15 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview }) => {
     onSubmit(form);
   };
 
-  const handlePreview = () => {
+  const handlePreview = (e: React.MouseEvent) => {
+    e.preventDefault();
     const previewData: Course = {
       id: "",
       title: formData.title,
       description: formData.description,
       price: parseFloat(formData.price),
-      image_url: "",
-      syllabus_url: "",
+      image_url: formData.image ? URL.createObjectURL(formData.image) : "",
+      syllabus_url: formData.syllabus ? URL.createObjectURL(formData.syllabus) : "",
       instructor_id: "",
       difficulty: formData.difficulty,
       created_at: new Date().toISOString(),
@@ -135,7 +136,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview }) => {
           </div>
         </div>
 
-        <button type="submit" className="w-full border-2 border-blue-600 text-blue-600 p-3 rounded-lg font-semibold hover:bg-gray-200 transition duration-300">
+        <button type="button" onClick={handlePreview} className="w-full border-2 border-blue-600 text-blue-600 p-3 rounded-lg font-semibold hover:bg-gray-200 transition duration-300">
           Preview
         </button>
 
