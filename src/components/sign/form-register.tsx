@@ -14,7 +14,7 @@ const roles = [
     icon : <PiStudentFill/>
   },
   {
-    name : "Teacher",
+    name : "Instructor",
     icon : <FaChalkboardTeacher/>
   },
 ]

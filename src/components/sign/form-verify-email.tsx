@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Submit } from "./button";
 import Link from "next/link";
 import OtpInput from "react-otp-input";
-import { verifyEmail } from "@/services/auth";
+import { reqOTP, verifyEmail } from "@/services/auth";
 import { getCookie } from "cookies-next";
 
 export const FormVerify = () => {
@@ -31,6 +31,19 @@ export const FormVerify = () => {
     } catch (error: any) {
       const message = error.response.data.message;
       setInfo(message);
+    } finally {
+      setPending(false);
+    }
+  };
+
+  const handleClick = async () => {
+    setPending(true);
+    try {
+      await reqOTP(accToken);
+      setInfo("The OTP has been resent to your email.")
+    } catch (error: any) {
+      const message = error.response?.data?.message || "An error occurred";
+      alert(message);
     } finally {
       setPending(false);
     }
@@ -73,7 +86,7 @@ export const FormVerify = () => {
         </p>
       ) : (
         <p className="text-sm mt-6 text-center">
-          Don&apos;t receive code? <button className="text-blue-600 font-medium hover:underline">Resend</button>
+          Don&apos;t receive code? <button type="button" disabled={isPending} onClick={handleClick} className="text-blue-600 font-medium hover:underline">Resend</button>
         </p>
       )}
     </form>
