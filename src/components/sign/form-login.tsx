@@ -32,8 +32,14 @@ export function FormLogin() {
       if (access_token) {
         setCookie("authToken", access_token, { path: "/" });
         setCookie("refreshToken", refresh_token, { path: "/" });
-        sessionStorage.setItem('user', JSON.stringify(user));
-        router.push("/dashboard/user/courses");
+        sessionStorage.setItem("user", JSON.stringify(user));
+
+        if (response.payload?.user.role === "student") {
+          router.push("dashboard/student/courses");
+        } else {
+          router.push("dashboard/instructor/manage");
+        }
+        setInfo(response.message);
       } else {
         setInfo("Login failed");
       }

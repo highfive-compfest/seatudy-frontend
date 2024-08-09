@@ -2,21 +2,20 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaBook, FaHistory } from "react-icons/fa";
-import { Button } from "@nextui-org/button";
+import { FaGear, FaPlus } from "react-icons/fa6";
 
 const links = [
   {
-    name: "Courses",
-    icon: <FaBook size={20} />,
+    name: "Manage",
+    icon: <FaGear size={20} />,
   },
   {
-    name: "Histories",
-    icon: <FaHistory size={20} />,
+    name: "Create",
+    icon: <FaPlus size={20} />,
   },
 ];
 
-export const NavUser = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
+export const NavInstructor = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
   const [path, setPath] = useState<string | undefined>(undefined);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
@@ -37,7 +36,7 @@ export const NavUser = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
           {links.map((link) => (
             <Link
               key={link.name}
-              href={`/dashboard/student/${link.name.toLowerCase()}`}
+              href={`/dashboard/instructor/${link.name.toLowerCase()}`}
               className={`flex items-center gap-4 px-6 py-3 rounded-lg text-gray-800 transition-colors duration-200
                 ${path === `/dashboard/user/${link.name.toLowerCase()}` ? "bg-gray-200 text-gray-800" : "hover:bg-gray-200"} 
                 md:text-gray-600 md:hover:bg-gray-300`}
