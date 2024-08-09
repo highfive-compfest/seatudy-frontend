@@ -1,44 +1,60 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
-import { useState } from "react";
 import { Course } from "@/types/course/course";
+import { getUserById } from "@/services/user";
+import { UserPayload } from "@/types/user/user";
+import { getCookie } from "cookies-next";
 
 interface CourseInfoProps {
   courseDetail: Course;
 }
 
 const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
-  const [completed, setCompleted] = useState([1, 2, 3]);
-  return (
-    <>
-      <div className="w-full md:w-1/4 bg-gray-100 h-full px-8 py-6 rounded-lg shadow-lg">
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">About the Course</h3>
-          <div className="flex items-center mb-4">
-            <div className="mr-2">
-              <img src="" width={40} height={40} className="rounded-full" alt="instructor profile" />
-            </div>
-            <div>
-              <p className="font-semibold">Instructor Name</p>
-              <p className="text-gray-500 text-sm">Instructor Title</p>
-            </div>
-          </div>
-          <p>This course is designed to help you for your practical day to day project management...</p>
-        </div>
+  const [instructor, setInstructor] = useState<UserPayload | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-        <div>
-          <h3 className="text-lg font-semibold mb-2">Course Completion</h3>
-          <ul>
-            {/* {courseDetail.chapters.map((item) => (
-              <li key={item} className="flex items-center hover:px-2 py-2 hover:bg-gray-200 rounded">
-                {completed.includes(item) ? <FaCheckCircle className="text-green-500 mr-2" /> : <FaRegCircle className="text-gray-400 mr-2" />}
-                <span className={`${completed.includes(item) ? "text-gray-900" : "text-gray-500"}`}>{`Chapter ${item}`}</span>
-              </li>
-            ))} */}
-          </ul>
+  const accToken = getCookie("authToken") as string;
+
+  useEffect(() => {
+    const fetchInstructor = async () => {
+      try {
+        const instructorData = await getUserById(accToken, courseDetail.instructor_id);
+        setInstructor(instructorData.payload);
+        setLoading(false);
+      } catch (error) {
+        setError("Failed to fetch instructor data.");
+        setLoading(false);
+      }
+    };
+
+    fetchInstructor();
+  }, [accToken, courseDetail.instructor_id]);
+
+  return (
+    <div className="flex flex-col w-full lg:w-9/10">
+      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 h-auto px-8 py-4 rounded-lg shadow mt-14">
+        <div className="flex h-full items-center">
+          <div className="mr-4">
+            <img
+              src={instructor?.image_url || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
+              alt="Instructor profile"
+              className="w-16 h-16 rounded-full border border-gray-300"
+            />
+          </div>
+
+          <div>
+            <p className="text-lg font-semibold text-gray-800">{instructor?.name || "Not found"}</p>
+            <p className="text-gray-500 text-sm">{instructor?.role || "No Role Available"}</p>
+          </div>
         </div>
       </div>
-    </>
+
+      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 h-full px-8 py-6 rounded-lg shadow mt-4">
+        <h1>Materials and Asignment would be here...</h1>
+      </div>
+    </div>
   );
 };
 

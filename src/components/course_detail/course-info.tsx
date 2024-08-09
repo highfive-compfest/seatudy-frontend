@@ -8,7 +8,7 @@ interface CourseInfoProps {
 const CourseInfo: React.FC<CourseInfoProps> = ({ courseDetail }) => {
   return (
     <>
-      <div className="w-full md:w-3/4 pr-4">
+      <div className="w-full lg:w-1/10 pr-4">
         <h1 className="text-3xl font-bold mb-4 text-gray-800">{courseDetail.title}</h1>
 
         <div className="relative w-full h-64 mb-8">

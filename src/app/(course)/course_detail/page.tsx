@@ -47,7 +47,7 @@ const CourseDetailPage = () => {
   }, [id]);
 
   return (
-    <div className="container mx-auto px-8 pb-32">
+    <div className="container mx-auto px-4 lg:px-8 pb-32">
       <div className="breadcrumb text-gray-600 text-sm mb-4">
         <a href="#" className="hover:underline">
           Courses
@@ -56,7 +56,7 @@ const CourseDetailPage = () => {
       </div>
 
       {course && (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col lg:flex-row">
           <CourseInfo courseDetail={course} />
           <CourseProgress courseDetail={course} />
         </div>
