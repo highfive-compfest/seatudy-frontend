@@ -80,7 +80,7 @@ export const FormVerify = () => {
       {isVerified ? (
         <p className="text-sm mt-6 text-center">
           Go To{" "}
-          <Link href="/dashboard/user/courses" className="text-blue-600 font-medium hover:underline">
+          <Link href="/dashboard/student/courses" className="text-blue-600 font-medium hover:underline">
             Dashboard
           </Link>
         </p>

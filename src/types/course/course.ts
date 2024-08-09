@@ -15,3 +15,8 @@ export interface CoursesResponse {
   message: string;
   payload: Course[];
 }
+
+export interface deleteCourseResponse {
+  message: string;
+  payload: null|Course[];
+}

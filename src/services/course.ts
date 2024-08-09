@@ -1,4 +1,4 @@
-import { CoursesResponse } from "@/types/course/course";
+import { CoursesResponse, deleteCourseResponse } from "@/types/course/course";
 import { axiosInstance } from "./api-config";
 
 export const getAllCourses = async (): Promise<CoursesResponse> => {
@@ -33,6 +33,23 @@ export const createCourse = async (formData: FormData, token: string) => {
     return response.data;
   } catch (error) {
     console.error("Error uploading course:", error);
+    throw error;
+  }
+};
+
+export const deleteCourseById = async (accessToken: string, courseId: string): Promise<deleteCourseResponse> => {
+  try {
+    const response = await axiosInstance.delete<CoursesResponse>(
+      `courses/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching course details:", error);
     throw error;
   }
 };
