@@ -39,6 +39,8 @@ export const ProfileIcon = () => {
   const logOut = () => {
     deleteCookie("authToken");
     deleteCookie("refreshToken");
+    deleteCookie("userId");
+    deleteCookie("userRole");
     router.replace("/login");
   };
 

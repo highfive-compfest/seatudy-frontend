@@ -5,9 +5,10 @@ export function middleware(request: NextRequest) {
     const authToken = getCookie('authToken', { req: request });
     const refreshToken = getCookie('refreshToken', { req: request });
     const userRole = getCookie('userRole', { req: request });
+    const userId = getCookie('userId', { req: request });
     const pathname = request.nextUrl.pathname;
     
-    if (!authToken || !refreshToken || !userRole) return NextResponse.redirect(new URL('/login', request.url));
+    if (!authToken || !refreshToken || !userRole || !userId) return NextResponse.redirect(new URL('/login', request.url));
 
     switch (userRole) {
       case "student":

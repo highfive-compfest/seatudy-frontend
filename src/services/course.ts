@@ -21,6 +21,22 @@ export const getCourseById = async (courseId: string): Promise<CoursesResponse> 
   }
 };
 
+export const getInstructorCourse = async (accessToken: string, instructorId: string): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>(`courses/instructor/${instructorId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    throw error;
+  }
+};
+
 export const createCourse = async (formData: FormData, token: string) => {
   try {
     const response = await axiosInstance.post("courses", formData, {

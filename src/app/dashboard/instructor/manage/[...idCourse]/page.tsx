@@ -6,13 +6,14 @@ import { Spinner } from "@nextui-org/spinner";
 import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Course } from "@/types/course/course";
 
 const Manage = () => {
     const router = useRouter();
 
     const navs = ["Material", "Reviews", "Edit"]
 
-    const [course, setCourse] = useState()
+    const [course, setCourse] = useState<Course[]|null>()
     const [isPending, setPending] = useState(false)
     const [activeSection, setActiveSection] = useState("Material");
 
@@ -26,7 +27,7 @@ const Manage = () => {
             try {
                 const data = await getCourseById(id)
                 console.log(data.payload)
-                setCourse(course)
+                setCourse(data.payload)
             } catch (error:any) {
                 console.log(error.response)
             }
@@ -64,7 +65,7 @@ const Manage = () => {
                 Delete
            </button>)}
             </nav>
-            {activeSection === "Edit"?<EditCourse/>:null}
+            {activeSection === "Edit"?<EditCourse course={course}/>:null}
         </section>
     )
 }

@@ -3,19 +3,28 @@ import CourseCard from "@/components/common/course-card";
 import { courses } from "@/types/dummy/CourseDummy";
 import { Course } from "@/types/course/course";
 import { useState, useEffect } from "react";
-import { getAllCourses } from "../../../../services/course";
+import { getAllCourses, getInstructorCourse } from "../../../../services/course";
+import { getCookie } from "cookies-next";
 
 const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [error, setError] = useState<Error | null>(null);
+  const [isPending, setPending] = useState(false)
+
+  const accToken = getCookie("authToken") as string;
+  const userId = getCookie("userId") as string;
 
   useEffect(() => {
     const fetchCourses = async () => {
+      setPending(true)
       try {
-        const data = await getAllCourses();
+        const data = await getInstructorCourse(accToken, userId);
         setCourses(data.payload);
-      } catch (error) {
+      } catch (error:any) {
         setError(error as Error);
+        console.log(error.response)
+      } finally {
+        setPending(false)
       }
     };
 
@@ -25,11 +34,11 @@ const Courses = () => {
   return (
     <section className="pt-[7rem]">
       <h1 className="text-2xl font-bold ml-4">Manage Your Courses</h1>
-      <div className="mt-4 flex gap-4 flex-wrap justify-center md:justify-start">
+      {courses.length === 0&&!isPending?<p>You don't have any courses yet.</p>:<div className="mt-4 flex gap-4 flex-wrap justify-center md:justify-start">
         {courses.map((course, idx) => (
           <CourseCard key={idx} course={course} />
         ))}
-      </div>
+      </div>}
     </section>
   );
 };

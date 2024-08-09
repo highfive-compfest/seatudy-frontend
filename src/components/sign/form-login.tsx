@@ -28,12 +28,14 @@ export function FormLogin() {
       const access_token = response.payload?.access_token;
       const refresh_token = response.payload?.refresh_token;
       const user_role = response.payload?.user.role;
+      const user_id = response.payload?.user.id;
       const user = response.payload?.user;
 
       if (access_token) {
         setCookie("authToken", access_token, { path: "/" });
         setCookie("refreshToken", refresh_token, { path: "/" });
         setCookie("userRole", user_role, { path: "/" });
+        setCookie("userId", user_id, { path: "/" });
         sessionStorage.setItem("user", JSON.stringify(user));
 
         if (user_role === "student") {

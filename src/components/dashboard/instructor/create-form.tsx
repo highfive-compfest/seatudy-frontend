@@ -1,19 +1,20 @@
 import { Course, CoursesResponse } from "@/types/course/course";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 
 interface CourseFormProps {
   onSubmit: (formData: FormData) => void;
   onPreview: (course: Course) => void;
+  value : any
 }
 
 const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview }) => {
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    difficulty: "beginner",
-    image: null as File | null,
-    syllabus: null as File | null,
+      title: "",
+      description: "",
+      price: "",
+      difficulty: "beginner",
+      image: null as File | null,
+      syllabus: null as File | null,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
