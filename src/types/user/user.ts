@@ -6,6 +6,7 @@ export interface UserPayload {
   role: string;
   created_at: string;
   updated_at: string;
+  is_email_verified: string;
 }
 
 export interface UserResponse {
