@@ -40,13 +40,9 @@ export const updateUser = async (token: string, id: string, name: string, imageF
   }
 };
 
-export const getUserById = async (token: string, userId: string): Promise<UserResponse> => {
+export const getUserById = async (userId: string): Promise<UserResponse> => {
   try {
-    const response = await axiosInstance.get<UserResponse>(`/users/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.get<UserResponse>(`/users/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user data:", error);

@@ -4,12 +4,12 @@ import { Course } from "@/types/course/course";
 import { dummyCourse } from "@/utils/utils";
 import { getCookie } from "cookies-next";
 
-export const EditCourse = ({course}:any) => {
+export const EditCourse = ({course}:{course : Course|undefined}) => {
     const [formData, setFormData] = useState({
-        title: course.title,
-        description: course.description,
-        price: course.price,
-        difficulty: course.difficulty,
+        title: course?.title,
+        description: course?.description,
+        price: course?.price,
+        difficulty: course?.difficulty,
     });
 
     const [previewCourse, setPreviewCourse] = useState<Course>(dummyCourse);

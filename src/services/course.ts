@@ -1,4 +1,4 @@
-import { CoursesResponse, deleteCourseResponse } from "@/types/course/course";
+import { CoursesResponse, deleteCourseResponse, getCoursesIdResponse } from "@/types/course/course";
 import { axiosInstance } from "./api-config";
 
 export const getAllCourses = async (): Promise<CoursesResponse> => {
@@ -11,9 +11,9 @@ export const getAllCourses = async (): Promise<CoursesResponse> => {
   }
 };
 
-export const getCourseById = async (courseId: string): Promise<CoursesResponse> => {
+export const getCourseById = async (courseId: string): Promise<getCoursesIdResponse> => {
   try {
-    const response = await axiosInstance.get<CoursesResponse>(`courses/${courseId}`);
+    const response = await axiosInstance.get<getCoursesIdResponse>(`courses/${courseId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching course details:", error);

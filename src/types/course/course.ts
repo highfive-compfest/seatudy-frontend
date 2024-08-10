@@ -16,6 +16,11 @@ export interface CoursesResponse {
   payload: Course[];
 }
 
+export interface getCoursesIdResponse {
+  message: string;
+  payload: Course;
+}
+
 export interface deleteCourseResponse {
   message: string;
   payload: null|Course[];

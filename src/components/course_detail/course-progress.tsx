@@ -20,7 +20,7 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
   useEffect(() => {
     const fetchInstructor = async () => {
       try {
-        const instructorData = await getUserById(accToken, courseDetail.instructor_id);
+        const instructorData = await getUserById(courseDetail.instructor_id);
         setInstructor(instructorData.payload);
         setLoading(false);
       } catch (error) {

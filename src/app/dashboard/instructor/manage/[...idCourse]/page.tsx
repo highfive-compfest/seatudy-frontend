@@ -7,13 +7,14 @@ import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Course } from "@/types/course/course";
+import { HeaderCourse } from "@/components/dashboard/instructor/header";
 
 const Manage = () => {
     const router = useRouter();
 
     const navs = ["Material", "Reviews", "Edit"]
 
-    const [course, setCourse] = useState<Course[]|null>()
+    const [course, setCourse] = useState<Course>()
     const [isPending, setPending] = useState(false)
     const [activeSection, setActiveSection] = useState("Material");
 
@@ -26,7 +27,6 @@ const Manage = () => {
         const fetchCourseId = async () => {
             try {
                 const data = await getCourseById(id)
-                console.log(data.payload)
                 setCourse(data.payload)
             } catch (error:any) {
                 console.log(error.response)
@@ -50,7 +50,8 @@ const Manage = () => {
 
     return (
         <section className="p-4 pt-28 w-full">
-            <nav className="py-6 px-4 bg-white rounded-lg shadow-md flex gap-2">
+            <HeaderCourse course={course}/>
+            <nav className="py-6 px-4 bg-white rounded-lg shadow-md flex gap-2 overflow-auto">
             {navs.map((content, idx)=>(
                 <button
                     key={idx} 
