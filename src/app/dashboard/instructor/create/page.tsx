@@ -9,6 +9,15 @@ import { dummyCourse } from "@/utils/utils";
 
 const Create: React.FC = () => {
 
+  const values = {
+    title: "",
+    description: "",
+    price: "",
+    difficulty: "beginner",
+    image: null as File | null,
+    syllabus: null as File | null,
+}
+
   const [previewCourse, setPreviewCourse] = useState<Course>(dummyCourse);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const accToken = getCookie("authToken") as string;
@@ -37,8 +46,7 @@ const Create: React.FC = () => {
 
   return (
     <section className="p-4 pt-28 flex flex-col lg:flex-row pb-8 h-full">
-      <CreateCourse onSubmit={handleSubmit} onPreview={handlePreview} />
-
+      <CreateCourse values={values} onSubmit={handleSubmit} onPreview={handlePreview} />
       <div className="flex-1 mt-4 lg:mt-0 lg:ml-4">
         <h2 className="font-bold mb-4">Course Preview</h2>
         <CourseCard course={previewCourse} />

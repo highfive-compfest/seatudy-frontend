@@ -39,7 +39,7 @@ export const HeaderCourse = ({course}:{course : Course|undefined}) => {
                 />}
             </div>
             <div className="flex flex-col shrink-0 justify-center p-4">
-                <Avatar className="w-[10rem] h-[10rem]" src={dataUser.image_url}/>
+                <Avatar className="w-[10rem] h-[10rem]" src={dataUser?.image_url}/>
                 <h1 className="font-bold text-3xl">{course?.title}</h1>
                 <h2 className="font-medium text-xl">{dataUser?.name}</h2>
                 <p>{course?.description}</p>

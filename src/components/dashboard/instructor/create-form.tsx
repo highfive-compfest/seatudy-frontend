@@ -4,15 +4,15 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 interface CourseFormProps {
   onSubmit: (formData: FormData) => void;
   onPreview: (course: Course) => void;
-  value : any
+  values : any
 }
 
-const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview }) => {
+const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }) => {
   const [formData, setFormData] = useState({
-      title: "",
-      description: "",
-      price: "",
-      difficulty: "beginner",
+      title: values?.title,
+      description: values?.description,
+      price: values?.price,
+      difficulty: values?.diffculty,
       image: null as File | null,
       syllabus: null as File | null,
   });
@@ -136,11 +136,9 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview }) => {
             />
           </div>
         </div>
-
         <button type="button" onClick={handlePreview} className="w-full border-2 border-blue-600 text-blue-600 p-3 rounded-lg font-semibold hover:bg-gray-200 transition duration-300">
           Preview
         </button>
-
         <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
           Create Course
         </button>
