@@ -3,6 +3,7 @@ import { getUserById } from "@/services/user";
 import { Course } from "@/types/course/course";
 import { Avatar } from "@nextui-org/avatar";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export const HeaderCourse = ({ course }: { course: Course | undefined }) => {
@@ -19,22 +20,41 @@ export const HeaderCourse = ({ course }: { course: Course | undefined }) => {
         }
       };
       fetchUserId();
+      console.log(course)
     }
   }, [course]);
 
   return (
-    <div className="bg-white w-fit md:w-full shadow-lg h-fit md:h-[20rem] rounded-lg overflow-hidden mb-6 flex flex-wrap">
-      <div
-        className="h-full max-w-[40rem] bg-no-repeat bg-cover bg-black"
-        // style={{ backgroundImage : `url("${"https://sea-study-bucket.s3.ap-southeast-2.amazonaws.com/course%2Fimage%2F0191373f-c301-75c4-b383-34676aeaf3cb.hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg"})` }}
-      >
-        {course && <Image src={course.image_url} alt="Hero" width={450} height={450} priority={true} className="max-h-[20rem]" />}
+    <div className="bg-white rounded-lg shadow-lg mb-6 overflow-hidden">
+      <div className="w-full h-fit md:h-[20rem] overflow-hidden relative">
+          {course && <Image 
+            src={course.image_url} 
+            alt="Hero" 
+            priority={true} 
+            style={{ objectFit : "cover" }}
+            width={2000}
+            height={2000}
+            className="w-full max-h-[20rem]" />}
+          <div className="absolute inset-0 flex justify-between flex-col p-6 bg-[rgba(0,0,50,0.4)]">
+            <div className="flex gap-4 items-center">
+              <Avatar isBordered className="w-[4rem] h-[4rem]" src={dataUser?.image_url} />
+              <div className="text-white">
+                <h2 className="text-xl font-semibold">{dataUser?.name}</h2>
+                <h3 className="font-medium">{dataUser?.role}</h3>
+              </div>
+            </div>
+            <h1 className="font-bold text-3xl text-white">{course?.title}</h1>
+          </div>
       </div>
-      <div className="flex flex-col shrink-0 justify-center p-4">
-        <Avatar className="w-[10rem] h-[10rem]" src={dataUser?.image_url} />
-        <h1 className="font-bold text-3xl">{course?.title}</h1>
-        <h2 className="font-medium text-xl">{dataUser?.name}</h2>
+      <div className="p-4">
+        <h1 className="font-bold text-xl">Description</h1>
         <p>{course?.description}</p>
+        <h1 className="font-bold text-xl mt-2">Syllabus</h1>
+        {course && <Link className="text-blue-500 underline" href={course.syllabus_url}>Download</Link>}
+        <div className="flex gap-4 mt-4">
+            {course && <p>Create at : {new Date(course.updated_at).toLocaleDateString()}</p>}
+            {course && <p>Update at : {new Date(course.updated_at).toLocaleDateString()}</p>}
+        </div>
       </div>
     </div>
   );

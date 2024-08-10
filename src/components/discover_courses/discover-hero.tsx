@@ -12,7 +12,7 @@ const Hero = () => {
         <button className="px-4 py-2 bg-white text-blue-500 font-bold rounded text-sm sm:text-base">Explore Now</button>
       </header>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-gray-700 mb-8 text-sm sm:text-base">The more that you read, the more things you will know. The more that you learn, the more places you’ll go.</p>
+        <p className="text-gray-700 mb-8 text-sm sm:text-base">The more that you read, the more things you will know. The more that you learn, the more places you&apos;ll go.</p>
 
         <div className="mb-8">
           <div className="flex flex-wrap gap-2">

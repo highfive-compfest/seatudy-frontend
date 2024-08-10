@@ -35,8 +35,8 @@ export const EditCourse = ({course}:{course : Course|undefined}) => {
         const result = await updateCourseById(formData, token, course?.id);
         router.push("/dashboard/instructor/manage")
         console.log("Course submitted:", result);
-      } catch (error) {
-        console.error("Error submitting course:", error);
+      } catch (error:any) {
+        console.error("Error submitting course:", error.response);
         alert("Error submitting course: " + error);
       } finally {
         setIsSubmitting(false);
