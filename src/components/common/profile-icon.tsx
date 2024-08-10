@@ -49,15 +49,16 @@ export const ProfileIcon = () => {
       <DropdownTrigger>
         <Avatar isBordered as="button" className="transition-transform" src={user?.image_url || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"} />
       </DropdownTrigger>
+
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        <DropdownItem textValue="Top Up" as="a" href="/topup" key="topup" startContent={<FaMoneyBill />}>
-          <span>{}</span>
-        </DropdownItem>
         <DropdownItem textValue="Profile" as="a" href={`/dashboard/${user?.role}/profile`} key="profile" startContent={<IoMdPerson />}>
           <span>My Profile</span>
         </DropdownItem>
-        <DropdownItem textValue="Dashboard" as="a" href={`/dashboard/${user?.role}/${user?.role === "student"?"courses":"manage"}`} key="dashboard" startContent={<MdSpaceDashboard />}>
+        <DropdownItem textValue="Dashboard" as="a" href={`/dashboard/${user?.role}/${user?.role === "student" ? "courses" : "manage"}`} key="dashboard" startContent={<MdSpaceDashboard />}>
           <span>Dashboard</span>
+        </DropdownItem>
+        <DropdownItem textValue="Top Up" as="a" href="/topup" key="topup" startContent={<FaMoneyBill />}>
+          <span>Balance</span>
         </DropdownItem>
         <DropdownItem textValue="Log Out" onClick={logOut} key="logout" color="danger" startContent={<MdLogout />}>
           <span>Log Out</span>
