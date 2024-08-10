@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Course } from "@/types/course/course";
 import { HeaderCourse } from "@/components/dashboard/instructor/header";
+import { Material } from "@/components/dashboard/instructor/material";
 
 const Manage = () => {
     const router = useRouter();
@@ -66,7 +67,9 @@ const Manage = () => {
                 Delete
            </button>)}
             </nav>
-            {activeSection === "Edit"?<EditCourse course={course}/>:null}
+            {activeSection === "Edit"?<EditCourse course={course}/>:
+            activeSection === "Material"?<Material/>:null
+            }
         </section>
     )
 }
