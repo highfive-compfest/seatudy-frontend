@@ -1,11 +1,19 @@
 "use client"
+import { createMaterial } from "@/services/material";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-export const MaterialForm = () => {
+export const MaterialForm = ({courseId}:{courseId : string}) => {
+
+    const router = useRouter()
+
+    const accToken = getCookie("authToken") as string;
+
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        course_id: '',
+        course_id: courseId,
         attachments: [] as File[],
         attachmentDescriptions: [] as string[],
       });
@@ -38,9 +46,23 @@ export const MaterialForm = () => {
         });
       };
 
-    const handleSubmit = (event : React.FormEvent) => {
-        event.preventDefault()
-        console.log(formData)
+    const handleSubmit = async (event : React.FormEvent) => {
+        try {
+            event.preventDefault()
+            const form = new FormData();
+            form.append('title', formData.title);
+            form.append('description', formData.description);
+            form.append('course_id', formData.course_id);
+        
+            formData.attachments.forEach((file, index) => {
+              form.append(`attachments[${index}][file]`, file);
+              form.append(`attachments[${index}][description]`, formData.attachmentDescriptions[index]);
+            });
+            await createMaterial(form, accToken)
+            router.refresh()
+        } catch (error:any) {
+            console.error(error.response)
+        }
     }
     return (
         <div className="bg-white rounded-lg shadow-md p-4">
@@ -64,6 +86,7 @@ export const MaterialForm = () => {
                 <div className="w-full mt-4 md:mt-0">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Attachment file</label>
                     <input
+                        multiple
                         required
                         onChange={handleChange}
                         type="file"
