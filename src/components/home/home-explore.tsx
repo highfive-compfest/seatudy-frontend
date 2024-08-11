@@ -26,7 +26,7 @@ const Explore = () => {
   }, []);
 
   return (
-    <div className="bg-blue-100 py-10 pb-18">
+    <div className="bg-blue-100 py-10 pb-20">
       <h1 className="text-3xl font-bold text-center mb-2 mt-8">Explore Courses</h1>
       <p className="text-center mb-8">Our most popular course subjects</p>
 
