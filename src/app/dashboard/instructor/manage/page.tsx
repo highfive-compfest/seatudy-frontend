@@ -35,7 +35,7 @@ const Courses = () => {
     <section className="pt-[7rem]">
       <h1 className="text-2xl font-bold ml-4">Manage Your Courses</h1>
       {(!courses || courses.length === 0) && !isPending ? (
-        <p>You don't have any courses yet.</p>
+        <p>You don&apos;t have any courses yet.</p>
       ) : (
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center md:justify-start pb-8">
           {courses?.map((course, idx) => (
