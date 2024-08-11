@@ -1,23 +1,41 @@
 "use client";
-import React, { ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Course } from "@/types/course/course";
 import { Review } from "@/types/reviews/reviews";
+import { getCookie } from "cookies-next";
 
 interface ReviewFormProps {
   selectedCourse: Course | null;
   reviews: Review[];
   newReview: string;
   rating: number;
-  handleReviewSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  handleReviewSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   handleReviewChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   handleRatingChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   renderStars: (rating: number) => JSX.Element;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ selectedCourse, reviews, newReview, rating, handleReviewSubmit, handleReviewChange, handleRatingChange, renderStars }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({ selectedCourse, reviews, newReview, rating, handleReviewChange, handleRatingChange, handleReviewSubmit, renderStars }) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [currentReview, setCurrentReview] = useState<Review | null>(null);
+  const currentUserId = getCookie("userId") as string;
+
+  useEffect(() => {
+    if (selectedCourse) {
+      const existingReview = reviews.find((review) => review.user_id === currentUserId && review.course_id === selectedCourse.id);
+      if (existingReview) {
+        setCurrentReview(existingReview);
+        setIsEditing(true);
+      } else {
+        setCurrentReview(null);
+        setIsEditing(false);
+      }
+    }
+  }, [selectedCourse, reviews, currentUserId]);
+
   return (
     <div className="border-2 border-gray-200 rounded-lg bg-white shadow-lg p-6">
-      <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">Leave a Review</h2>
+      <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">{isEditing ? "Edit Your Review" : "Leave a Review"}</h2>
       {selectedCourse ? (
         <>
           <p className="text-center text-gray-600 mb-4">
@@ -47,7 +65,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ selectedCourse, reviews, newRev
               </select>
             </div>
             <button type="submit" className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300">
-              Submit Review
+              {isEditing ? "Update Review" : "Submit Review"}
             </button>
           </form>
 

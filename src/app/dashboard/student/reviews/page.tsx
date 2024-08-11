@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { getAllCourses } from "../../../../services/course";
-import { createReview, getReviews } from "../../../../services/reviews";
+import { createReview, updateReview, getReviews } from "../../../../services/reviews";
 import { Course, CoursesResponse } from "../../../../types/course/course";
 import { getCookie } from "cookies-next";
 import CourseSelection from "@/components/dashboard/user/course-selection";
@@ -14,6 +14,8 @@ const ReviewPage: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [currentReviewId, setCurrentReviewId] = useState<string | null>(null);
   const authToken = getCookie("authToken") as string;
 
   useEffect(() => {
@@ -44,6 +46,24 @@ const ReviewPage: React.FC = () => {
     fetchReviews();
   }, [selectedCourse]);
 
+  useEffect(() => {
+    const currentUserId = getCookie("userId") as string;
+    if (selectedCourse) {
+      const existingReview = reviews.find((review) => review.user_id === currentUserId);
+      if (existingReview) {
+        setIsEditing(true);
+        setCurrentReviewId(existingReview.id);
+        setNewReview(existingReview.feedback);
+        setRating(existingReview.rating);
+      } else {
+        setIsEditing(false);
+        setCurrentReviewId(null);
+        setNewReview("");
+        setRating(0);
+      }
+    }
+  }, [selectedCourse, reviews]);
+
   const handleCourseSelect = (course: Course) => {
     setSelectedCourse(course);
     setReviews([]);
@@ -53,20 +73,26 @@ const ReviewPage: React.FC = () => {
     e.preventDefault();
     if (newReview && rating > 0 && selectedCourse) {
       try {
-        const response = await createReview(authToken, selectedCourse.id, rating, newReview);
-        const newReviewData: Review = {
-          id: response.payload.id,
-          user_id: "",
-          course_id: selectedCourse.id,
-          rating: rating,
-          feedback: newReview,
-          created_at: "",
-          updated_at: "",
-        };
-        setReviews([...reviews, newReviewData]);
+        if (isEditing && currentReviewId) {
+          const response = await updateReview(currentReviewId, rating, newReview);
+          alert("Review updated successfully!");
+        } else {
+          const response = await createReview(authToken, selectedCourse.id, rating, newReview);
+          const newReviewData: Review = {
+            id: response.payload.id,
+            user_id: authToken,
+            course_id: selectedCourse.id,
+            rating: rating,
+            feedback: newReview,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          };
+          setReviews([...reviews, newReviewData]);
+          alert("Review submitted successfully!");
+        }
+
         setNewReview("");
         setRating(0);
-        alert("Review submitted successfully!");
       } catch (error) {
         console.error("Error submitting review:", error);
         alert("Error submitting review: " + error);
