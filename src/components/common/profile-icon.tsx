@@ -44,6 +44,79 @@ export const ProfileIcon = () => {
     router.replace("/login");
   };
 
+  const getDropdownItems = (role: string | undefined) => {
+    switch (role) {
+      case "instructor":
+        return [
+          {
+            textValue: "Profile",
+            href: `/dashboard/${role}/profile`,
+            icon: <IoMdPerson />,
+            label: "My Profile",
+          },
+          {
+            textValue: "Dashboard",
+            href: `/dashboard/${role}/manage`,
+            icon: <MdSpaceDashboard />,
+            label: "Dashboard",
+          },
+          {
+            textValue: "Log Out",
+            onClick: logOut,
+            icon: <MdLogout />,
+            label: "Log Out",
+            color: "danger",
+          },
+        ];
+      case "student":
+        return [
+          {
+            textValue: "Profile",
+            href: `/dashboard/${role}/profile`,
+            icon: <IoMdPerson />,
+            label: "My Profile",
+          },
+          {
+            textValue: "Dashboard",
+            href: `/dashboard/${role}/courses`,
+            icon: <MdSpaceDashboard />,
+            label: "Dashboard",
+          },
+          {
+            textValue: "Top Up",
+            href: "/topup",
+            icon: <FaMoneyBill />,
+            label: "Balance",
+          },
+          {
+            textValue: "Log Out",
+            onClick: logOut,
+            icon: <MdLogout />,
+            label: "Log Out",
+            color: "danger",
+          },
+        ];
+      default:
+        return [
+          {
+            textValue: "Profile",
+            href: "/dashboard/profile",
+            icon: <IoMdPerson />,
+            label: "My Profile",
+          },
+          {
+            textValue: "Log Out",
+            onClick: logOut,
+            icon: <MdLogout />,
+            label: "Log Out",
+            color: "danger",
+          },
+        ];
+    }
+  };
+
+  const dropdownItems = getDropdownItems(user?.role);
+
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
@@ -51,18 +124,11 @@ export const ProfileIcon = () => {
       </DropdownTrigger>
 
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        <DropdownItem textValue="Profile" as="a" href={`/dashboard/${user?.role}/profile`} key="profile" startContent={<IoMdPerson />}>
-          <span>My Profile</span>
-        </DropdownItem>
-        <DropdownItem textValue="Dashboard" as="a" href={`/dashboard/${user?.role}/${user?.role === "student" ? "courses" : "manage"}`} key="dashboard" startContent={<MdSpaceDashboard />}>
-          <span>Dashboard</span>
-        </DropdownItem>
-        <DropdownItem textValue="Top Up" as="a" href="/topup" key="topup" startContent={<FaMoneyBill />}>
-          <span>Balance</span>
-        </DropdownItem>
-        <DropdownItem textValue="Log Out" onClick={logOut} key="logout" color="danger" startContent={<MdLogout />}>
-          <span>Log Out</span>
-        </DropdownItem>
+        {dropdownItems.map((item, index) => (
+          <DropdownItem key={index} textValue={item.textValue} as={item.href ? "a" : undefined} href={item.href} onClick={item.onClick} startContent={item.icon}>
+            <span>{item.label}</span>
+          </DropdownItem>
+        ))}
       </DropdownMenu>
     </Dropdown>
   );
