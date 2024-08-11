@@ -5,7 +5,7 @@ export const Material = ({courseId}:{courseId:string}) => {
     return (
         <section className="grid grid-cols-1 md:grid-cols-2 mt-4 gap-6">
             <MaterialForm courseId={courseId}/>
-            <GetMaterials/>
+            <GetMaterials courseId={courseId}/>
         </section>
     )
 };

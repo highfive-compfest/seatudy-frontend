@@ -12,7 +12,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
       title: values?.title,
       description: values?.description,
       price: values?.price,
-      difficulty: values?.diffculty,
+      difficulty: values?.difficulty,
       image: null as File | null,
       syllabus: null as File | null,
   });

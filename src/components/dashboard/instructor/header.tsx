@@ -20,7 +20,6 @@ export const HeaderCourse = ({ course }: { course: Course | undefined }) => {
         }
       };
       fetchUserId();
-      console.log(course)
     }
   }, [course]);
 
