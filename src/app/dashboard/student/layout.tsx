@@ -1,4 +1,5 @@
 "use client";
+import Footer from "@/components/common/main-footer";
 import { HeaderUser } from "@/components/dashboard/user/header";
 import { NavUser } from "@/components/dashboard/user/nav";
 import { useState } from "react";
@@ -16,6 +17,7 @@ export default function RootLayout({
         <NavUser isMenuOpen={isMenuOpen} />
         <div className="px-4 md:px-8">{children}</div>
       </div>
+      <Footer />
     </>
   );
 }

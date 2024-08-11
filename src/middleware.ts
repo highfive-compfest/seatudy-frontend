@@ -1,31 +1,35 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getCookie } from 'cookies-next';
+import { NextRequest, NextResponse } from "next/server";
+import { getCookie } from "cookies-next";
 
 export function middleware(request: NextRequest) {
-    const authToken = getCookie('authToken', { req: request });
-    const refreshToken = getCookie('refreshToken', { req: request });
-    const userRole = getCookie('userRole', { req: request });
-    const userId = getCookie('userId', { req: request });
-    const pathname = request.nextUrl.pathname;
-    
-    if (!authToken || !refreshToken || !userRole || !userId) return NextResponse.redirect(new URL('/login', request.url));
+  const authToken = getCookie("authToken", { req: request });
+  const refreshToken = getCookie("refreshToken", { req: request });
+  const userRole = getCookie("userRole", { req: request });
+  const userId = getCookie("userId", { req: request });
+  const pathname = request.nextUrl.pathname;
 
-    switch (userRole) {
-      case "student":
-        if (pathname.startsWith("/dashboard/instructor/create") || pathname.startsWith("/dashboard/instructor/manage") || pathname.startsWith("/dashboard/instructor/profile")) {
-          return NextResponse.redirect(new URL("/dashboard/student/courses", request.url));
-        }
-        break;
-      case "instructor":
-        if (pathname.startsWith("/dashboard/student/courses") || pathname.startsWith("/dashboard/student/histories") || pathname.startsWith("/dashboard/student/profile")) {
-          return NextResponse.redirect(new URL("/dashboard/instructor/manage", request.url));
-        }
-        break;
-    }
+  if (!authToken || !refreshToken || !userRole || !userId) return NextResponse.redirect(new URL("/login", request.url));
 
-    return NextResponse.next();
+  switch (userRole) {
+    case "student":
+      if (pathname.startsWith("/dashboard/instructor/create") || pathname.startsWith("/dashboard/instructor/manage") || pathname.startsWith("/dashboard/instructor/profile")) {
+        return NextResponse.redirect(new URL("/dashboard/student/courses", request.url));
+      }
+      break;
+    case "instructor":
+      if (pathname.startsWith("/dashboard/student/courses") || pathname.startsWith("/dashboard/student/histories") || pathname.startsWith("/dashboard/student/profile")) {
+        return NextResponse.redirect(new URL("/dashboard/instructor/manage", request.url));
+      }
+
+      if (pathname.startsWith("/topup")) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+      break;
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/verify-otp']
+  matcher: ["/dashboard/:path*", "/verify-otp"],
 };

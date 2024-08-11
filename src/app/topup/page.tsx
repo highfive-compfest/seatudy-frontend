@@ -3,6 +3,7 @@ import Navbar from "@/components/common/main-navbar";
 import React, { useState, useEffect } from "react";
 import { topUpWallet, fetchBalance, fetchMidtransTransactions } from "../../services/wallet";
 import { MidtransTransaction } from "@/types/wallet/wallet";
+import Footer from "@/components/common/main-footer";
 
 const predefinedAmounts = [50000, 100000, 200000, 500000];
 
@@ -163,6 +164,7 @@ const TopUpPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
