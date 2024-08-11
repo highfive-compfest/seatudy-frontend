@@ -43,7 +43,7 @@ To get started with the Seatudy Frontend, follow these steps:
    ```bash
    npm run dev
    ```
-   '## Usage
+## Usage
 
 - **Development Mode:** Run `npm run dev` to start the development server with hot-reloading.
 - **Build Production:** Run `npm run build` to create an optimized production build.
