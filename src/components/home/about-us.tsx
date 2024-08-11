@@ -9,7 +9,7 @@ const AboutUs = () => {
         <div className="max-w-md text-center md:text-left">
           <h1 className="text-4xl font-bold mb-6 text-blue-800">Empowering Your Learning Journey</h1>
           <p className="mb-6 text-gray-700 text-justify">
-            At our platform, we believe in providing exceptional educational resources to help you achieve your goals. Our diverse range of courses is designed to fit your learning style, whether you're looking to advance in your career or
+            At our platform, we believe in providing exceptional educational resources to help you achieve your goals. Our diverse range of courses is designed to fit your learning style, whether you are looking to advance in your career or
             explore new passions.
           </p>
           <p className="mb-6 text-gray-700 text-justify">With expert instructors and a flexible learning environment, you can tailor your education to your needs. Join us and take the first step towards a brighter future.</p>
