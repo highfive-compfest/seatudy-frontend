@@ -10,6 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "@nextui-org/avatar": "^2.0.32",
     "@nextui-org/button": "^2.0.37",
     "@nextui-org/divider": "^2.0.31",
