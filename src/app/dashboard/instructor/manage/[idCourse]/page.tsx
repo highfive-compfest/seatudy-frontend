@@ -13,7 +13,7 @@ import { Material } from "@/components/dashboard/instructor/material/material";
 const Manage = () => {
     const router = useRouter();
 
-    const navs = ["Material", "Reviews", "Edit"]
+    const navs = ["Material", "Forum", "Edit"]
 
     const [course, setCourse] = useState<Course>()
     const [isPending, setPending] = useState(false)

@@ -11,4 +11,12 @@ export interface Material {
     title: string;
     description: string;
     attachments: Attachment[];
+    created_at : string;
+    updated_at : string;
+    deleted_at : null;
+}
+
+export interface GetMaterialRes {
+    message : string;
+    payload : Material[];
 }

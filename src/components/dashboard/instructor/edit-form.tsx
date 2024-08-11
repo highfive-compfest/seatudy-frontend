@@ -36,6 +36,7 @@ export const EditCourse = ({ course }: { course: Course | undefined }) => {
       console.log("Course submitted:", result);
     } catch (error: any) {
       console.error("Error submitting course:", error.response);
+      console.log(error.response)
       alert("Error submitting course: " + error);
     } finally {
       setIsSubmitting(false);

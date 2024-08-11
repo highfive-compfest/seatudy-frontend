@@ -1,4 +1,4 @@
-import { Material } from "@/types/material/material-courseid";
+import { GetMaterialRes, Material } from "@/types/material/material-courseid";
 import { axiosInstance } from "./api-config";
 
 export const createMaterial = async (formData: FormData, token: string) => {
@@ -17,9 +17,9 @@ export const createMaterial = async (formData: FormData, token: string) => {
   }
 };
 
-export const getMaterialByCourse = async (courseId: string): Promise<Material> => {
-  try {
-    const response = await axiosInstance.get<Material>(`materials/courses/${courseId}`);
+export const getMaterialByCourse = async (courseId: string): Promise<GetMaterialRes> => {
+try {
+    const response = await axiosInstance.get<GetMaterialRes>(`materials/course/${courseId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching course details:", error);
