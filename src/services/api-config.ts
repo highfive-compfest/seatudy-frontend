@@ -1,6 +1,13 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { setCookie, getCookie } from "cookies-next";
 
+export const authHeaders = {
+  "Content-Type": "application/json; charset=utf-8",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+  "Access-Control-Allow-Origin": "*",
+};
+
 interface RefreshTokenResponse {
   message: string;
   payload: {
