@@ -11,6 +11,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
   const [editedUser, setEditedUser] = useState<Omit<UserPayload, "id" | "email" | "role" | "created_at" | "updated_at">>({
     name: user?.name || "",
     image_url: user?.image_url || "",
+    is_email_verified: user?.is_email_verified || "false",
   });
   const [previewImage, setPreviewImage] = useState<string>(editedUser.image_url || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
