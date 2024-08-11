@@ -8,10 +8,10 @@ const Hero = () => {
       <div className="relative bg-cover bg-center h-screen" style={{ backgroundImage: "url('https://study.com/cimages/multimages/16/8a479f0b-398d-4563-917d-e99bed7a109e_study_group.jpeg')" }}>
         <div className="relative flex items-center justify-center h-full bg-black/30">
           <div className="text-center text-white px-4">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Self-Paced Learning Courses Online</h1>
-            <p className="text-m m:text-l lg:text-xl mb-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, vestibulum euismod nullam elementum.</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Discover Your Path to Knowledge</h1>
+            <p className="text-m m:text-l lg:text-xl mb-8">Join thousands of learners who are expanding their horizons with our expert-led online courses. Learn at your own pace and achieve your goals.</p>
             <Link href="/discover_courses">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Start a course</button>
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Start Learning</button>
             </Link>
           </div>
         </div>
