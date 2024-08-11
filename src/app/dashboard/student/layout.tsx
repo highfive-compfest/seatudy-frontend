@@ -11,13 +11,12 @@ export default function RootLayout({
 }>) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <>
+    <div className="flex flex-col h-screen bg-gray-100">
       <HeaderUser isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-      <div className="flex h-full bg-gray-100">
+      <div className="flex flex-1 overflow-hidden">
         <NavUser isMenuOpen={isMenuOpen} />
-        <div className="px-4 md:px-8">{children}</div>
+        <main className="flex-1 px-4 md:px-8 overflow-auto">{children}</main>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 }

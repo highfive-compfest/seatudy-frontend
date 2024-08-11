@@ -4,17 +4,17 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 interface CourseFormProps {
   onSubmit: (formData: FormData) => void;
   onPreview: (course: Course) => void;
-  values : any
+  values: any;
 }
 
 const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }) => {
   const [formData, setFormData] = useState({
-      title: values?.title,
-      description: values?.description,
-      price: values?.price,
-      difficulty: values?.difficulty,
-      image: null as File | null,
-      syllabus: null as File | null,
+    title: values?.title,
+    description: values?.description,
+    price: values?.price,
+    difficulty: values?.difficulty,
+    image: null as File | null,
+    syllabus: null as File | null,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -66,7 +66,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
   };
 
   return (
-    <section className="bg-white p-10 rounded-lg shadow-lg border-2 border-gray-200 w-full md:max-w-3xl">
+    <section className="bg-white p-10 rounded-lg shadow-lg border-2 border-gray-200 w-full h-auto md:max-w-3xl">
       <h1 className="text-3xl font-extrabold text-gray-800 mb-6">Create New Course</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col md:flex-col">
