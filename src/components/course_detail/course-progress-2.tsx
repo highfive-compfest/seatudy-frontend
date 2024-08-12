@@ -84,9 +84,9 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
         </div>
       </div>
 
-      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 flex flex-col h-[42em] px-8 py-6 rounded-lg shadow mt-4">
+      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 flex flex-col px-8 py-6 rounded-lg shadow mt-4 h-[40em]">
         <h2 className="font-semibold text-2xl">Materials</h2>
-        <div className="mt-2 flex flex-col gap-4 overflow-y-auto">
+        <div className="mt-2 flex flex-col gap-4 overflow-y-auto h-full">
           {materials?.length === 0 ? (
             <p>There are no materials yet.</p>
           ) : (

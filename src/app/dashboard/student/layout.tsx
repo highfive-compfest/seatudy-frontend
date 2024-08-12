@@ -11,7 +11,7 @@ export default function RootLayout({
 }>) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
+    <div className="flex flex-col h-screen md:bg-gray-100">
       <HeaderUser isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <div className="flex flex-1 overflow-hidden">
         <NavUser isMenuOpen={isMenuOpen} />

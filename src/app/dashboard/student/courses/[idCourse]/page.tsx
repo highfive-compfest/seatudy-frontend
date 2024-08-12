@@ -6,6 +6,7 @@ import { Course } from "../../../../../types/course/course";
 import { usePathname, useRouter } from "next/navigation";
 import { getSegment } from "@/utils/utils";
 import CourseProgress2 from "@/components/course_detail/course-progress-2";
+import CourseReviews from "@/components/course_detail/course-review";
 
 const Page = () => {
   const router = useRouter();
@@ -61,11 +62,12 @@ const Page = () => {
           <div className="flex flex-col lg:flex-row">
             <CourseInfo courseDetail={course} />
 
-            <div className="w-full h-full mt-8">
+            <div className="w-full h-auto mt-8">
               <CourseProgress2 courseDetail={course} />
             </div>
           </div>
         )}
+        <CourseReviews courseId={course?.id || ""} />
       </div>
     </div>
   );

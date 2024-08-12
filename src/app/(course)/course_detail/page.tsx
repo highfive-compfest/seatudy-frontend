@@ -7,6 +7,7 @@ import { Course } from "../../../types/course/course";
 import { useSearchParams } from "next/navigation";
 import { getCookie } from "cookies-next";
 import ConfirmationModal from "@/components/course_detail/confirm-modal";
+import CourseReviews from "@/components/course_detail/course-review";
 
 const CourseDetailPage = () => {
   const searchParams = useSearchParams();
@@ -120,7 +121,7 @@ const CourseDetailPage = () => {
           </div>
         </div>
       )}
-
+      <CourseReviews courseId={course?.id || ""} />
       <ConfirmationModal isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={handleConfirmPurchase} />
     </div>
   );
