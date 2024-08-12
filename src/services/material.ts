@@ -17,6 +17,21 @@ export const createMaterial = async (formData: FormData, token: string) => {
   }
 };
 
+export const deleteMaterial = async (token: string, materialId:string) => {
+  try {
+    const response = await axiosInstance.delete(`materials/${materialId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Course uploaded successfully:", response.data);
+    return response.status;
+  } catch (error) {
+    console.error("Error uploading course:", error);
+    throw error;
+  }
+};
+
 export const getMaterialByCourse = async (courseId: string): Promise<GetMaterialRes> => {
 try {
     const response = await axiosInstance.get<GetMaterialRes>(`materials/course/${courseId}`);

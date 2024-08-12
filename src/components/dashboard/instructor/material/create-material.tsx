@@ -18,6 +18,8 @@ export const MaterialForm = ({courseId}:{courseId : string}) => {
         attachmentDescriptions: [] as string[],
       });
 
+    const [info, setInfo] = useState("")
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value, type, files } = event.target as HTMLInputElement;
 
@@ -58,8 +60,8 @@ export const MaterialForm = ({courseId}:{courseId : string}) => {
             //   form.append(`attachments[${index}][file]`, file);
             //   form.append(`attachments[${index}][description]`, formData.attachmentDescriptions[index]);
             // });
-            await createMaterial(form, accToken)
-            router.refresh()
+            const res = await createMaterial(form, accToken)
+            location.reload()
         } catch (error:any) {
             console.error(error.response)
         }
@@ -105,6 +107,7 @@ export const MaterialForm = ({courseId}:{courseId : string}) => {
                         className="resize-none block border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"/>
                 </div>
                 ))} */}
+                <p>{info}</p>
                 <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
                     Create Material
                 </button>
