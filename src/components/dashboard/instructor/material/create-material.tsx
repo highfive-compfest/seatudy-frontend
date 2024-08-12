@@ -3,8 +3,11 @@ import { createMaterial } from "@/services/material";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useMaterials } from "./material";
 
-export const MaterialForm = ({courseId}:{courseId : string}) => {
+export const MaterialForm = () => {
+
+    const {courseId, getMaterials}:any = useMaterials()
 
     const router = useRouter()
 
@@ -14,29 +17,16 @@ export const MaterialForm = ({courseId}:{courseId : string}) => {
         title: '',
         description: '',
         course_id: courseId,
-        attachments: [] as File[],
-        attachmentDescriptions: [] as string[],
       });
 
     const [info, setInfo] = useState("")
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        const { name, value, type, files } = event.target as HTMLInputElement;
-
-        if (type === 'file' && files) {
-            const fileArray = Array.from(files);
-            const fileDescriptions = fileArray.map(() => ''); 
-            setFormData({
-            ...formData,
-            attachments: fileArray,
-            attachmentDescriptions: fileDescriptions,
-            });
-        } else {
-            setFormData({
-            ...formData,
-            [name]: value,
-            });
-        }
+        const { name, value } = event.target as HTMLInputElement;
+        setFormData({
+        ...formData,
+        [name]: value,
+        });
     };
 
     // const handleDescriptionChange = (index: number, value: string) => {
@@ -48,7 +38,7 @@ export const MaterialForm = ({courseId}:{courseId : string}) => {
     //     });
     //   };
 
-    const handleSubmit = async (event : React.FormEvent) => {
+    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault()
             const form = new FormData();
@@ -61,7 +51,9 @@ export const MaterialForm = ({courseId}:{courseId : string}) => {
             //   form.append(`attachments[${index}][description]`, formData.attachmentDescriptions[index]);
             // });
             const res = await createMaterial(form, accToken)
-            location.reload()
+            setInfo(res.message)
+            await getMaterials()
+            (event.target as HTMLFormElement).reset();
         } catch (error:any) {
             console.error(error.response)
         }

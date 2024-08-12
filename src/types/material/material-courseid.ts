@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 interface Attachment {
     id: string;
     url: string;
@@ -5,7 +7,7 @@ interface Attachment {
     description: string;
 }
 
-export interface Material {
+export interface MaterialType {
     id: string;
     course_id: string;
     title: string;
@@ -16,7 +18,20 @@ export interface Material {
     deleted_at : null;
 }
 
+export interface GetMaterialsRes {
+    message : string;
+    payload : MaterialType[];
+}
+
 export interface GetMaterialRes {
     message : string;
-    payload : Material[];
+    payload : MaterialType;
+}
+
+export interface MaterialsContextType {
+    materials: MaterialType[] | undefined;
+    getMaterials: () => Promise<void>;
+    courseId : string;
+    isEdit : boolean;
+    setEdit : Dispatch<SetStateAction<boolean>>
 }
