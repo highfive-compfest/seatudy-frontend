@@ -1,10 +1,20 @@
-import { CoursesResponse, deleteCourseResponse, getCoursesIdResponse } from "@/types/course/course";
+import { CoursesResponse, DeleteCourseResponse, getCoursesIdResponse } from "@/types/course/course";
 import { axiosInstance } from "./api-config";
 import { title } from "process";
 
-export const getAllCourses = async (): Promise<CoursesResponse> => {
+export interface GetCoursesParams {
+  page?: number;
+  limit?: number;
+}
+
+export const getAllCourses = async (params: GetCoursesParams = { page: 1, limit: 10 }): Promise<CoursesResponse> => {
   try {
-    const response = await axiosInstance.get<CoursesResponse>("courses");
+    const { page = 1, limit = 10 } = params;
+
+    const response = await axiosInstance.get<CoursesResponse>("courses", {
+      params: { page, limit },
+    });
+
     return response.data;
   } catch (error) {
     console.error("Error fetching courses:", error);
@@ -71,16 +81,16 @@ export const updateCourseById = async (formData: FormData, token: string, course
   }
 };
 
-export const deleteCourseById = async (accessToken: string, courseId: string): Promise<deleteCourseResponse> => {
+export const deleteCourseById = async (accessToken: string, courseId: string): Promise<DeleteCourseResponse> => {
   try {
-    const response = await axiosInstance.delete<CoursesResponse>(`courses/${courseId}`, {
+    const response = await axiosInstance.delete<DeleteCourseResponse>(`courses/${courseId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching course details:", error);
+    console.error("Error deleting course:", error);
     throw error;
   }
 };

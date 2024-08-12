@@ -16,7 +16,7 @@ const DiscoverCoursesPage = () => {
     const fetchCourses = async () => {
       try {
         const data = await getAllCourses();
-        setCourses(data.payload);
+        setCourses(data.payload.courses);
       } catch (error) {
         setError(error as Error);
       } finally {

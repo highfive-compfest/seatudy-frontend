@@ -1,9 +1,8 @@
 "use client";
 import CourseCard from "@/components/common/course-card";
-import { courses } from "@/types/dummy/CourseDummy";
 import { Course } from "@/types/course/course";
 import { useState, useEffect } from "react";
-import { getAllCourses, getInstructorCourse } from "../../../../services/course";
+import { getAllCourses } from "../../../../services/course";
 import { getCookie } from "cookies-next";
 
 const Courses = () => {
@@ -19,7 +18,7 @@ const Courses = () => {
       setPending(true);
       try {
         const data = await getAllCourses();
-        setCourses(data.payload);
+        setCourses(data.payload.courses);
       } catch (error: any) {
         setError(error as Error);
         console.log(error.response);
@@ -34,12 +33,16 @@ const Courses = () => {
   return (
     <section className="pt-[7rem]">
       <h1 className="text-2xl font-bold ml-4">Manage Your Courses</h1>
-      {(!courses || courses.length === 0) && !isPending ? (
+      {isPending ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p className="text-red-500">Error fetching courses. Please try again later.</p>
+      ) : courses.length === 0 ? (
         <p>You don&apos;t have any courses yet.</p>
       ) : (
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center md:justify-start pb-8">
-          {courses?.map((course, idx) => (
-            <CourseCard key={idx} course={course} />
+          {courses.map((course) => (
+            <CourseCard key={course.id} course={course} />
           ))}
         </div>
       )}

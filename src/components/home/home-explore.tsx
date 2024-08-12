@@ -14,7 +14,7 @@ const Explore = () => {
     const getCourses = async () => {
       try {
         const data = await getAllCourses();
-        setCourses(data.payload);
+        setCourses(data.payload.courses || []);
       } catch (error) {
         setError(error as Error);
       } finally {
@@ -34,9 +34,7 @@ const Explore = () => {
         <div className="flex space-x-4 px-16 md:px-4">
           <div className="flex-shrink-0 w-[0.5em] md:w-[1em]"></div>
 
-          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
+          {courses.length > 0 ? courses.map((course) => <CourseCard key={course.id} course={course} />) : <></>}
 
           <div className="bg-blue-200 p-6 rounded-lg shadow-lg flex-shrink-0 w-[14em] flex items-center justify-center">
             <Link href="/discover_courses">

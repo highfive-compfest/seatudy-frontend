@@ -22,7 +22,7 @@ const ReviewPage: React.FC = () => {
     const fetchCourses = async () => {
       try {
         const coursesResponse: CoursesResponse = await getAllCourses();
-        setCourses(coursesResponse.payload);
+        setCourses(coursesResponse.payload.courses);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }

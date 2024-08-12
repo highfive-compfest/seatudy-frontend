@@ -33,7 +33,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         <p className="text-gray-600 mt-2 line-clamp-2 text-medium" data-testid="course-description">
           {course.description}
         </p>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 text-sm" data-testid="course-details">
+        <div className="flex flex-row justify-between items-start md:items-center mt-4 text-sm" data-testid="course-details">
           <span data-testid="course-difficulty">
             Difficulty: <strong>{course.difficulty}</strong>
           </span>
