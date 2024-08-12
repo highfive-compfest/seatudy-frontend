@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
 import { Course } from "@/types/course/course";
@@ -14,7 +13,7 @@ interface CourseInfoProps {
   courseDetail: Course;
 }
 
-const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
+const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
   const [instructor, setInstructor] = useState<UserPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,16 +37,16 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
     fetchInstructor();
   }, [accToken, courseDetail.instructor_id]);
 
-  const [materials, setMaterials] = useState<Material[]>();
+  const [materials, setMaterials] = useState<Material[] | null>(null);
 
   useEffect(() => {
     const getMaterials = async () => {
       try {
         const res = await getMaterialByCourse(courseDetail.id);
-        console.log(res.payload);
         setMaterials(res.payload);
       } catch (error: any) {
         console.error(error.response);
+        setError("Failed to fetch materials.");
       }
     };
     getMaterials();
@@ -56,6 +55,14 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
   const handleMaterialClick = (material: Material) => {
     setSelectedMaterial(material);
     setIsModalOpen(true);
+  };
+
+  const markAsDone = async (materialId: string) => {
+    try {
+      console.log(`Marking material ${materialId} as done`);
+    } catch (error) {
+      console.error("Failed to mark material as done:", error);
+    }
   };
 
   return (
@@ -77,9 +84,9 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
         </div>
       </div>
 
-      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 h-[34em] px-8 py-6 rounded-lg shadow mt-4">
+      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 flex flex-col h-[42em] px-8 py-6 rounded-lg shadow mt-4">
         <h2 className="font-semibold text-2xl">Materials</h2>
-        <div className="mt-2 flex flex-col gap-4">
+        <div className="mt-2 flex flex-col gap-4 overflow-y-auto">
           {materials?.length === 0 ? (
             <p>There are no materials yet.</p>
           ) : (
@@ -104,25 +111,49 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
       </div>
 
       {isModalOpen && selectedMaterial && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-50">
-          <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="fixed z-50 inset-0 overflow-y-auto">
+        <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="fixed z-50 inset-0 overflow-y-auto">
+          <div className="fixed inset-0 bg-black bg-opacity-60">
             <div className="flex items-center justify-center min-h-screen px-4">
-              <div className="bg-white rounded-lg p-6 max-w-lg mx-auto z-10 shadow-lg">
-                <Dialog.Title className="font-bold text-xl mb-4">{selectedMaterial.title}</Dialog.Title>
-                <p className="text-justify">{selectedMaterial.description}</p>
-                <p className="mt-4 text-sm text-blue-600">Buy the course to gain full access to all materials</p>
-                <div className="mt-4 flex justify-end">
-                  <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+              <div className="bg-white rounded-xl p-8 w-2xl mx-auto z-10 shadow-xl">
+                <Dialog.Title className="text-2xl font-semibold mb-6 border-b pb-3">{selectedMaterial.title}</Dialog.Title>
+                <p className="text-base mb-6">{selectedMaterial.description}</p>
+
+                {selectedMaterial.attachments.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-xl font-semibold mb-3">Attachments</h3>
+                    <ul className="list-disc pl-6">
+                      {selectedMaterial.attachments.map((attachment) => (
+                        <li key={attachment.id} className="mb-2">
+                          <a href={attachment.url} className="text-blue-700 hover:underline" target="_blank" rel="noopener noreferrer">
+                            {attachment.description}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <h3 className="text-medium font-semibold mb-3">Additional Information</h3>
+                  <p className="text-sm text-gray-700">Created At: {new Date(selectedMaterial.created_at).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-700">Updated At: {new Date(selectedMaterial.updated_at).toLocaleDateString()}</p>
+                </div>
+
+                <div className="mt-6 flex justify-between">
+                  <button onClick={() => markAsDone(selectedMaterial.id)} className="px-6 py-3 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition duration-150 mr-32">
+                    Mark as Done
+                  </button>
+                  <button onClick={() => setIsModalOpen(false)} className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-150">
                     Close
                   </button>
                 </div>
               </div>
             </div>
-          </Dialog>
-        </div>
+          </div>
+        </Dialog>
       )}
     </div>
   );
 };
 
-export default CourseProgress;
+export default CourseProgress2;

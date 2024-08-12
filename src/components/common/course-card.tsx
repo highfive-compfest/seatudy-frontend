@@ -11,6 +11,16 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   const pathname = usePathname();
   const placeholderImage = "https://t4.ftcdn.net/jpg/02/40/63/55/360_F_240635575_EJifwRAbKsVTDnA3QE0bCsWG5TLhUNEZ.jpg";
 
+  const getLinkPath = () => {
+    if (pathname === "/dashboard/instructor/manage") {
+      return `/dashboard/instructor/manage/${course.id}`;
+    } else if (pathname === "/dashboard/student/courses") {
+      return `/dashboard/student/courses/${course.id}`;
+    } else {
+      return `/course_detail?id=${course.id}`;
+    }
+  };
+
   return (
     <div key={course.id} className="bg-white rounded-lg shadow-lg flex-shrink-0 w-full md:w-[22em]">
       <div className="relative h-48">
@@ -31,7 +41,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             Price: <strong>Rp.{course.price.toFixed(2)}</strong>
           </span>
         </div>
-        <Link href={pathname === "/dashboard/instructor/manage" ? `/dashboard/instructor/manage/${course.id}` : `/course_detail?id=${course.id}`}>
+        <Link href={getLinkPath()}>
           <p className="mt-4 text-blue-500 underline" data-testid="show-more-button">
             {pathname === "/dashboard/instructor/manage" ? "Manage" : "Show more"} &rarr;
           </p>
