@@ -61,6 +61,9 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
       difficulty: formData.difficulty,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
+      rating: 0,
+      review_count: 0,
+      materials: [],
     };
     onPreview(previewData);
   };
