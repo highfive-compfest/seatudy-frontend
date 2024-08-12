@@ -32,11 +32,18 @@ export const getCourseById = async (courseId: string): Promise<getCoursesIdRespo
   }
 };
 
-export const getInstructorCourse = async (accessToken: string, instructorId: string): Promise<CoursesResponse> => {
+export const getInstructorCourse = async (accessToken: string, instructorId: string, page: number = 1, limit: number = 10): Promise<CoursesResponse> => {
+  const DEFAULT_PAGE = 1;
+  const DEFAULT_LIMIT = 10;
+
   try {
     const response = await axiosInstance.get<CoursesResponse>(`courses/instructor/${instructorId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        page: page || DEFAULT_PAGE,
+        limit: limit || DEFAULT_LIMIT,
       },
     });
     return response.data;

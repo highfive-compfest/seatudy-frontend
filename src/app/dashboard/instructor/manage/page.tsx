@@ -19,7 +19,7 @@ const Courses = () => {
       setPending(true);
       try {
         const data = await getInstructorCourse(accToken, userId);
-        setCourses(data.payload);
+        setCourses(data.payload.courses);
       } catch (error: any) {
         setError(error as Error);
         console.log(error.response);
