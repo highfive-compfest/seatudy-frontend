@@ -1,4 +1,5 @@
 # SEATUDY.
+![Section 1 (1)](https://github.com/user-attachments/assets/40bb0003-068c-4ed9-9fcc-51874fd0e47c)
 
 Welcome to the Seatudy Front-end repository! This project is the frontend part of the Seatudy application, designed to provide users with a seamless experience in managing and reviewing their courses.
 
