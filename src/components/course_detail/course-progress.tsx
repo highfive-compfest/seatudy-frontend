@@ -5,10 +5,10 @@ import { Course } from "@/types/course/course";
 import { getUserById } from "@/services/user";
 import { UserPayload } from "@/types/user/user";
 import { getCookie } from "cookies-next";
-import { Material } from "@/types/material/material-courseid";
 import { getMaterialByCourse } from "@/services/material";
 import { MdBook } from "react-icons/md";
 import { Dialog } from "@headlessui/react";
+import { MaterialType } from "@/types/material/material-courseid";
 
 interface CourseInfoProps {
   courseDetail: Course;
@@ -18,7 +18,7 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
   const [instructor, setInstructor] = useState<UserPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
+  const [selectedMaterial, setSelectedMaterial] = useState<MaterialType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const accToken = getCookie("authToken") as string;
@@ -38,7 +38,7 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
     fetchInstructor();
   }, [accToken, courseDetail.instructor_id]);
 
-  const [materials, setMaterials] = useState<Material[]>();
+  const [materials, setMaterials] = useState<MaterialType[]>();
 
   useEffect(() => {
     const getMaterials = async () => {
@@ -53,7 +53,7 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
     getMaterials();
   }, [courseDetail.id]);
 
-  const handleMaterialClick = (material: Material) => {
+  const handleMaterialClick = (material: MaterialType) => {
     setSelectedMaterial(material);
     setIsModalOpen(true);
   };
