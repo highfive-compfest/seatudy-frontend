@@ -24,13 +24,11 @@ export const getCourseById = async (courseId: string): Promise<getCoursesIdRespo
 
 export const getInstructorCourse = async (accessToken: string, instructorId: string): Promise<CoursesResponse> => {
   try {
-    const response = await axiosInstance.get<CoursesResponse>(`courses/instructor/${instructorId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await axiosInstance.get<CoursesResponse>(`courses/instructor/${instructorId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching course details:", error);
@@ -54,16 +52,16 @@ export const createCourse = async (formData: FormData, token: string) => {
   }
 };
 
-export const updateCourseById = async (formData: FormData, token: string, courseId:string|undefined) => {
+export const updateCourseById = async (formData: FormData, token: string, courseId: string | undefined) => {
   try {
     const response = await axiosInstance.put(`courses/${courseId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
-      params : {
-        title : formData.get("title")?.toString() || "",
-      }
+      params: {
+        title: formData.get("title")?.toString() || "",
+      },
     });
     console.log("Course uploaded successfully:", response.data);
     return response.data;
@@ -75,17 +73,32 @@ export const updateCourseById = async (formData: FormData, token: string, course
 
 export const deleteCourseById = async (accessToken: string, courseId: string): Promise<deleteCourseResponse> => {
   try {
-    const response = await axiosInstance.delete<CoursesResponse>(
-      `courses/${courseId}`,
+    const response = await axiosInstance.delete<CoursesResponse>(`courses/${courseId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    throw error;
+  }
+};
+
+export const purchaseCourse = async (token: string, courseId: string) => {
+  try {
+    const response = await axiosInstance.post(
+      `courses/buy/${courseId}`,
+      {},
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetching course details:", error);
+    console.error("Error purchasing course:", error);
     throw error;
   }
 };
