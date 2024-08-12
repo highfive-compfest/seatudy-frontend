@@ -8,14 +8,14 @@ interface CourseInfoProps {
 const CourseInfo: React.FC<CourseInfoProps> = ({ courseDetail }) => {
   return (
     <>
-      <div className="w-full lg:w-1/10 pr-4">
+      <div className="w-full lg:w-1/10 md:pr-4">
         <h1 className="text-3xl font-bold mb-4 text-gray-800">{courseDetail.title}</h1>
 
         <div className="relative w-full h-64 mb-8">
           <img className="w-full h-full object-cover rounded-xl shadow-lg" src={courseDetail.image_url} alt={courseDetail.title} />
         </div>
 
-        <p className="text-lg text-gray-700 mb-6 leading-relaxed">{courseDetail.description}</p>
+        <p className="text-lg text-gray-700 mb-6 leading-relaxed text-justify">{courseDetail.description}</p>
 
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Course Details</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

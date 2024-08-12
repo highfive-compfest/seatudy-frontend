@@ -31,7 +31,7 @@ const Explore = () => {
       <p className="text-center mb-8">Our most popular course subjects</p>
 
       <div className="overflow-x-auto scrollbar-hide">
-        <div className="flex space-x-4 px-4">
+        <div className="flex space-x-4 px-16 md:px-4">
           <div className="flex-shrink-0 w-[0.5em] md:w-[1em]"></div>
 
           {courses.map((course) => (
