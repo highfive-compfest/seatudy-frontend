@@ -50,7 +50,6 @@ export const GetMaterials = () => {
                                         `${updatedDate} (updated)`:
                                         createdDate
                                     }</small>
-                                    <small>{materi.description}</small>
                                 </div>
                             </Link>
                             <ActionButton materiActive={materiActive} setMateriActive={setMateriActive} materiId={materi.id}/>

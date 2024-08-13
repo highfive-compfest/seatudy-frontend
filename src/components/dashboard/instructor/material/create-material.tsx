@@ -53,7 +53,8 @@ export const MaterialForm = () => {
             const res = await createMaterial(form, accToken)
             setInfo(res.message)
             await getMaterials()
-            (event.target as HTMLFormElement).reset();
+            const target = event.target as HTMLFormElement
+            target.reset();
         } catch (error:any) {
             console.error(error.response)
         }
