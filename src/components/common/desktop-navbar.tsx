@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import { AiOutlineClose, AiOutlineMenu, AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { AiOutlineDown } from "react-icons/ai";
 import { ProfileIcon } from "./profile-icon";
+import { Course } from "@/types/course/course";
+import { getPopularCourses } from "@/services/course";
 
 interface NavbarProps {
   toggleCourses: () => void;
@@ -12,71 +14,100 @@ interface NavbarProps {
   isLoggedIn: boolean;
 }
 
-export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCategory, isCoursesOpen, isCategoryOpen, isLoggedIn }) => (
-  <ul className="space-x-5 text-black h-max items-center hidden md:flex">
-    <li className="relative group" data-testid="home-link">
-      <Link href="/">
-        <p className="hover:text-blue-500 cursor-pointer">Home</p>
+const DropdownMenu = ({ items }: { items: JSX.Element[] }) => <div className="absolute hidden group-hover:block bg-white shadow-lg p-4 rounded-lg min-w-72 border border-gray-200 overflow-y-auto max-h-80 right-0">{items}</div>;
+
+const CoursesDropdown = () => (
+  <DropdownMenu
+    items={[
+      <div key="search" className="flex items-center space-x-2">
+        <input type="text" placeholder="Search courses..." className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg" />
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" type="button">
+          Search
+        </button>
+      </div>,
+    ]}
+  />
+);
+
+const PopularDropdown = ({ courses }: { courses: Course[] }) => (
+  <DropdownMenu
+    items={courses.map((course) => (
+      <Link href={`/course_detail?id=${course.id}`} key={course.id}>
+        <div className="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-all duration-200 mb-2">
+          <img src={course.image_url || "/default-image.png"} alt={course.title} className="w-16 h-16 object-cover rounded-lg" />
+          <p className="text-sm font-semibold">{course.title}</p>
+        </div>
       </Link>
-    </li>
-    <li className="relative group" data-testid="courses-link">
-      <Link href="/discover_courses">
+    ))}
+  />
+);
+
+export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCategory, isCoursesOpen, isCategoryOpen, isLoggedIn }) => {
+  const [popularCourses, setPopularCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPopularCourses = async () => {
+      try {
+        const data = await getPopularCourses();
+        setPopularCourses(data.payload.courses);
+      } catch (err) {
+        setError("Failed to fetch popular courses.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPopularCourses();
+  }, []);
+
+  return (
+    <ul className="space-x-5 text-black h-max items-center hidden md:flex">
+      <li className="relative group" data-testid="home-link">
+        <Link href="/">
+          <p className="hover:text-blue-500 cursor-pointer">Home</p>
+        </Link>
+      </li>
+      <li className="relative group" data-testid="courses-link">
+        <Link href="/discover_courses">
+          <p className="flex items-center hover:text-blue-500 cursor-pointer">
+            Discover
+            <AiOutlineDown className="ml-1" />
+          </p>
+        </Link>
+        <CoursesDropdown />
+      </li>
+      <li className="relative group" data-testid="category-link">
         <p className="flex items-center hover:text-blue-500 cursor-pointer">
-          Courses
+          Popular
           <AiOutlineDown className="ml-1" />
         </p>
-      </Link>
-
-      <div className="absolute hidden group-hover:block bg-gray-100 shadow-lg p-4 rounded-lg min-w-72">
-        <div className="mb-3">
-          <input type="text" placeholder="Search courses..." className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-        </div>
-        <div className="">
-          <select className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-            <option value="most-rated">Most Rated</option>
-            <option value="newest">Newest</option>
-            <option value="price-low-to-high">Price: Low to High</option>
-            <option value="price-high-to-low">Price: High to Low</option>
-          </select>
-        </div>
-      </div>
-    </li>
-    <li className="relative group" data-testid="category-link">
-      <p className="flex items-center hover:text-blue-500 cursor-pointer">
-        Category
-        <AiOutlineDown className="ml-1" />
-      </p>
-      <div className="absolute hidden group-hover:block bg-gray-100 shadow-lg p-3 rounded min-w-48">
-        <Link href="/page/1">
-          <p className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Category 1</p>
-        </Link>
-        <Link href="/page/2">
-          <p className="block px-4 py-2 hover:bg-gray-200 cursor-pointer">Category 2</p>
-        </Link>
-      </div>
-    </li>
-    <li data-testid="reviews-link">
-      <Link href="/blog">
-        <p className="hover:text-blue-500 cursor-pointer">Reviews</p>
-      </Link>
-    </li>
-    {isLoggedIn ? (
-      <li data-testid="profile-link">
-        <ProfileIcon />
+        {loading ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">Loading...</p> : error ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">{error}</p> : <PopularDropdown courses={popularCourses} />}
       </li>
-    ) : (
-      <>
-        <li data-testid="register-link">
-          <Link href="/register">
-            <p className="bg-white border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-gray-100 cursor-pointer mr-[-0.75em]">Register</p>
-          </Link>
+      <li data-testid="reviews-link">
+        <Link href="/blog">
+          <p className="hover:text-blue-500 cursor-pointer">Reviews</p>
+        </Link>
+      </li>
+      {isLoggedIn ? (
+        <li data-testid="profile-link">
+          <ProfileIcon />
         </li>
-        <li data-testid="login-link">
-          <Link href="/login">
-            <p className="bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Login</p>
-          </Link>
-        </li>
-      </>
-    )}
-  </ul>
-);
+      ) : (
+        <>
+          <li data-testid="register-link">
+            <Link href="/register">
+              <p className="bg-white border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-gray-100 cursor-pointer mr-[-0.75em]">Register</p>
+            </Link>
+          </li>
+          <li data-testid="login-link">
+            <Link href="/login">
+              <p className="bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Login</p>
+            </Link>
+          </li>
+        </>
+      )}
+    </ul>
+  );
+};

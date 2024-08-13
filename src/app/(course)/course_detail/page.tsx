@@ -74,7 +74,6 @@ const CourseDetailPage = () => {
           setIsPurchased(purchased);
         } else {
           setCourses([]);
-          alert("No courses found.");
         }
       } catch (error: any) {
         console.log(error.response);
