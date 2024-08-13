@@ -1,12 +1,12 @@
 "use state"
-import { useMaterials } from "@/app/dashboard/instructor/manage/[idCourse]/[idMaterial]/page";
+import { useMaterialAttach } from "@/context/material-attach";
 import { createMaterialAttach } from "@/services/material";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
 export const AddMateriAttach = () => {
 
-    const {isActive, setActive, accToken, materiId, getMateri}:any = useMaterials()
+    const {isActive, setActive, accToken, materiId, getMateri}:any = useMaterialAttach()
 
     const [formData, setFormData] = useState({
         file: null as File | null,

@@ -1,11 +1,11 @@
 "use client"
-import { useMaterials } from "@/app/dashboard/instructor/manage/[idCourse]/[idMaterial]/page";
+import { useMaterialAttach } from "@/context/material-attach";
 import { updateMaterialAttach } from "@/services/material";
 import { useEffect, useState } from "react";
 
 export const EditMateriAttach = () => {
 
-    const {getMateri, accToken, isActive, setActive, attachActive}:any = useMaterials()
+    const {getMateri, accToken, isActive, setActive, attachActive}:any = useMaterialAttach()
 
     const [formValue, setFormValue] = useState({
         file: null as File | null,

@@ -1,6 +1,7 @@
 "use client"
 import { ActionBtnAttach } from "@/components/dashboard/instructor/materialAttachment/action"
 import { AddMateriAttach } from "@/components/dashboard/instructor/materialAttachment/add-attachment"
+import { MaterialProvider } from "@/context/material-attach"
 import { getMaterialById } from "@/services/material"
 import { MateriAttach } from "@/types/material/materi-attach"
 import { MaterialType } from "@/types/material/material-courseid"
@@ -12,8 +13,6 @@ import { usePathname } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
 import { FaFile, FaPlus } from "react-icons/fa6"
 import { MdBook } from "react-icons/md"
-
-const MaterialContext = createContext<any>(undefined);
 
 const MaterialPage = () => {
   const accToken = getCookie("authToken") as string;
@@ -33,7 +32,7 @@ const MaterialPage = () => {
     },[])
 
     if (materi) return (
-        <MaterialContext.Provider value={{getMateri, isActive, setActive, accToken, materiId, attachActive,setAttachActive}}>
+        <MaterialProvider value={{getMateri, isActive, setActive, accToken, materiId, attachActive,setAttachActive}}>
             <section className="p-4 mt-28 max-w-[53rem] mx-auto bg-white rounded-lg shadow-lg">
                 <div className="flex items-center gap-4 border-black pb-4 border-b-2">
                     <div className="p-2 bg-blue-500 rounded-full w-fit"><MdBook size={26} color="white"/></div>
@@ -69,10 +68,8 @@ const MaterialPage = () => {
                     }
                 </div>
             </section>
-        </MaterialContext.Provider>
+        </MaterialProvider>
     )
 }
-
-export const useMaterials = () => useContext(MaterialContext)
 
 export default MaterialPage;

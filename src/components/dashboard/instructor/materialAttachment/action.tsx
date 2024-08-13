@@ -1,14 +1,14 @@
-import { useMaterials } from "@/app/dashboard/instructor/manage/[idCourse]/[idMaterial]/page";
 import { deleteMateriAttach, getMaterialAttachById } from "@/services/material";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { EditMateriAttach } from "./form-edit";
+import { useMaterialAttach } from "@/context/material-attach";
 
 export const ActionBtnAttach = ({attachId}:{attachId:string}) => {
 
-    const {getMateri, accToken, isActive, setActive, setAttachActive}:any = useMaterials()
+    const {getMateri, accToken, isActive, setActive, setAttachActive}:any = useMaterialAttach()
 
     const deleteAttach = async () => {
         try {
