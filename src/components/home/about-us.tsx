@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 
 const AboutUs = () => {
@@ -39,6 +38,11 @@ const AboutUs = () => {
   const titleRef = useIntersectionObserver(() => setAnimateTitle(true));
   const contentRef = useIntersectionObserver(() => setAnimateContent(true));
   const videoRef = useIntersectionObserver(() => setAnimateVideo(true));
+  const videoUrl = "https://www.youtube.com/embed/-vAOJds0XRw";
+
+  const handleClick = () => {
+    window.open(videoUrl, "_blank");
+  };
 
   return (
     <>
@@ -53,14 +57,16 @@ const AboutUs = () => {
             <p className={`mb-6 text-gray-700 text-justify ${animateContent ? "fade-in-up" : ""}`}>
               With expert instructors and a flexible learning environment, you can tailor your education to your needs. Join us and take the first step towards a brighter future.
             </p>
-            <button className={`bg-blue-500 text-white px-8 py-3 rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ${animateTitle ? "fade-in-up" : ""}`}>Learn More</button>
+            <button onClick={handleClick} className={`bg-blue-500 text-white px-8 py-3 rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ${animateTitle ? "fade-in-up" : ""}`}>
+              Learn More
+            </button>
           </div>
 
           <div ref={videoRef} className={`relative mt-8 md:mt-0 md:ml-12 w-full md:w-1/2 lg:w-2/5 px-4 md:px-0 ${animateVideo ? "fade-in-up" : ""}`}>
             <div className="w-full h-0 pb-[56.25%] relative rounded-lg overflow-hidden shadow-lg">
               <iframe
                 className="absolute top-0 left-0 w-full h-full rounded-lg"
-                src="https://www.youtube.com/embed/-vAOJds0XRw"
+                src={videoUrl + "?autoplay=1&mute=1"}
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

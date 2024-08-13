@@ -16,20 +16,17 @@ import { MdBook } from "react-icons/md"
 const MaterialContext = createContext<any>(undefined);
 
 const MaterialPage = () => {
+  const accToken = getCookie("authToken") as string;
+  const [materi, setMateri] = useState<MaterialType>();
+  const [isActive, setActive] = useState("");
+  const pathname = usePathname();
+  const materiId = getSegment(pathname, 5);
+  const [attachActive, setAttachActive] = useState<MateriAttach>()
 
-    const accToken = getCookie("authToken") as string;
-
-    const [materi, setMateri] = useState<MaterialType>()
-    const [isActive, setActive] = useState('')
-    const [attachActive, setAttachActive] = useState<MateriAttach>()
-
-    const pathname = usePathname()
-    const materiId = getSegment(pathname, 5) 
-
-    const getMateri = async () => {
-        const res = await getMaterialById(materiId)
-        setMateri(res.payload)
-    }
+  const getMateri = async () => {
+    const res = await getMaterialById(materiId);
+    setMateri(res.payload);
+  };
 
     useEffect(()=>{
         getMateri()
@@ -76,6 +73,6 @@ const MaterialPage = () => {
     )
 }
 
-export const useMaterials = () => useContext(MaterialContext);
+export const useMaterials = () => useContext(MaterialContext)
 
-export default MaterialPage
+export default MaterialPage;

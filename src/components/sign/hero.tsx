@@ -1,9 +1,29 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export function Hero() {
-    return (
-        <section className="w-full h-full lg:flex flex-col justify-center items-center relative hidden bg-cover after:bg-slate-900 after:block after:top-0 after:right-0 after:left-0 after:bottom-0 after:absolute after:opacity-50">
-            <div style={{ backgroundImage: "url('https://study.com/cimages/multimages/16/8a479f0b-398d-4563-917d-e99bed7a109e_study_group.jpeg')" }} className="absolute inset-0"/>
-            <h1 className="text-5xl md:text-7xl text-black z-10 z-1 font-bold"><span className="text-blue-600">SEA</span>TUDY.</h1>
-            <h2 className="mt-4 mb-8 text-white font-bold text-2xl z-10 z-1">Self-Paced Learning Courses Online</h2>
-        </section>
-    )
+  return (
+    <section
+      className="w-full h-full lg:h-screen flex-col justify-center items-center relative bg-cover bg-center hidden lg:flex wiggle-bg"
+      style={{
+        backgroundImage: "url('https://miro.medium.com/v2/resize:fit:8000/1*7iBUzC4UvwNi8agIsCrZ7w.png')",
+      }}
+    >
+      <div className="absolute inset-0 bg-slate-800 opacity-15"></div>
+
+      <div>
+        <Link href="/" className="flex items-center">
+          <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-18 w-auto mr-2 z-50" width={256} height={256} />
+        </Link>
+      </div>
+
+      <h2 className="mt-4 mb-2 text-white font-bold text-2xl md:text-3xl z-10 animate-fadeInUp" style={{ textShadow: "4px 4px 12px rgba(0, 0, 0, 0.5)" }}>
+        Self-Paced Learning Courses Online
+      </h2>
+
+      <p className="text-white text-sm z-10 animate-fadeInUp" style={{ textShadow: "4px 4px 12px rgba(0, 0, 0, 0.5)" }}>
+        Developed by Team High Five - SEA ACADEMY COMPFEST 16
+      </p>
+    </section>
+  );
 }
