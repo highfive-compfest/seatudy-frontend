@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface AssignmentType {
     id: string;
     course_id: string;
@@ -18,4 +20,13 @@ export interface GetAssignmentsRes {
 export interface GetAssignmentRes {
     message : string;
     payload : AssignmentType
+}
+
+export interface AssignmentsContextType {
+    assignments: AssignmentType[] | undefined;
+    getAssignments: () => Promise<void>;
+    courseId : string;
+    isEdit : boolean;
+    setEdit : Dispatch<SetStateAction<boolean>>;
+    accToken: string;
 }

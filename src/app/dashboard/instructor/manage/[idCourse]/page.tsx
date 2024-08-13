@@ -1,5 +1,5 @@
 "use client";
-import { EditCourse } from "@/components/dashboard/instructor/edit-form";
+import { EditCourse } from "@/components/dashboard/instructor/course/edit-form";
 import { deleteCourseById, getCourseById } from "@/services/course";
 import { getSegment } from "@/utils/utils";
 import { Spinner } from "@nextui-org/spinner";
@@ -7,13 +7,14 @@ import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Course } from "@/types/course/course";
-import { HeaderCourse } from "@/components/dashboard/instructor/header";
+import { HeaderCourse } from "@/components/dashboard/instructor/course/header";
 import { Material } from "@/components/dashboard/instructor/material/material";
+import { Assignment } from "@/components/dashboard/instructor/assignment/assignment";
 
 const Manage = () => {
   const router = useRouter();
 
-  const navs = ["Material", "Forum", "Edit"];
+  const navs = ["Material", "Assignment", "Forum", "Edit"];
 
   const [course, setCourse] = useState<Course | undefined>(undefined);
   const [isPending, setPending] = useState(false);
@@ -70,7 +71,7 @@ const Manage = () => {
           </button>
         )}
       </nav>
-      {activeSection === "Edit" ? <EditCourse course={course} /> : activeSection === "Material" && course ? <Material courseId={course.id} /> : null}
+      {activeSection === "Edit" ? <EditCourse course={course} /> : activeSection === "Material" && course ? <Material courseId={course.id} /> : activeSection === "Assignment" && course ? <Assignment courseId={course.id} />:null}
     </section>
   );
 };
