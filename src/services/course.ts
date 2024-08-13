@@ -137,3 +137,8 @@ export const getBoughtCourse = async (accessToken: string, page: number = 1, lim
     throw error;
   }
 };
+
+export const getPopularCourses = async (): Promise<CoursesResponse> => {
+  const response = await axiosInstance.get<CoursesResponse>("courses/popularity?page=1&limit=5");
+  return response.data;
+};

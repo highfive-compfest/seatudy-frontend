@@ -1,4 +1,5 @@
 import React from "react";
+import StarRatings from "react-star-ratings";
 import { Course } from "@/types/course/course";
 
 interface CourseInfoProps {
@@ -25,20 +26,20 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ courseDetail }) => {
           </div>
 
           <div>
-            <h3 className="text-lg font-medium text-gray-700">Instructor ID</h3>
-            <p className="text-gray-800">{courseDetail.instructor_id}</p>
-          </div>
-
-          <div>
             <h3 className="text-lg font-medium text-gray-700">Difficulty</h3>
             <p className="text-gray-800 capitalize">{courseDetail.difficulty}</p>
           </div>
 
           <div>
-            <h3 className="text-lg font-medium text-gray-700">Syllabus</h3>
+            <h3 className="text-lg font-medium text-gray-700 mb-1">Syllabus</h3>
             <a href={courseDetail.syllabus_url} className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
               View Syllabus
             </a>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-gray-700 mb-1">Rating</h3>
+            <StarRatings rating={courseDetail.rating} starRatedColor="gold" numberOfStars={5} starDimension="20px" starSpacing="2px" name="rating" />
           </div>
         </div>
 

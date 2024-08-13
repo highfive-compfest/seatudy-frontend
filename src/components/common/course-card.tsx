@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Course } from "@/types/course/course";
 import { usePathname } from "next/navigation";
+import StarRatings from "react-star-ratings";
 
 interface CourseCardProps {
   course: Course;
@@ -22,7 +23,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   };
 
   return (
-    <div key={course.id} className="bg-white rounded-lg shadow-lg flex-shrink-0 w-full md:w-[22em]">
+    <div key={course.id} className="bg-white rounded-lg shadow flex-shrink-0 w-full md:w-[22em] border-2 border-gray-200">
       <div className="relative h-48">
         <img src={course.image_url || placeholderImage} alt={course.title} className="absolute inset-0 w-full h-full object-cover rounded-t-lg" data-testid="course-image" />
       </div>
@@ -33,6 +34,9 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         <p className="text-gray-600 mt-2 line-clamp-2 text-medium" data-testid="course-description">
           {course.description}
         </p>
+        <div className="flex flex-row items-center mt-2">
+          <StarRatings rating={course.rating} starRatedColor="gold" numberOfStars={5} starDimension="20px" starSpacing="2px" name="rating" />
+        </div>
         <div className="flex flex-row justify-between items-start md:items-center mt-4 text-sm" data-testid="course-details">
           <span data-testid="course-difficulty">
             Difficulty: <strong>{course.difficulty}</strong>

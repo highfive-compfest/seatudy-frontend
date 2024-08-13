@@ -30,19 +30,18 @@ const Explore = () => {
       <h1 className="text-3xl font-bold text-center mb-2 mt-8">Explore Courses</h1>
       <p className="text-center mb-8">Our most popular course subjects</p>
 
-      <div className="overflow-x-auto scrollbar-hide">
-        <div className="flex space-x-4 px-16 md:px-4">
-          <div className="flex-shrink-0 w-[0.5em] md:w-[1em]"></div>
-
-          {courses.length > 0 ? courses.map((course) => <CourseCard key={course.id} course={course} />) : <></>}
-
+      <div className="overflow-x-auto scrollbar-hide mb-12">
+        <div className="flex space-x-4 px-4">
+          <div className="flex-shrink-0 md:w-[0.2em]"></div>
+          {courses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
           <div className="bg-blue-200 p-6 rounded-lg shadow-lg flex-shrink-0 w-[14em] flex items-center justify-center">
             <Link href="/discover_courses">
               <button className="text-blue-600 font-bold text-lg">See All Courses &rarr;</button>
             </Link>
           </div>
-
-          <div className="flex-shrink-0 w-[0.5em] md:w-[1em]"></div>
+          <div className="flex-shrink-0 w-[1em]"></div>
         </div>
       </div>
     </div>
