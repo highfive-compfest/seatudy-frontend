@@ -20,3 +20,7 @@ export const dummyCourse: Course = {
   review_count: 0,
   materials: [],
 };
+
+export const getExtFile = (url: string) => {
+  return url.split('.').pop()?.toLowerCase()
+};

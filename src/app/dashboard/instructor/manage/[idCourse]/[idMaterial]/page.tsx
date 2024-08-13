@@ -1,13 +1,16 @@
 "use client"
+import { ActionBtnAttach } from "@/components/dashboard/instructor/materialAttachment/action"
 import { AddMateriAttach } from "@/components/dashboard/instructor/materialAttachment/add-attachment"
 import { getMaterialById } from "@/services/material"
+import { MateriAttach } from "@/types/material/materi-attach"
 import { MaterialType } from "@/types/material/material-courseid"
-import { getSegment } from "@/utils/utils"
+import { getExtFile, getSegment } from "@/utils/utils"
 import { getCookie } from "cookies-next"
 import Image from "next/image"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
-import { FaPlus } from "react-icons/fa6"
+import { FaFile, FaPlus } from "react-icons/fa6"
 import { MdBook } from "react-icons/md"
 
 const MaterialContext = createContext<any>(undefined);
@@ -18,6 +21,7 @@ const MaterialPage = () => {
 
     const [materi, setMateri] = useState<MaterialType>()
     const [isActive, setActive] = useState('')
+    const [attachActive, setAttachActive] = useState<MateriAttach>()
 
     const pathname = usePathname()
     const materiId = getSegment(pathname, 5) 
@@ -30,22 +34,9 @@ const MaterialPage = () => {
     useEffect(()=>{
         getMateri()
     },[])
-    
-    useEffect(()=>{
-        console.log(materi)
-    },[materi])
-
-    const getFileName = (url: string) => {
-        const urlParts = url.split('/');
-        const fileNameWithParams = urlParts[urlParts.length - 1];
-    
-        // Decode and return the filename with extension
-        const decodedFileName = decodeURIComponent(fileNameWithParams.split('?')[0]);
-        return decodedFileName;;
-    };
 
     if (materi) return (
-        <MaterialContext.Provider value={{getMateri, isActive, setActive, accToken, materiId}}>
+        <MaterialContext.Provider value={{getMateri, isActive, setActive, accToken, materiId, attachActive,setAttachActive}}>
             <section className="p-4 mt-28 max-w-[53rem] mx-auto bg-white rounded-lg shadow-lg">
                 <div className="flex items-center gap-4 border-black pb-4 border-b-2">
                     <div className="p-2 bg-blue-500 rounded-full w-fit"><MdBook size={26} color="white"/></div>
@@ -61,14 +52,20 @@ const MaterialPage = () => {
                 </div>
                 <h2 className="mt-4 mb-1 text-xl font-bold">Attachments</h2>
                 <AddMateriAttach/>
-                <div>
+                <div className="flex flex-col gap-3">
                     {materi.attachments.length === 0?<p>there are no attachments yet.</p>:
                         materi.attachments.map((content, idx)=>{
-                            const fileName = getFileName(content.url)
+                            const extFile = getExtFile(content.url)
                             return (
-                                <div key={idx}>
-                                    <p>{fileName}</p>
-                                    <p>{content.description}</p>
+                                <div className="border-2 p-4" key={idx}>
+                                    <div className="flex justify-between">
+                                        <Link className="p-4 rounded-lg bg-gray-200 w-fit text-blue-600 flex flex-col items-center gap-2" href={content.url}>
+                                                <FaFile size={30}/>
+                                                <small>file .{extFile}</small>
+                                        </Link>
+                                        <ActionBtnAttach attachId={content.id}/>
+                                    </div>
+                                    <p className="mt-2">{content.description}</p>
                                 </div>
                             )
                         })

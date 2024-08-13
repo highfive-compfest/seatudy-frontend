@@ -85,9 +85,9 @@ export const createMaterialAttach = async (materialId:string, formData: FormData
   }
 };
 
-export const updateMaterialAttach = async (materiId:string, formData: FormData, token: string) => {
+export const updateMaterialAttach = async (attachId:string, formData: FormData, token: string) => {
   try {
-    const response = await axiosInstance.put(`attachments/${materiId}`, formData, {
+    const response = await axiosInstance.put(`attachments/${attachId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
