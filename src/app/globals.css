@@ -86,3 +86,53 @@ body {
 .fade-in-up.delay-4 {
   animation-delay: 0.4s;
 }
+
+@keyframes slideWiggle {
+  0%,
+  100% {
+    background-position: center;
+  }
+  25% {
+    background-position: left -10px center;
+  }
+  50% {
+    background-position: right -10px center;
+  }
+  75% {
+    background-position: left -10px center;
+  }
+}
+
+.wiggle-bg {
+  animation: slideWiggle 180s ease-in-out infinite;
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out;
+}

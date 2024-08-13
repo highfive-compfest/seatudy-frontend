@@ -9,6 +9,7 @@ import { getCookie } from "cookies-next";
 import ConfirmationModal from "@/components/course_detail/confirm-modal";
 import CourseReviews from "@/components/course_detail/course-review";
 import Link from "next/link";
+import { getMe } from "@/services/user";
 
 const CourseDetailPage = () => {
   const searchParams = useSearchParams();
@@ -20,11 +21,23 @@ const CourseDetailPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const accToken = getCookie("authToken") as string;
 
   useEffect(() => {
     if (accToken != null) {
       setIsLoggedIn(true);
+      const fetchUserProfile = async () => {
+        try {
+          const data = await getMe(accToken);
+          if (data?.payload) {
+            setUserRole(data.payload.role);
+          }
+        } catch (error) {
+          console.error("Failed to fetch user profile:", error);
+        }
+      };
+      fetchUserProfile();
     } else {
       setIsLoggedIn(false);
     }
@@ -77,7 +90,6 @@ const CourseDetailPage = () => {
         }
       } catch (error: any) {
         console.log(error.response);
-        alert("Error: " + error);
       }
     };
 
@@ -86,7 +98,11 @@ const CourseDetailPage = () => {
 
   const handleBuyClick = () => {
     if (isLoggedIn) {
-      setIsModalOpen(true);
+      if (userRole === "instructor") {
+        alert("Instructors cannot purchase courses.");
+      } else {
+        setIsModalOpen(true);
+      }
     } else {
       window.location.href = "/login";
     }
@@ -138,15 +154,21 @@ const CourseDetailPage = () => {
                 </div>
               </div>
 
-              {isPurchased ? (
-                <Link href={`dashboard/student/courses/${id}`}>
-                  <button className="py-3 px-6 bg-white text-blue-600 font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">Go to Dashboard</button>
-                </Link>
-              ) : (
-                <button onClick={handleBuyClick} className="py-3 px-6 bg-blue-500 hover:bg-purple-600 text-white font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">
-                  Buy This Course
-                </button>
+              {userRole !== "instructor" && (
+                <div>
+                  {isPurchased ? (
+                    <Link href={`dashboard/student/courses/${id}`}>
+                      <button className="py-3 px-6 bg-white text-blue-600 font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">Go to Dashboard</button>
+                    </Link>
+                  ) : (
+                    <button onClick={handleBuyClick} className="py-3 px-6 bg-blue-500 hover:bg-purple-600 text-white font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">
+                      Buy This Course
+                    </button>
+                  )}
+                </div>
               )}
+
+              {userRole === "instructor" && <p className="text-white">You are an Instructor</p>}
             </div>
 
             <CourseProgress courseDetail={course} />
