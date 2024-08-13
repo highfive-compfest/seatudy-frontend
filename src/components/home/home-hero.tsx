@@ -39,13 +39,18 @@ const Hero: React.FC = () => {
 
   return (
     <>
-      <div className="relative bg-cover bg-center h-screen blur-animation wiggle-bg-2" style={{ backgroundImage: "url('https://study.com/cimages/multimages/16/8a479f0b-398d-4563-917d-e99bed7a109e_study_group.jpeg')" }}>
-        <div className="relative flex items-center justify-center h-full bg-black/30 blur-animation">
+      <div className="relative bg-cover bg-center h-screen blur-animation wiggle-bg" style={{ backgroundImage: "url('https://miro.medium.com/v2/resize:fit:8000/1*7iBUzC4UvwNi8agIsCrZ7w.png')" }}>
+        <div className="relative flex items-center justify-center h-full bg-black/20 blur-animation">
           <div className="text-center text-white px-4 scale-animation">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Discover Your Path to Knowledge</h1>
-            <p className="text-m m:text-l lg:text-xl mb-8">Join thousands of learners who are expanding their horizons with our expert-led online courses. Learn at your own pace and achieve your goals.</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{ textShadow: "4px 4px 12px rgba(0, 0, 0, 0.5)" }}>
+              Discover Your Path to Knowledge
+            </h1>
+            <p className="text-m m:text-l lg:text-xl mb-8" style={{ textShadow: "4px 4px 12px rgba(0, 0, 0, 0.5)" }}>
+              Join thousands of learners who are expanding their horizons with our expert-led online courses. Learn at your own pace and achieve your goals.
+            </p>
+
             <Link href="/discover_courses">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Start Learning</button>
+              <button className="bg-gradient-to-l from-blue-400 via-blue-500 to-blue-600 border-white text-white font-bold py-3 px-6 rounded-full">Start Learning</button>
             </Link>
           </div>
         </div>
