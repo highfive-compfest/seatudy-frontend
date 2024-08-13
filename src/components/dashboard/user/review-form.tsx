@@ -67,25 +67,13 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ selectedCourse, reviews, newRev
             <button type="submit" className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300">
               {isEditing ? "Update Review" : "Submit Review"}
             </button>
-          </form>
 
-          <div className="space-y-6">
-            {reviews.length > 0 ? (
-              reviews.map((review) => (
-                <div key={review.id} className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
-                  <p className="text-base text-gray-700 mb-2">{review.feedback}</p>
-                  <div className="flex items-center">
-                    {renderStars(review.rating)}
-                    <span className="ml-2 text-sm text-gray-500">
-                      {review.rating} Star{review.rating > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-500">No reviews yet. Be the first to leave one!</p>
+            {isEditing && (
+              <button type="submit" className="w-full py-3 mt-2 bg-white border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
+                Delete Review
+              </button>
             )}
-          </div>
+          </form>
         </>
       ) : (
         <p className="text-center text-gray-500">Please select a course to review.</p>

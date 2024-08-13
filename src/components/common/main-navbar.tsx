@@ -5,6 +5,7 @@ import { AiOutlineClose, AiOutlineMenu, AiOutlineDown, AiOutlineUp } from "react
 import { MobileNavbar } from "./mobile-navbar";
 import { DesktopNavbar } from "./desktop-navbar";
 import { ProfileIcon } from "./profile-icon";
+import Image from "next/image";
 
 function getCookie(name: string): string | undefined {
   const value = `; ${document.cookie}`;
@@ -48,10 +49,13 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav className={`flex w-full justify-between items-center py-4 px-5 bg-white shadow-md fixed top-0 left-0 z-50 transition-transform duration-300 ${scrollingUp ? "translate-y-0" : "-translate-y-24"}`} data-testid="navbar">
-        <div className="text-xl font-bold text-black">
-          <Link href="/">
-            {" "}
-            <span className="text-blue-600">SEA</span>TUDY.
+        <div>
+          <Link href="/" className="flex items-center">
+            <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-8 w-auto mr-2" width={32} height={32} />
+            <div className="text-xl font-bold text-black">
+              {" "}
+              <span className="text-blue-600">SEA</span>TUDY.
+            </div>
           </Link>
         </div>
 

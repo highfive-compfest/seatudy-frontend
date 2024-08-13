@@ -5,6 +5,7 @@ import { SetStateAction, Dispatch, useState, useEffect } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { ProfileIcon } from "@/components/common/profile-icon";
 import { NotifIcon } from "@/components/common/notif-icon";
+import Image from "next/image";
 
 interface Type {
   isMenuOpen: boolean;
@@ -34,9 +35,15 @@ export const HeaderUser = ({ isMenuOpen, setIsMenuOpen }: Type) => {
           <button onClick={toggleMenu} className="text-black md:hidden">
             {isMenuOpen ? <AiOutlineClose size={28} /> : <AiOutlineMenu size={28} />}
           </button>
-          <Link href="/" className="text-2xl font-bold text-black h-full items-center">
-            <span className="text-blue-600">SEA</span>TUDY.
-          </Link>
+          <div>
+            <Link href="/" className="flex items-center">
+              <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-8 w-auto mr-2" width={32} height={32} />
+              <div className="text-xl font-bold text-black">
+                {" "}
+                <span className="text-blue-600">SEA</span>TUDY.
+              </div>
+            </Link>
+          </div>
         </div>
         <div className="flex gap-4 md:mr-10">
           <NotifIcon />
