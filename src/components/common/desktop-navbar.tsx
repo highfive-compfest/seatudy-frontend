@@ -103,7 +103,7 @@ export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCate
           </li>
           <li data-testid="login-link">
             <Link href="/login">
-              <p className="bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Login</p>
+              <p className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white px-6 py-[0.6rem] rounded hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 cursor-pointer">Login</p>
             </Link>
           </li>
         </>
