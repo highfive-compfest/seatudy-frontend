@@ -8,6 +8,7 @@ import { getMaterialByCourse } from "@/services/material";
 import { MdBook } from "react-icons/md";
 import { Dialog } from "@headlessui/react";
 import { MaterialType } from "@/types/material/material-courseid";
+import { FaFileImage, FaFilePdf, FaFileWord } from "react-icons/fa6";
 
 interface CourseInfoProps {
   courseDetail: Course;
@@ -112,21 +113,28 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
 
       {isModalOpen && selectedMaterial && (
         <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="fixed z-50 inset-0 overflow-y-auto">
-          <div className="fixed inset-0 bg-black bg-opacity-60">
-            <div className="flex items-center justify-center min-h-screen px-4">
-              <div className="bg-white rounded-xl p-8 w-2xl mx-auto z-10 shadow-xl">
-                <Dialog.Title className="text-2xl font-semibold mb-6 border-b pb-3">{selectedMaterial.title}</Dialog.Title>
-                <p className="text-base mb-6">{selectedMaterial.description}</p>
+          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md">
+            <div className="flex items-center justify-center min-h-screen px-4 py-6">
+              <div className="bg-white rounded-2xl p-8 w-full max-w-3xl mx-auto z-10 shadow-lg">
+                <Dialog.Title className="text-3xl font-bold mb-6 border-b-2 pb-3 text-gray-800">{selectedMaterial.title}</Dialog.Title>
+                <p className="text-lg mb-6 text-gray-600 text-justify">{selectedMaterial.description}</p>
 
                 {selectedMaterial.attachments.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-xl font-semibold mb-3">Attachments</h3>
-                    <ul className="list-disc pl-6">
+                    <h3 className="text-2xl font-semibold mb-3 text-gray-700">Attachments</h3>
+                    <ul className="list-none space-y-4">
                       {selectedMaterial.attachments.map((attachment) => (
-                        <li key={attachment.id} className="mb-2">
-                          <a href={attachment.url} className="text-blue-700 hover:underline" target="_blank" rel="noopener noreferrer">
-                            {attachment.description}
-                          </a>
+                        <li key={attachment.id} className="flex items-center space-x-4">
+                          <div className="flex-shrink-0">
+                            {attachment.url.endsWith(".pdf") && <FaFilePdf className="w-8 h-8 text-red-600" />}
+                            {attachment.url.endsWith(".doc") && <FaFileWord className="w-8 h-8 text-blue-600" />}
+                            {(attachment.url.endsWith(".jpg") || attachment.url.endsWith(".png")) && <FaFileImage className="w-8 h-8 text-green-600" />}
+                          </div>
+                          <div className="flex-1">
+                            <a href={attachment.url} className="text-blue-800 hover:underline font-medium" target="_blank" rel="noopener noreferrer">
+                              {attachment.description}
+                            </a>
+                          </div>
                         </li>
                       ))}
                     </ul>
@@ -134,16 +142,16 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
                 )}
 
                 <div className="mb-6">
-                  <h3 className="text-medium font-semibold mb-3">Additional Information</h3>
-                  <p className="text-sm text-gray-700">Created At: {new Date(selectedMaterial.created_at).toLocaleDateString()}</p>
-                  <p className="text-sm text-gray-700">Updated At: {new Date(selectedMaterial.updated_at).toLocaleDateString()}</p>
+                  <h3 className="text-xl font-semibold mb-3 text-gray-700">Additional Information</h3>
+                  <p className="text-sm text-gray-600">Created At: {new Date(selectedMaterial.created_at).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-600">Updated At: {new Date(selectedMaterial.updated_at).toLocaleDateString()}</p>
                 </div>
 
-                <div className="mt-6 flex justify-between">
-                  <button onClick={() => markAsDone(selectedMaterial.id)} className="px-6 py-3 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition duration-150 mr-32">
+                <div className="mt-6 flex justify-between space-x-4">
+                  <button onClick={() => markAsDone(selectedMaterial.id)} className="px-6 py-3 bg-green-700 text-white rounded-lg shadow-lg hover:bg-green-800 transition duration-200">
                     Mark as Done
                   </button>
-                  <button onClick={() => setIsModalOpen(false)} className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-150">
+                  <button onClick={() => setIsModalOpen(false)} className="px-6 py-3 bg-blue-700 text-white rounded-lg shadow-lg hover:bg-blue-800 transition duration-200">
                     Close
                   </button>
                 </div>

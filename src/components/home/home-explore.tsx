@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import CourseCard from "../common/course-card";
-import { getAllCourses } from "../../services/course";
+import { getAllCourses, getPopularCourses } from "../../services/course";
 import { Course } from "../../types/course/course";
 
 const Explore = () => {
@@ -13,7 +13,7 @@ const Explore = () => {
   useEffect(() => {
     const getCourses = async () => {
       try {
-        const data = await getAllCourses();
+        const data = await getPopularCourses();
         setCourses(data.payload.courses || []);
       } catch (error) {
         setError(error as Error);

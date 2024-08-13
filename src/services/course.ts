@@ -138,7 +138,12 @@ export const getBoughtCourse = async (accessToken: string, page: number = 1, lim
   }
 };
 
-export const getPopularCourses = async (): Promise<CoursesResponse> => {
-  const response = await axiosInstance.get<CoursesResponse>("courses/popularity?page=1&limit=5");
-  return response.data;
+export const getPopularCourses = async (page: number = 1, limit: number = 5): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>(`courses/popularity?page=${page}&limit=${limit}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching popular courses:", error);
+    throw error;
+  }
 };
