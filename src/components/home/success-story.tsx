@@ -23,7 +23,6 @@ const SuccessStories = () => {
     },
   ];
 
-  // Intersection Observer logic
   const useIntersectionObserver = (callback: () => void) => {
     const elementRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,7 +69,7 @@ const SuccessStories = () => {
                   <img src={story.image} alt={story.name} className="w-24 h-24 rounded-full border-4 border-gray-200 object-cover" />
                 </div>
                 <h3 className="text-2xl font-semibold text-center text-gray-800 mb-2">{story.name}</h3>
-                <p className="text-gray-700 mb-4">{story.description}</p>
+                <p className="text-gray-700 mb-4 text-center">{story.description}</p>
               </div>
             ))}
           </div>

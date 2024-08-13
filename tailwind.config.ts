@@ -22,6 +22,9 @@ const config: Config = {
           800: "#0D47A1", // Very dark creamy sky blue
           900: "#0A3C6C", // Darkest creamy sky blue
         },
+        gray: {
+          100: "#FCFCFD",
+        },
       },
       fontFamily: {
         sans: ["Nunito", "sans-serif"],

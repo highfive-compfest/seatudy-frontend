@@ -107,6 +107,22 @@ body {
   animation: slideWiggle 180s ease-in-out infinite;
 }
 
+@keyframes slideTopBottom {
+  0% {
+    background-position: top center;
+  }
+  50% {
+    background-position: bottom center;
+  }
+  100% {
+    background-position: top center;
+  }
+}
+
+.wiggle-bg-2 {
+  animation: slideTopBottom 90s ease-in-out infinite;
+}
+
 @keyframes fadeInDown {
   0% {
     opacity: 0;

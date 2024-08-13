@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Loading = () => {
   return (
-    <div className="h-screen flex justify-center items-center flex-col gap-4">
+    <div className="h-screen flex justify-center items-center flex-col gap-4 bg-blue-100">
       <div className="flex flex-row items-center">
         <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-10 w-auto mr-2" width={100} height={100} />
         <div className="text-4xl font-bold text-black">

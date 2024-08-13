@@ -78,7 +78,7 @@ const TopUpPage = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto p-4 pt-24 h-screen flex flex-col space-y-8 pb-8">
+      <div className="container mx-auto p-4 pt-24 h-auto flex flex-col space-y-8 pb-8 lg:bg-gradient-to-br from-blue-100 to-blue-50">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           <div className="bg-white shadow-md rounded-lg p-6 flex-1 mb-6 lg:mb-0 border border-gray-300">
             <div className="text-center mb-8">

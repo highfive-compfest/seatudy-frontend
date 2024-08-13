@@ -104,15 +104,15 @@ const CourseProgress: React.FC<CourseInfoProps> = ({ courseDetail }) => {
       </div>
 
       {isModalOpen && selectedMaterial && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-md">
           <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="fixed z-50 inset-0 overflow-y-auto">
             <div className="flex items-center justify-center min-h-screen px-4">
-              <div className="bg-white rounded-lg p-6 max-w-lg mx-auto z-10 shadow-lg">
-                <Dialog.Title className="font-bold text-xl mb-4">{selectedMaterial.title}</Dialog.Title>
-                <p className="text-justify">{selectedMaterial.description}</p>
-                <p className="mt-4 text-sm text-blue-600">Buy the course to gain full access to all materials</p>
-                <div className="mt-4 flex justify-end">
-                  <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+              <div className="bg-white rounded-xl p-8 max-w-lg mx-auto z-10 shadow-xl">
+                <Dialog.Title className="text-2xl font-bold mb-4 text-gray-800">{selectedMaterial.title}</Dialog.Title>
+                <p className="text-base mb-4 text-gray-700 text-justify">{selectedMaterial.description}</p>
+                <p className="mt-4 text-sm text-blue-600 font-medium">Buy the course to gain full access to all materials</p>
+                <div className="mt-6 flex justify-end">
+                  <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-150">
                     Close
                   </button>
                 </div>

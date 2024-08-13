@@ -34,7 +34,7 @@ const DiscoverCoursesPage = () => {
   return (
     <>
       <Navbar />
-      <Hero />
+      <Hero courses={courses} />
 
       <section className="mt-12 px-4">
         <h2 className="text-2xl font-bold mb-4 ml-5">Popular Courses</h2>
