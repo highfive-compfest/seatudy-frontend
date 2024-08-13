@@ -5,6 +5,7 @@ import Link from "next/link";
 import OtpInput from "react-otp-input";
 import { reqOTP, verifyEmail } from "@/services/auth";
 import { getCookie } from "cookies-next";
+import { getMe } from "@/services/user";
 
 export const FormVerify = () => {
   const [otp, setOtp] = useState("");
@@ -16,9 +17,17 @@ export const FormVerify = () => {
   const accToken = getCookie("authToken") as any;
 
   useEffect(() => {
-    const userString: any = sessionStorage.getItem("user");
-    const { email } = JSON.parse(userString);
-    setEmail(email);
+    const fetchUserEmail= async () => {
+      try {
+        const userData = await getMe(accToken);
+        setEmail(userData.payload.email);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        alert("An error occurred while fetching user data. Please try again.");
+      }
+    };
+
+    fetchUserEmail();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

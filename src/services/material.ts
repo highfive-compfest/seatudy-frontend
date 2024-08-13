@@ -71,7 +71,7 @@ try {
 
 export const createMaterialAttach = async (materialId:string, formData: FormData, token: string) => {
   try {
-    const response = await axiosInstance.post(`materials/addattachment/${materialId}`, formData, {
+    const response = await axiosInstance.post(`materials/addAttachment/${materialId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
