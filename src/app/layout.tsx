@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import { NextUIProvider } from "@nextui-org/system";
 import "./globals.css";
 import { UserContext } from "@/context/user";
 
-const inter = Inter({ subsets: ["latin"] });
+const nunito = Nunito({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "SEATUDY.",
@@ -18,8 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-50`}>
-        <NextUIProvider><UserContext>{children}</UserContext></NextUIProvider>
+      <body className={`${nunito.className} bg-gray-50`}>
+        <NextUIProvider>
+          <UserContext>{children}</UserContext>
+        </NextUIProvider>
       </body>
     </html>
   );
