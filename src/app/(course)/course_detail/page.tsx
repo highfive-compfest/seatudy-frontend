@@ -127,7 +127,7 @@ const CourseDetailPage = () => {
   return (
     <div className="container mx-auto px-4 lg:px-8 pb-32">
       <div className="breadcrumb text-gray-600 text-sm mb-4">
-        <a href="#" className="hover:underline">
+        <a href="discover_courses" className="hover:underline">
           Courses
         </a>{" "}
         - <span>{course?.id}</span>

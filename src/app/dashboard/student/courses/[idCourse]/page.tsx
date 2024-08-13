@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { getSegment } from "@/utils/utils";
 import CourseProgress2 from "@/components/course_detail/course-progress-2";
 import CourseReviews from "@/components/course_detail/course-review";
+import Link from "next/link";
 
 const Page = () => {
   const router = useRouter();
@@ -51,11 +52,11 @@ const Page = () => {
   return (
     <div className="relative container mx-auto px-4 py-8 lg:px-8 mt-28 mb-32 md:bg-white md:rounded md:border-2 md:border-gray-200">
       <div className="relative z-10">
-        <div className="breadcrumb text-gray-600 text-sm mb-4">
-          <a href="#" className="hover:underline">
-            Courses
-          </a>{" "}
-          - <span>{course?.id}</span>
+        <div className="breadcrumb text-gray-600 text-sm mb-4 flex flex-row">
+          <Link href={"/dashboard/student/courses"}>
+            <p className="hover:underline mr-1">Courses</p>
+          </Link>
+          <span> - {course?.id}</span>
         </div>
 
         {course && (
