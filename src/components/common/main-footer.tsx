@@ -40,22 +40,22 @@ const Footer = () => {
           <ul>
             <li className="mb-2">
               <a href="https://www.linkedin.com/in/iputunathakusuma/" className="text-sm hover:text-gray-300 transition-colors">
-                I Putu Natha Kusuma - UB'23
+                I Putu Natha Kusuma - UB&apos;23
               </a>
             </li>
             <li className="mb-2">
               <a href="https://www.linkedin.com/in/elginbrian/" className="text-sm hover:text-gray-300 transition-colors">
-                Elgin Brian Wahyu Bramadhika - UB'23
+                Elgin Brian Wahyu Bramadhika - UB&apos;23
               </a>
             </li>
             <li className="mb-2">
               <a href="#" className="text-sm hover:text-gray-300 transition-colors">
-                Benardo S. - ITB'22
+                Benardo S. - ITB&apos;22
               </a>
             </li>
             <li className="mb-2">
               <a href="https://www.linkedin.com/in/dindinimanudin14/" className="text-sm hover:text-gray-300 transition-colors">
-                Dindin Imanudin - ITENAS'23
+                Dindin Imanudin - ITENAS&apos;23
               </a>
             </li>
           </ul>
