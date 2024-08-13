@@ -56,11 +56,13 @@ export const AddMateriAttach = () => {
             {isActive === "add" && <div className={`fixed inset-0 bg-[rgba(0,0,0,0.4)] z-50 flex`}>
                 <form onSubmit={handleSubmit} className="bg-white w-[40rem] p-4 rounded-lg flex flex-col gap-4 m-auto">
                     <input
+                        required
                         name="file"
                         onChange={handleChange} 
                         className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300" 
                         type="file"/>
                     <textarea
+                        required
                         name="description"
                         onChange={handleChange}
                         rows={6} 
