@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
       <nav className={`flex w-full justify-between items-center py-4 px-5 bg-white shadow-md fixed top-0 left-0 z-50 transition-transform duration-300 ${scrollingUp ? "translate-y-0" : "-translate-y-24"}`} data-testid="navbar">
         <div>
           <Link href="/" className="flex items-center">
-            <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-8 w-auto mr-2" width={32} height={32} />
+            <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-8 w-auto mr-2" width={128} height={128} />
             <div className="text-xl font-bold text-black">
               {" "}
               <span className="text-blue-600">SEA</span>TUDY.

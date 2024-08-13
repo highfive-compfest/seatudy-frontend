@@ -57,7 +57,7 @@ const AboutUs = () => {
             <p className={`mb-6 text-gray-700 text-justify ${animateContent ? "fade-in-up" : ""}`}>
               With expert instructors and a flexible learning environment, you can tailor your education to your needs. Join us and take the first step towards a brighter future.
             </p>
-            <button onClick={handleClick} className={`bg-blue-500 text-white px-8 py-3 rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ${animateTitle ? "fade-in-up" : ""}`}>
+            <button onClick={handleClick} className={`bg-blue-500 text-white px-8 py-3 rounded-full shadow-md hover:bg-blue-600 transition duration-300 ${animateTitle ? "fade-in-up" : ""}`}>
               Learn More
             </button>
           </div>

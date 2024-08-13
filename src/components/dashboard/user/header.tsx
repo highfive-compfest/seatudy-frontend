@@ -37,7 +37,7 @@ export const HeaderUser = ({ isMenuOpen, setIsMenuOpen }: Type) => {
           </button>
           <div>
             <Link href="/" className="flex items-center">
-              <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-8 w-auto mr-2" width={32} height={32} />
+              <Image src="/seatudy-logo.png" alt="SEA TUDY Logo" className="h-8 w-auto mr-2" width={128} height={128} />
               <div className="text-xl font-bold text-black">
                 {" "}
                 <span className="text-blue-600">SEA</span>TUDY.

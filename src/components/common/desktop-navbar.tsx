@@ -98,12 +98,12 @@ export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCate
         <>
           <li data-testid="register-link">
             <Link href="/register">
-              <p className="bg-white border-2 border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-gray-100 cursor-pointer mr-[-0.75em]">Register</p>
+              <p className="bg-white border-2 border-blue-500 text-blue-500 px-4 py-2 rounded-full hover:bg-gray-100 cursor-pointer mr-[-0.75em]">Register</p>
             </Link>
           </li>
           <li data-testid="login-link">
             <Link href="/login">
-              <p className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white px-6 py-[0.6rem] rounded hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 cursor-pointer">Login</p>
+              <p className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white px-6 py-[0.6rem] rounded-full hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 cursor-pointer">Login</p>
             </Link>
           </li>
         </>
