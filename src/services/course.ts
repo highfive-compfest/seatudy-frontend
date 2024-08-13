@@ -1,4 +1,4 @@
-import { CoursesResponse, DeleteCourseResponse, getCoursesIdResponse } from "@/types/course/course";
+import { CourseResponse2, CoursesResponse, DeleteCourseResponse, getCoursesIdResponse } from "@/types/course/course";
 import { axiosInstance } from "./api-config";
 import { title } from "process";
 
@@ -116,6 +116,24 @@ export const purchaseCourse = async (token: string, courseId: string) => {
     return response.data;
   } catch (error) {
     console.error("Error purchasing course:", error);
+    throw error;
+  }
+};
+
+export const getBoughtCourse = async (accessToken: string, page: number = 1, limit: number = 10): Promise<CourseResponse2> => {
+  try {
+    const response = await axiosInstance.get<CourseResponse2>("courses/mycourse", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        page,
+        limit,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching bought courses:", error);
     throw error;
   }
 };

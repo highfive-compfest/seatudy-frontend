@@ -31,6 +31,11 @@ export interface CoursesResponse {
   };
 }
 
+export interface CourseResponse2 {
+  message: string;
+  payload: Course[];
+}
+
 export interface getCoursesIdResponse {
   message: string;
   payload: Course;

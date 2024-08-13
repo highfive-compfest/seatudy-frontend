@@ -2,17 +2,20 @@
 import React, { useEffect, useState } from "react";
 import CourseInfo from "@/components/course_detail/course-info";
 import CourseProgress from "@/components/course_detail/course-progress";
-import { getCourseById, purchaseCourse } from "../../../services/course";
+import { getBoughtCourse, getCourseById, purchaseCourse } from "../../../services/course";
 import { Course } from "../../../types/course/course";
 import { useSearchParams } from "next/navigation";
 import { getCookie } from "cookies-next";
 import ConfirmationModal from "@/components/course_detail/confirm-modal";
 import CourseReviews from "@/components/course_detail/course-review";
+import Link from "next/link";
 
 const CourseDetailPage = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const [course, setCourse] = useState<Course | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [isPurchased, setIsPurchased] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -59,6 +62,29 @@ const CourseDetailPage = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const data = await getBoughtCourse(accToken);
+
+        if (data.payload && Array.isArray(data.payload)) {
+          setCourses(data.payload);
+
+          const purchased = data.payload.some((course) => course.id === id);
+          setIsPurchased(purchased);
+        } else {
+          setCourses([]);
+          alert("No courses found.");
+        }
+      } catch (error: any) {
+        console.log(error.response);
+        alert("Error: " + error);
+      }
+    };
+
+    fetchCourses();
+  }, [accToken, id]);
+
   const handleBuyClick = () => {
     if (isLoggedIn) {
       setIsModalOpen(true);
@@ -71,6 +97,7 @@ const CourseDetailPage = () => {
     try {
       await purchaseCourse(accToken, id as string);
       alert("Purchase successful!");
+      setIsPurchased(true);
     } catch (error) {
       alert("Failed to purchase course.");
     } finally {
@@ -112,9 +139,15 @@ const CourseDetailPage = () => {
                 </div>
               </div>
 
-              <button onClick={handleBuyClick} className="py-3 px-6 bg-blue-500 hover:bg-purple-600 text-white font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">
-                Buy This Course
-              </button>
+              {isPurchased ? (
+                <Link href={`dashboard/student/courses/${id}`}>
+                  <button className="py-3 px-6 bg-white text-blue-600 font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">Go to Dashboard</button>
+                </Link>
+              ) : (
+                <button onClick={handleBuyClick} className="py-3 px-6 bg-blue-500 hover:bg-purple-600 text-white font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">
+                  Buy This Course
+                </button>
+              )}
             </div>
 
             <CourseProgress courseDetail={course} />

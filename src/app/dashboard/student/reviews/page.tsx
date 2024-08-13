@@ -1,8 +1,8 @@
 "use client";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { getAllCourses } from "../../../../services/course";
+import { getBoughtCourse } from "../../../../services/course";
 import { createReview, updateReview, getReviews } from "../../../../services/reviews";
-import { Course, CoursesResponse } from "../../../../types/course/course";
+import { Course } from "../../../../types/course/course";
 import { getCookie } from "cookies-next";
 import CourseSelection from "@/components/dashboard/user/course-selection";
 import ReviewForm from "@/components/dashboard/user/review-form";
@@ -21,8 +21,8 @@ const ReviewPage: React.FC = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const coursesResponse: CoursesResponse = await getAllCourses();
-        setCourses(coursesResponse.payload.courses);
+        const coursesResponse = await getBoughtCourse(authToken);
+        setCourses(coursesResponse.payload);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
