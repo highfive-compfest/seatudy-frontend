@@ -73,3 +73,19 @@ try {
     throw error;
     }
 };
+
+export const createAssignAttach = async (assignmentId:string, formData: FormData, token: string) => {
+  try {
+    const response = await axiosInstance.post(`assignments/addAttachment/${assignmentId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Course uploaded successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading course:", error);
+    throw error;
+  }
+};

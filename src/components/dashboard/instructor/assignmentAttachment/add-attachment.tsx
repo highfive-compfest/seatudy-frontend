@@ -1,12 +1,12 @@
 "use client"
-import { useMaterialAttach } from "@/context/material-attach";
-import { createMaterialAttach } from "@/services/material";
+import { useAssignAttach } from "@/context/assignment-attach";
+import { createAssignAttach } from "@/services/assignment";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
-export const AddMateriAttach = () => {
+export const AddAssignAttach = () => {
 
-    const {isActive, setActive, accToken, materiId, getMateri}:any = useMaterialAttach()
+    const {isActive, setActive, accToken, assignmentId, getAssign}:any = useAssignAttach()
 
     const [formData, setFormData] = useState({
         file: null as File | null,
@@ -39,9 +39,9 @@ export const AddMateriAttach = () => {
                 return;
             }
             form.append('description', formData.description);
-            await createMaterialAttach(materiId, form, accToken);
+            await createAssignAttach(assignmentId, form, accToken);
             setActive("")
-            getMateri()
+            getAssign()
         } catch (error:any) {
             console.error(error.response)
         }
