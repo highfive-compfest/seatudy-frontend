@@ -83,9 +83,9 @@ export const MobileNavbar: React.FC<NavbarProps & { toggleMenu: () => void; isMe
           )}
         </li>
         <li data-testid="mobile-reviews-link">
-          <Link href="/blog">
+          <Link href="/discussions">
             <p className="text-gray-700 hover:text-blue-500 cursor-pointer px-3 py-2 rounded-md transition duration-200" onClick={toggleMenu}>
-              Reviews
+              Discussions
             </p>
           </Link>
         </li>

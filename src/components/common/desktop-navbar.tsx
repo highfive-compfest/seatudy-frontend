@@ -86,8 +86,8 @@ export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCate
         {loading ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">Loading...</p> : error ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">{error}</p> : <PopularDropdown courses={popularCourses} />}
       </li>
       <li data-testid="reviews-link">
-        <Link href="/blog">
-          <p className="hover:text-blue-500 cursor-pointer">Reviews</p>
+        <Link href="/discussions">
+          <p className="hover:text-blue-500 cursor-pointer">Discussions</p>
         </Link>
       </li>
       {isLoggedIn ? (
