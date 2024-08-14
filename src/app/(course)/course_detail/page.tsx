@@ -1,21 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CourseInfo from "@/components/course_detail/course-info";
-import CourseProgress from "@/components/course_detail/course-progress";
 import { getBoughtCourse, getCourseById, purchaseCourse } from "../../../services/course";
 import { Course } from "../../../types/course/course";
+import { CourseProgress as CourseProgressType } from "../../../types/course/course";
 import { useSearchParams } from "next/navigation";
 import { getCookie } from "cookies-next";
 import ConfirmationModal from "@/components/course_detail/confirm-modal";
 import CourseReviews from "@/components/course_detail/course-review";
 import Link from "next/link";
 import { getMe } from "@/services/user";
+import CourseProgress from "@/components/course_detail/course-progress";
 
 const CourseDetailPage = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const [course, setCourse] = useState<Course | null>(null);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<CourseProgressType[]>([]);
   const [isPurchased, setIsPurchased] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -83,7 +84,7 @@ const CourseDetailPage = () => {
         if (data.payload && Array.isArray(data.payload)) {
           setCourses(data.payload);
 
-          const purchased = data.payload.some((course) => course.id === id);
+          const purchased = data.payload.some((course) => course.course.id === id);
           setIsPurchased(purchased);
         } else {
           setCourses([]);

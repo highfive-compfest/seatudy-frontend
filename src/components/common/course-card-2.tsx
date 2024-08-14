@@ -29,10 +29,10 @@ const CourseCard2: React.FC<CourseCardProps> = ({ course, progress }) => {
         <img src={course.image_url || placeholderImage} alt={course.title} className="absolute inset-0 w-full h-full object-cover rounded-t-lg" data-testid="course-image" />
       </div>
       <div className="p-4">
-        <h2 className="text-xl font-bold line-clamp-1" data-testid="course-title">
+        <h2 className="text-large font-bold line-clamp-1" data-testid="course-title">
           {course.title}
         </h2>
-        <p className="text-gray-600 mt-2 line-clamp-2 text-medium" data-testid="course-description">
+        <p className="text-gray-600 mt-2 line-clamp-2 text-sm justify-between" data-testid="course-description">
           {course.description}
         </p>
         <div className="flex flex-row justify-between items-start md:items-center mt-4 text-sm" data-testid="course-details">
@@ -57,7 +57,7 @@ const CourseCard2: React.FC<CourseCardProps> = ({ course, progress }) => {
         </div>
 
         <Link href={getLinkPath()}>
-          <p className="mt-4 text-blue-500 underline" data-testid="show-more-button">
+          <p className="mt-4 text-blue-500 hover:underline" data-testid="show-more-button">
             {pathname === "/dashboard/instructor/manage" ? "Manage" : "Show more"} &rarr;
           </p>
         </Link>
