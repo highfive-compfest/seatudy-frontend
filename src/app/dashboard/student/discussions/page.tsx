@@ -16,6 +16,7 @@ const Page = () => {
       try {
         const coursesResponse = await getBoughtCourse(authToken);
         setCourses(coursesResponse.payload);
+        setSelectedCourse(courses[0]);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
@@ -29,10 +30,10 @@ const Page = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 mt-24 w-full md:h-screen">
+    <div className="container mx-auto p-6 mt-24 w-full md:h-[130vh]">
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6">
         <CourseSelection courses={courses} selectedCourse={selectedCourse} onCourseSelect={handleCourseSelect} />
-        <DiscussionPage discussionId={selectedCourse?.id || ""} />
+        <DiscussionPage courseId={selectedCourse?.id || ""} />
       </div>
     </div>
   );

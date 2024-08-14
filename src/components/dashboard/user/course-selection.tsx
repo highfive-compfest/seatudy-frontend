@@ -10,7 +10,7 @@ interface CourseSelectionProps {
 
 const CourseSelection: React.FC<CourseSelectionProps> = ({ courses, selectedCourse, onCourseSelect }) => {
   return (
-    <div className="border-2 border-gray-200 rounded-lg bg-white shadow-lg p-6 h-[calc(100vh-12rem)] overflow-y-auto">
+    <div className="border-2 border-gray-200 rounded-lg bg-white shadow-lg p-6 h-auto overflow-y-auto">
       <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">Select a Course</h2>
       <ul className="space-y-4">
         {courses.map((course) => (

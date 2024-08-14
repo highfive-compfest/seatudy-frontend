@@ -17,6 +17,7 @@ const Page = () => {
       try {
         const coursesResponse = await getPopularCourses();
         setCourses(coursesResponse.payload.courses);
+        setSelectedCourse(courses[0]);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
@@ -33,10 +34,10 @@ const Page = () => {
     <>
       <Navbar />
       <DiscussionsHero />
-      <div className="container mx-auto p-6 w-full md:h-screen">
+      <div className="container mx-auto p-6 w-full h-auto">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6">
           <CourseSelection courses={courses} selectedCourse={selectedCourse} onCourseSelect={handleCourseSelect} />
-          <DiscussionPage discussionId={selectedCourse?.id || ""} />
+          <DiscussionPage courseId={selectedCourse?.id || ""} />
         </div>
       </div>
       <Footer />
