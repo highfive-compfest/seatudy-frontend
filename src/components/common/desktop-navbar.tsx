@@ -5,6 +5,7 @@ import { AiOutlineDown } from "react-icons/ai";
 import { ProfileIcon } from "./profile-icon";
 import { Course } from "@/types/course/course";
 import { getPopularCourses } from "@/services/course";
+import Image from "next/image";
 
 interface NavbarProps {
   toggleCourses: () => void;
@@ -15,7 +16,9 @@ interface NavbarProps {
 }
 
 const DropdownMenu = ({ items }: { items: JSX.Element[] }) => (
-  <div className="scrollbar-hide absolute hidden group-hover:block bg-white shadow-lg p-4 rounded-lg min-w-72 border border-gray-200 overflow-y-auto max-h-80 right-0">{items}</div>
+  <div className="scrollbar-hide absolute hidden group-hover:block bg-white shadow-lg p-4 rounded-lg min-w-72 border border-gray-200 overflow-y-auto max-h-80 right-0">
+    {items.map((item, index) => React.cloneElement(item, { key: index }))}
+  </div>
 );
 
 const CoursesDropdown = () => (

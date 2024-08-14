@@ -47,14 +47,14 @@ const AboutUs = () => {
   return (
     <>
       <div className="h-auto w-full bg-gray-100 py-8 md:py-16">
-        <div className="flex flex-col md:flex-row justify-center items-center p-8 h-full w-full">
+        <div className="flex flex-col md:flex-row justify-center items-center px-4 py-8 md:px-8 h-full w-full">
           <div ref={titleRef} className={`max-w-md text-center md:text-left ${animateTitle ? "fade-in-up" : ""}`}>
-            <h1 className="text-4xl font-bold mb-6 text-blue-600">Empowering Your Learning Journey</h1>
-            <p ref={contentRef} className={`mb-6 text-gray-700 text-justify ${animateContent ? "fade-in-up" : ""}`}>
+            <h1 className="text-2xl md:text-4xl font-bold mb-6 text-blue-600">Empowering Your Learning Journey</h1>
+            <p ref={contentRef} className={`mb-6 text-sm md:text-medium text-gray-700 text-justify ${animateContent ? "fade-in-up" : ""}`}>
               At our platform, we believe in providing exceptional educational resources to help you achieve your goals. Our diverse range of courses is designed to fit your learning style, whether you are looking to advance in your career
               or explore new passions.
             </p>
-            <p className={`mb-6 text-gray-700 text-justify ${animateContent ? "fade-in-up" : ""}`}>
+            <p className={`mb-6 text-gray-700 text-sm md:text-medium text-justify ${animateContent ? "fade-in-up" : ""}`}>
               With expert instructors and a flexible learning environment, you can tailor your education to your needs. Join us and take the first step towards a brighter future.
             </p>
             <button onClick={handleClick} className={`bg-blue-500 text-white px-8 py-3 rounded-full shadow-md hover:bg-blue-600 transition duration-300 ${animateTitle ? "fade-in-up" : ""}`}>
