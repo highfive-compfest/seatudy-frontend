@@ -8,10 +8,9 @@ interface AssignmentDetailsModalProps {
   assignment: AssignmentType | null;
   onClose: () => void;
   markAsDone: (assignmentId: string) => Promise<void>;
-  submitAssignment: (assignmentId: string, submission: FormData) => Promise<void>;
 }
 
-const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignment, onClose, markAsDone, submitAssignment }) => {
+const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignment, onClose, markAsDone }) => {
   const authToken = getCookie("authToken") as string;
   const [submissionFile, setSubmissionFile] = useState<File | null>(null);
   const [submissionText, setSubmissionText] = useState<string>("");
