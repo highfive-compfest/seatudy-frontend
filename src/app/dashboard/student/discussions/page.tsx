@@ -4,7 +4,7 @@ import DiscussionPage from "@/components/dashboard/user/discussions";
 import { getBoughtCourse } from "@/services/course";
 import { Course } from "@/types/course/course";
 import { getCookie } from "cookies-next";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const [courses, setCourses] = useState<Course[]>([]);

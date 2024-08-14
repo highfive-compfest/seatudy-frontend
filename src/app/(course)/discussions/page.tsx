@@ -6,10 +6,9 @@ import DiscussionPage from "@/components/dashboard/user/discussions";
 import DiscussionsHero from "@/components/discussions/discussions-hero";
 import { getPopularCourses } from "@/services/course";
 import { Course } from "@/types/course/course";
-
 import React, { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
@@ -45,4 +44,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
