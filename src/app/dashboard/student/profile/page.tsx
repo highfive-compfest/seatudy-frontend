@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import ShowProfile from "../../../../components/dashboard/user/profile";
 import { reqOTP } from "@/services/auth";
@@ -16,6 +16,15 @@ const Profile = () => {
 
   const router = useRouter();
   const accToken = getCookie("authToken") as string;
+
+  const logOut = () => {
+    deleteCookie("authToken");
+    deleteCookie("refreshToken");
+    deleteCookie("userId");
+    deleteCookie("userRole");
+    alert("Logout successful");
+    router.replace("/login");
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -66,7 +75,7 @@ const Profile = () => {
           <button onClick={() => setActiveSection("changePassword")} className={`block w-full text-left py-2 px-4 rounded-md ${activeSection === "changePassword" ? "bg-gray-300" : "bg-gray-100"}`}>
             Change Password
           </button>
-          <button onClick={() => router.push("/logout")} className="block w-full text-left py-2 px-4 rounded-md bg-red-600 text-white hover:bg-red-500">
+          <button onClick={() => logOut()} className="block w-full text-left py-2 px-4 rounded-md bg-red-600 text-white hover:bg-red-500">
             Log Out
           </button>
         </nav>

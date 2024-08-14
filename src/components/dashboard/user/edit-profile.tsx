@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { updateUser } from "@/services/user";
 import { UserPayload } from "@/types/user/user";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 interface EditProfileProps {
   user: UserPayload | null;
