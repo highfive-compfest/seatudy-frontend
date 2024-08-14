@@ -14,7 +14,9 @@ interface NavbarProps {
   isLoggedIn: boolean;
 }
 
-const DropdownMenu = ({ items }: { items: JSX.Element[] }) => <div className="absolute hidden group-hover:block bg-white shadow-lg p-4 rounded-lg min-w-72 border border-gray-200 overflow-y-auto max-h-80 right-0">{items}</div>;
+const DropdownMenu = ({ items }: { items: JSX.Element[] }) => (
+  <div className="scrollbar-hide absolute hidden group-hover:block bg-white shadow-lg p-4 rounded-lg min-w-72 border border-gray-200 overflow-y-auto max-h-80 right-0">{items}</div>
+);
 
 const CoursesDropdown = () => (
   <DropdownMenu
@@ -41,6 +43,8 @@ const PopularDropdown = ({ courses }: { courses: Course[] }) => (
     ))}
   />
 );
+
+const DiscussionsDropdown = () => <DropdownMenu items={[<p className="text-sm">Please log in first to access the discussions page</p>]} />;
 
 export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCategory, isCoursesOpen, isCategoryOpen, isLoggedIn }) => {
   const [popularCourses, setPopularCourses] = useState<Course[]>([]);
@@ -85,10 +89,15 @@ export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCate
         </p>
         {loading ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">Loading...</p> : error ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">{error}</p> : <PopularDropdown courses={popularCourses} />}
       </li>
-      <li data-testid="reviews-link">
-        <Link href="/discussions">
-          <p className="hover:text-blue-500 cursor-pointer">Discussions</p>
-        </Link>
+      <li className="relative group" data-testid="reviews-link">
+        {isLoggedIn ? (
+          <Link href="/discussions">
+            <p className="hover:text-blue-500 cursor-pointer">Discussions</p>
+          </Link>
+        ) : (
+          <p className="flex items-center hover:text-blue-500 cursor-pointer">Discussions</p>
+        )}
+        {!isLoggedIn && <DiscussionsDropdown />}
       </li>
       {isLoggedIn ? (
         <li data-testid="profile-link">

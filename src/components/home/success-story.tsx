@@ -68,8 +68,8 @@ const SuccessStories = () => {
                 <div className="flex items-center justify-center mb-4">
                   <img src={story.image} alt={story.name} className="w-24 h-24 rounded-full border-4 border-gray-200 object-cover" />
                 </div>
-                <h3 className="text-2xl font-semibold text-center text-gray-800 mb-2">{story.name}</h3>
-                <p className="text-gray-700 mb-4 text-center">{story.description}</p>
+                <h3 className="text-xl font-semibold text-center text-gray-800 mb-2">{story.name}</h3>
+                <p className="text-gray-700 mb-4 text-center text-sm">{story.description}</p>
               </div>
             ))}
           </div>

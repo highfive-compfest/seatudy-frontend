@@ -16,9 +16,9 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ courseDetail }) => {
           <img className="w-full h-full object-cover rounded-xl shadow-lg" src={courseDetail.image_url} alt={courseDetail.title} />
         </div>
 
-        <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed text-justify">{courseDetail.description}</p>
+        <p className="text-base md:text-medium text-gray-700 mb-6 leading-relaxed text-justify">{courseDetail.description}</p>
 
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">Course Details</h2>
+        <h2 className="text-large md:text-xl font-semibold text-gray-800 mb-4">Course Details</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
             <h3 className="text-base md:text-lg font-medium text-gray-700">Price</h3>
