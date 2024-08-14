@@ -31,9 +31,30 @@ export interface CoursesResponse {
   };
 }
 
+export interface Course {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  rating: number;
+  review_count: number;
+  image_url: string;
+  syllabus_url: string;
+  instructor_id: string;
+  difficulty: string;
+  materials: any[];
+  assignments: any[];
+  updated_at: string;
+}
+
+export interface CourseProgress {
+  course: Course;
+  progress: number;
+}
+
 export interface CourseResponse2 {
   message: string;
-  payload: Course[];
+  payload: CourseProgress[];
 }
 
 export interface getCoursesIdResponse {

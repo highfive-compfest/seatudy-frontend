@@ -42,7 +42,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             Difficulty: <strong>{course.difficulty}</strong>
           </span>
           <span data-testid="course-price">
-            Price: <strong>Rp.{course.price.toFixed(2)}</strong>
+            Price: <strong>Rp.{course.price}</strong>
           </span>
         </div>
         <Link href={getLinkPath()}>

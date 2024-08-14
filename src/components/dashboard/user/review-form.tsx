@@ -3,6 +3,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Course } from "@/types/course/course";
 import { Review } from "@/types/reviews/reviews";
 import { getCookie } from "cookies-next";
+import { deleteReview } from "@/services/reviews";
 
 interface ReviewFormProps {
   selectedCourse: Course | null;
@@ -33,8 +34,22 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ selectedCourse, reviews, newRev
     }
   }, [selectedCourse, reviews, currentUserId]);
 
+  const handleDeleteReview = async () => {
+    if (currentReview) {
+      try {
+        await deleteReview(currentReview.id);
+        setCurrentReview(null);
+        setIsEditing(false);
+        alert("Review deleted successfully");
+      } catch (error) {
+        console.error("Error deleting review:", error);
+        alert("Error deleting review: " + error);
+      }
+    }
+  };
+
   return (
-    <div className="border-2 border-gray-200 rounded-lg bg-white shadow-lg p-6">
+    <div className="border-2 border-gray-200 rounded-lg bg-white shadow-lg p-6 min-h-[30rem]">
       <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">{isEditing ? "Edit Your Review" : "Leave a Review"}</h2>
       {selectedCourse ? (
         <>
@@ -69,7 +84,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ selectedCourse, reviews, newRev
             </button>
 
             {isEditing && (
-              <button type="submit" className="w-full py-3 mt-2 bg-white border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
+              <button type="button" onClick={handleDeleteReview} className="w-full py-3 mt-2 bg-white border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
                 Delete Review
               </button>
             )}

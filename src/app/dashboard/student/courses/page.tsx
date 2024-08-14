@@ -1,13 +1,13 @@
 "use client";
 import CourseCard from "@/components/common/course-card";
-import { Course } from "@/types/course/course";
+import { Course, CourseProgress } from "@/types/course/course";
 import { useState, useEffect } from "react";
 import { getBoughtCourse } from "../../../../services/course";
 import { getCookie } from "cookies-next";
 
 const Courses = () => {
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
-  const [displayedCourses, setDisplayedCourses] = useState<Course[]>([]);
+  const [allCourses, setAllCourses] = useState<CourseProgress[]>([]);
+  const [displayedCourses, setDisplayedCourses] = useState<CourseProgress[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [isPending, setPending] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,7 +61,7 @@ const Courses = () => {
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center md:justify-start pb-8">
         {isPending && <p>Loading...</p>}
-        {displayedCourses.length > 0 ? displayedCourses.map((course) => <CourseCard key={course.id} course={course} />) : <p>No courses found.</p>}
+        {displayedCourses.length > 0 ? displayedCourses.map((course) => <CourseCard key={course.course.id} course={course.course} />) : <p>No courses found.</p>}
       </div>
 
       <div className="mt-4 flex flex-col items-center gap-4">

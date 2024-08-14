@@ -51,3 +51,12 @@ export const updateReview = async (reviewId: string, rating: number, feedback: s
     throw error;
   }
 };
+
+export const deleteReview = async (reviewId: string): Promise<void> => {
+  try {
+    await axiosInstance.delete(`reviews/${reviewId}`);
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    throw error;
+  }
+};

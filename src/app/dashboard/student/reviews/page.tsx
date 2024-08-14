@@ -2,15 +2,17 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { getBoughtCourse } from "../../../../services/course";
 import { createReview, updateReview, getReviews } from "../../../../services/reviews";
-import { Course } from "../../../../types/course/course";
+import { Course, CourseProgress } from "../../../../types/course/course";
 import { getCookie } from "cookies-next";
 import CourseSelection from "@/components/dashboard/user/course-selection";
 import ReviewForm from "@/components/dashboard/user/review-form";
 import { Review, ReviewsResponse } from "@/types/reviews/reviews";
 
 const ReviewPage: React.FC = () => {
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<CourseProgress[]>([]);
+
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const coursesArray: Course[] = courses.map((item) => item.course);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
@@ -35,7 +37,7 @@ const ReviewPage: React.FC = () => {
     const fetchReviews = async () => {
       if (selectedCourse) {
         try {
-          const reviewsResponse: ReviewsResponse = await getReviews(selectedCourse.id, 1, 10, 0);
+          const reviewsResponse: ReviewsResponse = await getReviews(selectedCourse.id, 1, 999, 0);
           setReviews(reviewsResponse.payload.data);
         } catch (error) {
           console.error("Error fetching reviews:", error);
@@ -128,7 +130,7 @@ const ReviewPage: React.FC = () => {
   return (
     <div className="container mx-auto p-6 mt-24 w-full md:h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <CourseSelection courses={courses} selectedCourse={selectedCourse} onCourseSelect={handleCourseSelect} />
+        <CourseSelection courses={coursesArray} selectedCourse={selectedCourse} onCourseSelect={handleCourseSelect} />
         <ReviewForm
           selectedCourse={selectedCourse}
           reviews={reviews}
