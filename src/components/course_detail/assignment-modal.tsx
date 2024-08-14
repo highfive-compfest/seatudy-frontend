@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { AssignmentType } from "@/types/assignment/assignment";
+import { createSubmission } from "@/services/submission";
+import { getCookie } from "cookies-next";
 
 interface AssignmentDetailsModalProps {
   assignment: AssignmentType | null;
@@ -10,6 +12,7 @@ interface AssignmentDetailsModalProps {
 }
 
 const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignment, onClose, markAsDone, submitAssignment }) => {
+  const authToken = getCookie("authToken") as string;
   const [submissionFile, setSubmissionFile] = useState<File | null>(null);
   const [submissionText, setSubmissionText] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -28,12 +31,25 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
 
   const handleSubmit = async () => {
     if (!assignment) return;
-    setLoading(true);
     const formData = new FormData();
-    if (submissionFile) formData.append("file", submissionFile);
-    formData.append("text", submissionText);
-    await submitAssignment(assignment.id, formData);
-    setLoading(false);
+    formData.append("content", submissionText);
+    if (submissionFile) {
+      formData.append("attachments", submissionFile);
+    }
+    formData.append("assignment_id", assignment.id);
+
+    setLoading(true);
+
+    try {
+      const response = await createSubmission(formData, authToken);
+      alert(response.message);
+      onClose();
+    } catch (error) {
+      console.error("Error submitting assignment:", error);
+      alert("Failed to submit assignment. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
