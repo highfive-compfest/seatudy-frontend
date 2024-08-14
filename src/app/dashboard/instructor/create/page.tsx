@@ -1,6 +1,6 @@
 "use client";
 import CourseCard from "@/components/common/course-card";
-import CreateCourse from "@/components/dashboard/instructor/create-form";
+import CreateCourse from "@/components/dashboard/instructor/course/create-form";
 import { useEffect, useState } from "react";
 import { Course } from "@/types/course/course";
 import { createCourse } from "@/services/course";

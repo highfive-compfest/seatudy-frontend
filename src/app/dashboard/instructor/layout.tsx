@@ -1,6 +1,6 @@
 "use client";
 import Footer from "@/components/common/main-footer";
-import { NavInstructor } from "@/components/dashboard/instructor/nav";
+import { NavInstructor } from "@/components/dashboard/instructor/course/nav";
 import { HeaderUser } from "@/components/dashboard/user/header";
 import { useState } from "react";
 
