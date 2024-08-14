@@ -4,6 +4,7 @@ import { Course, CourseProgress } from "@/types/course/course";
 import { useState, useEffect } from "react";
 import { getBoughtCourse } from "../../../../services/course";
 import { getCookie } from "cookies-next";
+import CourseCard2 from "@/components/common/course-card-2";
 
 const Courses = () => {
   const [allCourses, setAllCourses] = useState<CourseProgress[]>([]);
@@ -61,7 +62,7 @@ const Courses = () => {
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center md:justify-start pb-8">
         {isPending && <p>Loading...</p>}
-        {displayedCourses.length > 0 ? displayedCourses.map((course) => <CourseCard key={course.course.id} course={course.course} />) : <p>No courses found.</p>}
+        {displayedCourses.length > 0 ? displayedCourses.map((course) => <CourseCard2 key={course.course.id} course={course.course} progress={course.progress} />) : <p>No courses found.</p>}
       </div>
 
       <div className="mt-4 flex flex-col items-center gap-4">
