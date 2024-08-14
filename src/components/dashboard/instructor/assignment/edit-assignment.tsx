@@ -3,7 +3,7 @@ import { MaterialType } from "@/types/material/material-courseid";
 import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import { getMaterialById, updateMaterial } from "@/services/material";
 import { getCookie } from "cookies-next";
-import { AssignmentType } from "@/types/assignment/assignment";
+import { AssignmentsContextType, AssignmentType } from "@/types/assignment/assignment";
 import { useAssignments } from "./assignment";
 import { updateAssignment } from "@/services/assignment";
 

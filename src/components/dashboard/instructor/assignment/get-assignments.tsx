@@ -42,7 +42,7 @@ export const GetAssignments = () => {
                     
                     return(
                         <div key={idx} className="relative">
-                            <Link href={`${pathname}/${assignment.id}`} className="hover:bg-gray-200 border-2 border-gray-200 px-4 py-3 rounded-lg flex gap-2 items-center">
+                            <Link href={`${pathname}/assignment/${assignment.id}`} className="hover:bg-gray-200 border-2 border-gray-200 px-4 py-3 rounded-lg flex gap-2 items-center">
                                 <div className="p-2 bg-blue-500 rounded-full w-fit"><BsClipboard2Fill size={26} color="white"/></div>
                                 <div>
                                     <h3 className="font-bold">{assignment.title}</h3>
