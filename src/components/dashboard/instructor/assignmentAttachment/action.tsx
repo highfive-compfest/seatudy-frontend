@@ -5,6 +5,7 @@ import { FiEdit } from "react-icons/fi";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useMaterialAttach } from "@/context/material-attach";
 import { useAssignAttach } from "@/context/assignment-attach";
+import { EditAssignAttach } from "./form-edit";
 
 export const ActionBtnAssignAttach = ({attachId}:{attachId:string}) => {
 
@@ -43,7 +44,7 @@ export const ActionBtnAssignAttach = ({attachId}:{attachId:string}) => {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            {/* {isActive === "edit" && <EditMateriAttach/>} */}
+            {isActive === "edit" && <EditAssignAttach/>}
         </>
     )
 };

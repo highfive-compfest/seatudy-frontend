@@ -1,6 +1,8 @@
 "use client"
 import { ActionBtnAssignAttach } from "@/components/dashboard/instructor/assignmentAttachment/action"
 import { AddAssignAttach } from "@/components/dashboard/instructor/assignmentAttachment/add-attachment"
+import { Attachments } from "@/components/dashboard/instructor/assignmentAttachment/attachments"
+import { Submission } from "@/components/dashboard/instructor/assignmentSubmission/submission"
 import { ActionBtnAttach } from "@/components/dashboard/instructor/materialAttachment/action"
 import { AddMateriAttach } from "@/components/dashboard/instructor/materialAttachment/add-attachment"
 import { AssignProvider } from "@/context/assignment-attach"
@@ -26,6 +28,7 @@ const MaterialPage = () => {
   const pathname = usePathname();
   const assignmentId = getSegment(pathname, 6);
   const [attachActive, setAttachActive] = useState<MateriAttach>()
+  const [navActive, setNavActive] = useState(0)
 
   const getAssign = async () => {
     const res = await getAssignmentById(assignmentId, accToken);
@@ -54,31 +57,23 @@ const MaterialPage = () => {
                         }</small>
                     </div>
                 </div>
-                <div className="border-black pb-4 border-b-2">
+                <div className="border-black border-b-2 pb-4">
                     <h2 className="mt-4 mb-1 text-xl font-bold">Description</h2>
                     <p className="text-justify">{assignment.description}</p>
                 </div>
-                <h2 className="mt-4 mb-1 text-xl font-bold">Attachments</h2>
-                <AddAssignAttach/>
-                <div className="flex flex-col gap-3">
-                    {assignment.attachments.length === 0?<p>there are no attachments yet.</p>:
-                        assignment.attachments.map((content, idx)=>{
-                            const extFile = getExtFile(content.url)
-                            return (
-                                <div className="border-2 p-4" key={idx}>
-                                    <div className="flex justify-between">
-                                        <Link className="p-4 rounded-lg bg-gray-200 w-fit text-blue-600 flex flex-col items-center gap-2" href={content.url}>
-                                                <FaFile size={30}/>
-                                                <small>file .{extFile}</small>
-                                        </Link>
-                                        <ActionBtnAssignAttach attachId={content.id}/>
-                                    </div>
-                                    <p className="mt-2">{content.description}</p>
-                                </div>
-                            )
-                        })
-                    }
+                <div className="">
+                    <button
+                        onClick={()=>setNavActive(0)} 
+                        className={`${navActive===0?"text-blue-500 border-blue-600":"text-black border-transparent"} px-4 pt-4 pb-3 border-b-4`}>
+                        Attachments
+                    </button>
+                    <button 
+                        onClick={()=>setNavActive(1)} 
+                        className={`${navActive===1?"text-blue-500 border-blue-600":"text-black border-transparent"} px-4 pt-4 pb-3 border-b-4`}>
+                        Submission
+                    </button>
                 </div>
+                {navActive===0?<Attachments assignment={assignment}/>:<Submission/>}
             </section>
         </AssignProvider>
     )
