@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBook, FaHistory } from "react-icons/fa";
 import { Button } from "@nextui-org/button";
-import { FaStar } from "react-icons/fa6";
+import { FaMessage, FaPerson, FaStar } from "react-icons/fa6";
 
 const links = [
   {
@@ -18,6 +18,10 @@ const links = [
   {
     name: "Reviews",
     icon: <FaStar size={20} />,
+  },
+  {
+    name: "Discussions",
+    icon: <FaMessage size={20} />,
   },
 ];
 
