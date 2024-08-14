@@ -6,6 +6,7 @@ import { ProfileIcon } from "./profile-icon";
 import { Course } from "@/types/course/course";
 import { getPopularCourses } from "@/services/course";
 import Image from "next/image";
+import { getCookie } from "cookies-next";
 
 interface NavbarProps {
   toggleCourses: () => void;
@@ -47,20 +48,11 @@ const PopularDropdown = ({ courses }: { courses: Course[] }) => (
   />
 );
 
-const DiscussionsDropdown = () => (
-  <DropdownMenu
-    items={[
-      <p key="discussions" className="text-sm">
-        Please log in first to access the discussions page
-      </p>,
-    ]}
-  />
-);
-
 export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCategory, isCoursesOpen, isCategoryOpen, isLoggedIn }) => {
   const [popularCourses, setPopularCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const role = getCookie("userRole") as string;
 
   useEffect(() => {
     const fetchPopularCourses = async () => {
@@ -100,16 +92,7 @@ export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCate
         </p>
         {loading ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">Loading...</p> : error ? <p className="absolute bg-gray-100 p-3 rounded-lg min-w-48">{error}</p> : <PopularDropdown courses={popularCourses} />}
       </li>
-      <li className="relative group" data-testid="reviews-link">
-        {isLoggedIn ? (
-          <Link href="/discussions">
-            <p className="hover:text-blue-500 cursor-pointer">Discussions</p>
-          </Link>
-        ) : (
-          <p className="flex items-center hover:text-blue-500 cursor-pointer">Discussions</p>
-        )}
-        {!isLoggedIn && <DiscussionsDropdown />}
-      </li>
+
       {isLoggedIn ? (
         <li data-testid="profile-link">
           <ProfileIcon />

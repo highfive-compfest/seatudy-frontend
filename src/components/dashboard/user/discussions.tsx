@@ -89,38 +89,27 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
 
       <div className="flex-1 overflow-y-auto mb-20">
         {error && <p className="text-red-500 text-center">{error}</p>}
-        {pathname === "/discussions" && !hasPurchased ? (
-          <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 border-2 border-gray-200 py-3 px-6 rounded-lg shadow-lg space-y-4 lg:space-y-0">
-            <div className="text-white text-lg font-medium flex flex-row items-center justify-between">
-              <p>Buy this course to gain full access to all discussions</p>
-              <button className="py-3 px-6 bg-blue-500 hover:bg-purple-600 text-white font-semibold rounded-lg self-stretch lg:self-auto w-full lg:w-auto text-sm">Buy This Course</button>
-            </div>
-          </div>
+        {messages.length === 0 ? (
+          <p className="text-gray-500 text-center">No discussions available. Be the first to start a conversation!</p>
         ) : (
-          <>
-            {messages.length === 0 ? (
-              <p className="text-gray-500 text-center">No discussions available. Be the first to start a conversation!</p>
-            ) : (
-              <ul className="space-y-4">
-                {messages.map((message) => (
-                  <li key={message.id} className={`flex items-start space-x-4 p-4 rounded-lg ${message.user_id === getCookie("userId") ? "bg-blue-100 text-blue-800 self-end" : "bg-gray-100 text-gray-800"}`}>
-                    <div className="flex-shrink-0">
-                      <div className={`w-10 h-10 rounded-full ${message.user_id === getCookie("userId") ? "bg-blue-300" : "bg-gray-300"} flex items-center justify-center`}>
-                        <span className="text-xl font-bold text-white">{message.user_id[0]}</span>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <strong>{message.user_id}</strong>
-                        <span className="text-xs text-gray-500">{message.created_at}</span>
-                      </div>
-                      <p className="text-sm">{message.content}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
+          <ul className="space-y-4">
+            {messages.map((message) => (
+              <li key={message.id} className={`flex items-start space-x-4 p-4 rounded-lg ${message.user_id === getCookie("userId") ? "bg-blue-100 text-blue-800 self-end" : "bg-gray-100 text-gray-800"}`}>
+                <div className="flex-shrink-0">
+                  <div className={`w-10 h-10 rounded-full ${message.user_id === getCookie("userId") ? "bg-blue-300" : "bg-gray-300"} flex items-center justify-center`}>
+                    <span className="text-xl font-bold text-white">{message.user_id[0]}</span>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <strong>{message.user_id}</strong>
+                    <span className="text-xs text-gray-500">{message.created_at}</span>
+                  </div>
+                  <p className="text-sm">{message.content}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 

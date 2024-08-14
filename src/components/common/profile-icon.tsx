@@ -45,7 +45,7 @@ export const ProfileIcon = () => {
     router.replace("/login");
   };
 
-  const getDropdownItems = (role: string | undefined) => {
+  const getDropdownItems = (role: string | undefined, isEmailVerified: boolean) => {
     switch (role) {
       case "instructor":
         return [
@@ -70,7 +70,7 @@ export const ProfileIcon = () => {
           },
         ];
       case "student":
-        return [
+        const studentItems = [
           {
             textValue: "Profile",
             href: `/dashboard/${role}/profile`,
@@ -85,9 +85,16 @@ export const ProfileIcon = () => {
           },
           {
             textValue: "Top Up",
-            href: "/topup",
+            href: isEmailVerified ? "/topup" : "/dashboard/student/profile",
             icon: <FaMoneyBill />,
             label: "Balance",
+            onClick: () => {
+              if (!isEmailVerified) {
+                alert("Please verify your email to access this feature.");
+                return false;
+              }
+              return true;
+            },
           },
           {
             textValue: "Log Out",
@@ -97,6 +104,8 @@ export const ProfileIcon = () => {
             color: "danger",
           },
         ];
+
+        return studentItems;
       default:
         return [
           {
@@ -116,7 +125,9 @@ export const ProfileIcon = () => {
     }
   };
 
-  const dropdownItems = getDropdownItems(user?.role);
+  const isEmailVerified = Boolean(user?.is_email_verified);
+
+  const dropdownItems = getDropdownItems(user?.role, isEmailVerified);
 
   return (
     <Dropdown placement="bottom-end">
