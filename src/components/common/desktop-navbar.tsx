@@ -47,7 +47,15 @@ const PopularDropdown = ({ courses }: { courses: Course[] }) => (
   />
 );
 
-const DiscussionsDropdown = () => <DropdownMenu items={[<p className="text-sm">Please log in first to access the discussions page</p>]} />;
+const DiscussionsDropdown = () => (
+  <DropdownMenu
+    items={[
+      <p key="discussions" className="text-sm">
+        Please log in first to access the discussions page
+      </p>,
+    ]}
+  />
+);
 
 export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCategory, isCoursesOpen, isCategoryOpen, isLoggedIn }) => {
   const [popularCourses, setPopularCourses] = useState<Course[]>([]);
