@@ -2,12 +2,15 @@
 import { getMaterialByCourse } from "@/services/material";
 import { useEffect, useState } from "react";
 // import { Material } from "@/types/material/material-courseid";
-import { FaBook } from "react-icons/fa6";
+import { FaBook, FaClipboardList } from "react-icons/fa";
 import { MdBook } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAssignments } from "./assignment";
 import { AssignmentType } from "@/types/assignment/assignment";
+import { BsClipboard, BsClipboard2Fill, BsClipboard2MinusFill, BsClipboardFill } from "react-icons/bs";
+import { getTimeNow } from "@/utils/utils";
+import { ActionAssignButton } from "./action";
 
 
 export const GetAssignments = () => {
@@ -16,7 +19,7 @@ export const GetAssignments = () => {
     const [assignmentActive, setAssignmentActive] = useState<AssignmentType>()
     
     const pathname = usePathname()
-1
+
     return (
         <div className="bg-white p-4 rounded-lg shadow-md overflow-auto">
             <h2 className="font-semibold text-2xl">Assignments</h2>
@@ -33,25 +36,22 @@ export const GetAssignments = () => {
                         timeZone: 'UTC' // Ganti dengan zona waktu yang sesuai jika perlu
                       };
                     
-                    const created = new Date(assignment.created_at).toLocaleDateString(undefined, options);
-                    const updated = new Date(assignment.updated_at).toLocaleDateString(undefined, options);
-                    const createdDate = new Date(assignment.created_at).toLocaleDateString();
-                    const updatedDate = new Date(assignment.updated_at).toLocaleDateString();
+                    const due = new Date(assignment.due).toLocaleDateString();
+                    const hour = new Date(assignment.due).getHours();
+                    const menute = new Date(assignment.due).getMinutes();
                     
                     return(
                         <div key={idx} className="relative">
                             <Link href={`${pathname}/${assignment.id}`} className="hover:bg-gray-200 border-2 border-gray-200 px-4 py-3 rounded-lg flex gap-2 items-center">
-                                <div className="p-2 bg-blue-500 rounded-full w-fit"><MdBook size={26} color="white"/></div>
+                                <div className="p-2 bg-blue-500 rounded-full w-fit"><BsClipboard2Fill size={26} color="white"/></div>
                                 <div>
                                     <h3 className="font-bold">{assignment.title}</h3>
-                                    <small className="block">{
-                                        created !== updated?
-                                        `${updatedDate} (updated)`:
-                                        createdDate
+                                    <small className="block">Due {
+                                        `${due} - ${hour}:${menute}`
                                     }</small>
                                 </div>
                             </Link>
-                            {/* <ActionButton materiActive={materiActive} setMateriActive={setMateriActive} materiId={materi.id}/> */}
+                            <ActionAssignButton assignmentActive={assignmentActive} assignmentId={assignment.id} setAssignmentActive={setAssignmentActive}/>
                         </div>
                     )
                 })

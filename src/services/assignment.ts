@@ -1,11 +1,10 @@
-import { GetAssignmentRes, GetAssignmentsRes } from "@/types/assignment/assignment";
+import { EditAssignment, GetAssignmentRes, GetAssignmentsRes, PostAssignment } from "@/types/assignment/assignment";
 import { axiosInstance } from "./api-config";
 
-export const createAssignment = async (formData: FormData, token: string) => {
+export const createAssignment = async (data : PostAssignment, token: string) => {
     try {
-      const response = await axiosInstance.post(`assignments`, formData, {
+      const response = await axiosInstance.post(`assignments`, data, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
@@ -17,11 +16,10 @@ export const createAssignment = async (formData: FormData, token: string) => {
     }
 };
 
-export const updateAssignment = async (assignmentId:string, formData: FormData, token: string) => {
+export const updateAssignment = async (assignmentId:string, formData: EditAssignment, token: string) => {
     try {
       const response = await axiosInstance.put(`assignments/${assignmentId}`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
