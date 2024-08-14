@@ -29,13 +29,12 @@ export const AssignmrntForm = () => {
     const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault()
-            const form = new FormData();
-            const due = new Date(formData.due).toISOString()
-            form.append('title', formData.title);
-            form.append('description', formData.description);
-            form.append('due', due);
-            form.append('course_id', formData.course_id);
-            const res = await createAssignment(form, accToken)
+            const dueISO = new Date(formData.due).toISOString()
+            const updatedFormData = {
+                ...formData,
+                due: dueISO,
+            };
+            const res = await createAssignment(updatedFormData, accToken)
             setInfo(res.message)
             await getAssignments()
             const target = event.target as HTMLFormElement

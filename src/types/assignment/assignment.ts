@@ -12,6 +12,19 @@ export interface AssignmentType {
     deleted_at : null;
 }
 
+export interface PostAssignment {
+    course_id: string;
+    title: string;
+    description: string;
+    due: string;
+}
+
+export interface EditAssignment {
+    title: string;
+    description: string;
+    due: string;
+}
+
 export interface GetAssignmentsRes {
     message : string;
     payload : AssignmentType[]
