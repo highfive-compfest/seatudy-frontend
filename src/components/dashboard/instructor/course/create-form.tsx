@@ -64,6 +64,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
       rating: 0,
       review_count: 0,
       materials: [],
+      assignments: [],
     };
     onPreview(previewData);
   };
