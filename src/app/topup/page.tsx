@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { topUpWallet, fetchBalance, fetchMidtransTransactions } from "../../services/wallet";
 import { MidtransTransaction } from "@/types/wallet/wallet";
 import Footer from "@/components/common/main-footer";
-import { getCookie } from "cookies-next";
 
 const predefinedAmounts = [50000, 100000, 200000, 500000];
 
@@ -23,11 +22,11 @@ const TopUpPage = () => {
     const fetchData = async () => {
       try {
         const userBalance = await fetchBalance(token);
-        setBalance(userBalance);
+        setBalance(userBalance || 0);
 
         const result = await fetchMidtransTransactions(1, 5, token);
-        setTransactions(result.transactions);
-        setTotalPages(result.totalPages);
+        setTransactions(result.transactions || []);
+        setTotalPages(result.totalPages || 1);
       } catch (err) {
         setError("Failed to fetch data.");
       }
@@ -67,9 +66,11 @@ const TopUpPage = () => {
   };
 
   const handlePageChange = async (page: number) => {
+    if (page < 1 || page > totalPages) return;
+
     try {
       const result = await fetchMidtransTransactions(page, 5, token);
-      setTransactions(result.transactions);
+      setTransactions(result.transactions || []);
       setCurrentPage(page);
     } catch (err) {
       setError("Failed to fetch transactions.");
@@ -88,18 +89,22 @@ const TopUpPage = () => {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-800 mb-6 text-center">Transaction History</h3>
-              <ul className="space-y-4">
-                {transactions.map((transaction) => (
-                  <li key={transaction.id} className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                    <div className="flex justify-between items-center text-gray-800">
-                      <span className="text-sm">{new Date(transaction.created_at).toLocaleDateString()}</span>
-                      <span className={`font-semibold ${transaction.status === "success" ? "text-blue-600" : "text-red-600"}`}>
-                        Rp{transaction.amount.toLocaleString()} - {transaction.status}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {transactions.length > 0 ? (
+                <ul className="space-y-4">
+                  {transactions.map((transaction) => (
+                    <li key={transaction.id} className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                      <div className="flex justify-between items-center text-gray-800">
+                        <span className="text-sm">{new Date(transaction.created_at).toLocaleDateString()}</span>
+                        <span className={`font-semibold ${transaction.status === "success" ? "text-blue-600" : "text-red-600"}`}>
+                          Rp{transaction.amount.toLocaleString()} - {transaction.status}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-700">No transactions found.</p>
+              )}
               <div className="flex justify-between items-center mt-6">
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
@@ -136,7 +141,7 @@ const TopUpPage = () => {
                         key={predefinedAmount}
                         type="button"
                         className={`px-4 py-2 text-sm border border-gray-300 rounded-md ${
-                          amount === predefinedAmount ? "bg-blue-600 text-white" : "bg-white text-gray-700"
+                          Number(amount) === predefinedAmount ? "bg-blue-600 text-white" : "bg-white text-gray-700"
                         } hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300`}
                         onClick={() => handlePredefinedAmountClick(predefinedAmount)}
                       >

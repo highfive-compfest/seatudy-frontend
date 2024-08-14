@@ -10,35 +10,35 @@ import { Review, ReviewsResponse } from "@/types/reviews/reviews";
 
 const ReviewPage: React.FC = () => {
   const [courses, setCourses] = useState<CourseProgress[]>([]);
-
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const coursesArray: Course[] = courses.map((item) => item.course);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [currentReviewId, setCurrentReviewId] = useState<string | null>(null);
-  const authToken = getCookie("authToken") as string;
+  const authToken = (getCookie("authToken") as string) || "";
+
+  const coursesArray: Course[] = courses.map((item) => item.course).filter((course) => course !== null) as Course[];
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const coursesResponse = await getBoughtCourse(authToken);
-        setCourses(coursesResponse.payload);
+        setCourses(coursesResponse.payload || []);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
     };
 
     fetchCourses();
-  }, []);
+  }, [authToken]);
 
   useEffect(() => {
     const fetchReviews = async () => {
       if (selectedCourse) {
         try {
           const reviewsResponse: ReviewsResponse = await getReviews(selectedCourse.id, 1, 999, 0);
-          setReviews(reviewsResponse.payload.data);
+          setReviews(reviewsResponse.payload?.data || []);
         } catch (error) {
           console.error("Error fetching reviews:", error);
         }
@@ -49,14 +49,14 @@ const ReviewPage: React.FC = () => {
   }, [selectedCourse]);
 
   useEffect(() => {
-    const currentUserId = getCookie("userId") as string;
+    const currentUserId = (getCookie("userId") as string) || "";
     if (selectedCourse) {
       const existingReview = reviews.find((review) => review.user_id === currentUserId);
       if (existingReview) {
         setIsEditing(true);
         setCurrentReviewId(existingReview.id);
-        setNewReview(existingReview.feedback);
-        setRating(existingReview.rating);
+        setNewReview(existingReview.feedback || "");
+        setRating(existingReview.rating || 0);
       } else {
         setIsEditing(false);
         setCurrentReviewId(null);
@@ -81,7 +81,7 @@ const ReviewPage: React.FC = () => {
         } else {
           const response = await createReview(authToken, selectedCourse.id, rating, newReview);
           const newReviewData: Review = {
-            id: response.payload.id,
+            id: response.payload?.id || "",
             user_id: authToken,
             course_id: selectedCourse.id,
             rating: rating,
