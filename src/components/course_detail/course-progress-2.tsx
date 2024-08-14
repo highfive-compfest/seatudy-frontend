@@ -20,6 +20,9 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedMaterial, setSelectedMaterial] = useState<MaterialType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [materials, setMaterials] = useState<MaterialType[] | null>(null);
+  const [assignments, setAssignments] = useState<any[] | null>(null);
+  const [activeTab, setActiveTab] = useState<"materials" | "assignments">("materials");
 
   const accToken = getCookie("authToken") as string;
 
@@ -28,9 +31,9 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
       try {
         const instructorData = await getUserById(courseDetail.instructor_id);
         setInstructor(instructorData.payload);
-        setLoading(false);
       } catch (error) {
         setError("Failed to fetch instructor data.");
+      } finally {
         setLoading(false);
       }
     };
@@ -38,19 +41,28 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
     fetchInstructor();
   }, [accToken, courseDetail.instructor_id]);
 
-  const [materials, setMaterials] = useState<MaterialType[] | null>(null);
-
   useEffect(() => {
     const getMaterials = async () => {
       try {
         const res = await getMaterialByCourse(courseDetail.id);
         setMaterials(res.payload);
-      } catch (error: any) {
-        console.error(error.response);
+      } catch (error) {
+        console.error(error);
         setError("Failed to fetch materials.");
       }
     };
     getMaterials();
+  }, [courseDetail.id]);
+
+  useEffect(() => {
+    const getAssignments = async () => {
+      try {
+      } catch (error) {
+        console.error(error);
+        setError("Failed to fetch assignments.");
+      }
+    };
+    getAssignments();
   }, [courseDetail.id]);
 
   const handleMaterialClick = (material: MaterialType) => {
@@ -66,10 +78,13 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
     }
   };
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
   return (
     <div className="flex flex-col w-full lg:w-9/10">
       <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 h-auto px-8 py-4 rounded-lg shadow mt-4">
-        <div className="flex h-full items-center">
+        <div className="flex items-center">
           <div className="mr-4">
             <img
               src={instructor?.image_url || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
@@ -77,7 +92,6 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
               className="w-16 h-16 rounded-full border border-gray-300"
             />
           </div>
-
           <div>
             <p className="text-lg font-semibold text-gray-800">{instructor?.name || "Not found"}</p>
             <p className="text-gray-500 text-sm">{instructor?.role || "No Role Available"}</p>
@@ -85,30 +99,57 @@ const CourseProgress2: React.FC<CourseInfoProps> = ({ courseDetail }) => {
         </div>
       </div>
 
-      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 flex flex-col px-8 py-6 rounded-lg shadow mt-4 h-[40em]">
-        <h2 className="font-semibold text-2xl">Materials</h2>
-        <div className="mt-2 flex flex-col gap-4 overflow-y-auto h-full">
-          {materials?.length === 0 ? (
-            <p>There are no materials yet.</p>
-          ) : (
-            materials?.map((materi, idx) => {
-              const createdDate = new Date(materi.created_at).toLocaleDateString();
-              const updatedDate = new Date(materi.updated_at).toLocaleDateString();
-
-              return (
-                <button onClick={() => handleMaterialClick(materi)} className="border-2 bg-white border-gray-200 px-4 py-3 rounded-lg flex gap-2 items-center text-left" key={idx}>
-                  <div className="p-2 bg-blue-500 rounded-full w-fit">
-                    <MdBook size={23} color="white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">{materi.title}</h3>
-                    <small className="block">{createdDate !== updatedDate ? `${updatedDate} (updated)` : createdDate}</small>
-                  </div>
-                </button>
-              );
-            })
-          )}
+      <div className="w-full lg:w-9/10 bg-gray-100 border-2 border-gray-200 flex flex-col px-8 py-4 rounded-lg shadow mt-4">
+        <div className="flex space-x-4 border-b-2 mb-4">
+          <button className={`py-2 px-4 font-semibold ${activeTab === "materials" ? "border-b-2 border-blue-500 text-blue-600" : "text-gray-600"}`} onClick={() => setActiveTab("materials")}>
+            Materials
+          </button>
+          <button className={`py-2 px-4 font-semibold ${activeTab === "assignments" ? "border-b-2 border-blue-500 text-blue-600" : "text-gray-600"}`} onClick={() => setActiveTab("assignments")}>
+            Assignments
+          </button>
         </div>
+
+        {activeTab === "materials" && (
+          <div className="flex flex-col gap-4 overflow-y-auto h-[40em]">
+            <div className="mt-2 flex flex-col gap-4 overflow-y-auto h-full">
+              {materials?.length === 0 ? (
+                <p>There are no materials yet.</p>
+              ) : (
+                materials?.map((materi, idx) => {
+                  const createdDate = new Date(materi.created_at).toLocaleDateString();
+                  const updatedDate = new Date(materi.updated_at).toLocaleDateString();
+
+                  return (
+                    <button onClick={() => handleMaterialClick(materi)} className="border-2 bg-white border-gray-200 px-4 py-3 rounded-lg flex gap-2 items-center text-left" key={idx}>
+                      <div className="p-2 bg-blue-500 rounded-full">
+                        <MdBook size={23} color="white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold">{materi.title}</h3>
+                        <small className="block">{createdDate !== updatedDate ? `${updatedDate} (updated)` : createdDate}</small>
+                      </div>
+                    </button>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "assignments" && (
+          <div className="flex flex-col gap-4 overflow-y-auto h-[40em]">
+            {assignments?.length === 0 ? (
+              <p>There are no assignments yet.</p>
+            ) : (
+              assignments?.map((assignment, idx) => (
+                <div className="border-2 bg-white border-gray-200 px-4 py-3 rounded-lg flex gap-2 items-center text-left" key={idx}>
+                  <h3 className="font-bold">{assignment.title}</h3>
+                  <small className="block">{new Date(assignment.due_date).toLocaleDateString()}</small>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
       {isModalOpen && selectedMaterial && (
