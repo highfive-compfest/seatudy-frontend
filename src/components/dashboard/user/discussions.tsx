@@ -52,7 +52,7 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ discussionId }) => {
         </ul>
       </div>
 
-      {pathname === "/dashboard/user/discussions" && (
+      {pathname === "/dashboard/student/discussions" && (
         <div className="mt-4 flex">
           <input type="text" value={newMessage} onChange={handleInputChange} onKeyDown={handleKeyDown} className="flex-1 p-2 border border-gray-300 rounded-l-lg" placeholder="Type a message..." />
           <button onClick={handleSendMessage} className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 transition-colors duration-300">

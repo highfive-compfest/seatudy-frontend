@@ -6,7 +6,7 @@ import { Course } from "@/types/course/course";
 import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const authToken = getCookie("authToken") as string;
@@ -38,4 +38,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
