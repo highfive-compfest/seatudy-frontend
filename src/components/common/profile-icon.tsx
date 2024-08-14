@@ -41,6 +41,7 @@ export const ProfileIcon = () => {
     deleteCookie("refreshToken");
     deleteCookie("userId");
     deleteCookie("userRole");
+    alert("Logout successful");
     router.replace("/login");
   };
 

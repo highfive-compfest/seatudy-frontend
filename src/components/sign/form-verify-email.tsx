@@ -17,7 +17,7 @@ export const FormVerify = () => {
   const accToken = getCookie("authToken") as any;
 
   useEffect(() => {
-    const fetchUserEmail= async () => {
+    const fetchUserEmail = async () => {
       try {
         const userData = await getMe(accToken);
         setEmail(userData.payload.email);
@@ -39,7 +39,7 @@ export const FormVerify = () => {
       setVerified(true);
     } catch (error: any) {
       const message = error.response.data.message;
-      setInfo(message);
+      alert(message);
     } finally {
       setPending(false);
     }
@@ -49,7 +49,7 @@ export const FormVerify = () => {
     setPending(true);
     try {
       await reqOTP(accToken);
-      setInfo("The OTP has been resent to your email.")
+      setInfo("The OTP has been resent to your email.");
     } catch (error: any) {
       const message = error.response?.data?.message || "An error occurred";
       alert(message);
@@ -95,7 +95,10 @@ export const FormVerify = () => {
         </p>
       ) : (
         <p className="text-sm mt-6 text-center">
-          Don&apos;t receive code? <button type="button" disabled={isPending} onClick={handleClick} className="text-blue-600 font-medium hover:underline">Resend</button>
+          Don&apos;t receive code?{" "}
+          <button type="button" disabled={isPending} onClick={handleClick} className="text-blue-600 font-medium hover:underline">
+            Resend
+          </button>
         </p>
       )}
     </form>

@@ -40,6 +40,9 @@ const Hero: React.FC = () => {
   return (
     <>
       <div className="relative bg-cover bg-center h-screen blur-animation wiggle-bg" style={{ backgroundImage: "url('https://miro.medium.com/v2/resize:fit:8000/1*7iBUzC4UvwNi8agIsCrZ7w.png')" }}>
+        <a className="absolute bottom-0 left-0 p-4 text-white text-xs z-10 hover:underline" href="https://medium.com/flutter/flutter-whats-next-on-the-web-e0454bff964">
+          Courtesy: Flutter Engage by Google
+        </a>
         <div className="relative flex items-center justify-center h-full bg-black/20 blur-animation">
           <div className="text-center text-white px-4 scale-animation">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{ textShadow: "4px 4px 12px rgba(0, 0, 0, 0.5)" }}>

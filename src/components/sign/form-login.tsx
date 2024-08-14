@@ -42,16 +42,16 @@ export function FormLogin() {
         } else {
           router.push("dashboard/instructor/manage");
         }
-        setInfo(response.message);
+        alert(response.message);
       } else {
-        setInfo("Login failed");
+        alert("Login failed");
       }
     } catch (error: any) {
       const status = error.response?.status;
       if (status === 401) {
-        setInfo("Email or Password Incorrect");
+        alert("Email or Password Incorrect");
       } else {
-        setInfo("An error occurred");
+        alert("An error occurred");
       }
     } finally {
       setPending(false);

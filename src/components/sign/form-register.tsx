@@ -10,14 +10,14 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 
 const roles = [
   {
-    name : "Student",
-    icon : <PiStudentFill/>
+    name: "Student",
+    icon: <PiStudentFill />,
   },
   {
-    name : "Instructor",
-    icon : <FaChalkboardTeacher/>
+    name: "Instructor",
+    icon: <FaChalkboardTeacher />,
   },
-]
+];
 
 export function FormRegister() {
   const [data, setData] = useState({
@@ -31,7 +31,7 @@ export function FormRegister() {
 
   const router = useRouter();
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLSelectElement>) {
+  function handleChange(event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.target;
     setData((prev) => ({ ...prev, [name]: value }));
   }
@@ -42,12 +42,12 @@ export function FormRegister() {
     try {
       await registerUser(data);
       router.push("/login");
-    } catch (error:any) {
+    } catch (error: any) {
       const status = error.response?.status;
       if (status === 409) {
-        setInfo("Email Already Used");
+        alert("Email Already Used");
       } else {
-        setInfo("An error occurred");
+        alert("An error occurred");
       }
     } finally {
       setPending(false);
@@ -89,22 +89,24 @@ export function FormRegister() {
         label="Role"
         variant="bordered"
         onChange={handleChange}
-        classNames={{trigger:"shadow-none", label:"text-gray-400"}}
-        renderValue={roles=>{
-          return roles.map(role => (
+        classNames={{ trigger: "shadow-none", label: "text-gray-400" }}
+        renderValue={(roles) => {
+          return roles.map((role) => (
             <div key={role.key} className="flex gap-2 items-center">
               {role.data?.icon}
               {role.data?.name}
             </div>
-          ))
+          ));
         }}
       >
-        {(role)=>(<SelectItem textValue={role.name} key={role.name.toLocaleLowerCase()}>
-          <div className="flex gap-2 items-center">
-            {role.icon}
-            {role.name}
-          </div>
-        </SelectItem>)}
+        {(role) => (
+          <SelectItem textValue={role.name} key={role.name.toLocaleLowerCase()}>
+            <div className="flex gap-2 items-center">
+              {role.icon}
+              {role.name}
+            </div>
+          </SelectItem>
+        )}
       </Select>
       <input
         required

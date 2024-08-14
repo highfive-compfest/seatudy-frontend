@@ -12,10 +12,6 @@ const links = [
     icon: <FaBook size={20} />,
   },
   {
-    name: "Histories",
-    icon: <FaHistory size={20} />,
-  },
-  {
     name: "Reviews",
     icon: <FaStar size={20} />,
   },

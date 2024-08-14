@@ -48,7 +48,7 @@ export const FormVerifyPasswordReset: React.FC = () => {
         new_password: data.newPassword,
       };
       const response = await verifyPasswordReset(request);
-      setInfo(response.message);
+      alert(response.message);
       router.push("/login");
     } catch (error) {
       setInfo("Failed to reset your password. Please try again later.");
