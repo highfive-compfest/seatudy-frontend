@@ -1,5 +1,4 @@
 import { UserPayload } from "@/types/user/user";
-import { Avatar } from "@nextui-org/avatar";
 import { Spinner } from "@nextui-org/spinner";
 import React from "react";
 
@@ -10,12 +9,21 @@ interface ProfileProps {
 }
 
 const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl mx-auto border-2 border-gray-200 md:ml-4">
       {user?.is_email_verified ? <></> : <p className="p-4 w-full text-center text-sm text-red-500">Please verify your email to start using the payment feature</p>}
 
       <h1 className="text-2xl font-bold mb-8 text-center">Profile</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div className="col-span-2 flex justify-center">
           <div className="relative w-24 h-24">
             <img
@@ -60,12 +68,12 @@ const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) =
 
         <div>
           <label className="block text-sm font-medium text-gray-600">Created at</label>
-          <input type="text" value={user?.created_at || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
+          <input type="text" value={user?.created_at ? formatDate(user.created_at) : ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-600">Updated at</label>
-          <input type="text" value={user?.updated_at || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
+          <input type="text" value={user?.updated_at ? formatDate(user.updated_at) : ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" readOnly />
         </div>
       </div>
 

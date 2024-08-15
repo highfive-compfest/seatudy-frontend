@@ -39,7 +39,7 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
 
   if (!assignment) return null;
 
-  const isGraded = userSubmission?.grade != null; // true if grade is not null or undefined
+  const isGraded = userSubmission?.grade != null;
   const isGradeNotZero = userSubmission?.grade !== undefined && userSubmission.grade !== 0;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,21 +98,21 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
   return (
     <Dialog open={Boolean(assignment)} onClose={onClose} className="fixed z-50 inset-0 overflow-y-auto">
       <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center min-h-screen px-4 py-6">
-        <div className="bg-white rounded-3xl p-8 w-full max-w-3xl mx-auto z-10 shadow-xl">
-          <Dialog.Title className="text-4xl font-semibold mb-6 border-b-2 pb-2 text-gray-800">{assignment.title}</Dialog.Title>
-          <div className="flex flex-row justify-between">
-            <p className="text-lg mb-6 text-gray-700">
+        <div className="bg-white rounded-3xl p-6 w-full max-w-3xl mx-auto z-10 shadow-xl">
+          <Dialog.Title className="text-2xl font-semibold mb-4 border-b-2 pb-2 text-gray-800">{assignment.title}</Dialog.Title>
+          <div className="flex flex-row justify-between mb-4">
+            <p className="text-base mb-4 text-gray-700">
               <strong>Due Date:</strong> {new Date(assignment.due).toLocaleDateString()}
             </p>
 
-            <p className="text-lg mb-6 text-gray-700">
+            <p className="text-base mb-4 text-gray-700">
               <strong>Grade:</strong> {userSubmission?.grade ?? "Not graded yet"}
             </p>
           </div>
-          <p className="text-lg mb-4 text-gray-700">{assignment.description}</p>
+          <p className="text-base mb-4 text-gray-700">{assignment.description}</p>
 
-          <div className="mb-8">
-            <h3 className="text-2xl font-semibold mb-4 text-gray-800">Submit Your Work</h3>
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">Submit Your Work</h3>
             <div className="mb-4">
               <label className="block mb-2 text-gray-700" htmlFor="submissionFile">
                 Upload File

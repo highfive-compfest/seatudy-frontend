@@ -128,7 +128,7 @@ const ReviewPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 mt-24 w-full md:h-screen">
+    <div className="container mx-auto p-0 pb-8 lg:p-6 mt-24 w-full md:h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <CourseSelection courses={coursesArray} selectedCourse={selectedCourse} onCourseSelect={handleCourseSelect} />
         <ReviewForm

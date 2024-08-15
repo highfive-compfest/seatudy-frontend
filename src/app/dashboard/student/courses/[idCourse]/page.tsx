@@ -50,7 +50,7 @@ const Page = () => {
   }, [id]);
 
   return (
-    <div className="relative container mx-auto px-4 py-8 lg:px-8 mt-28 mb-32 md:bg-white md:rounded md:border-2 md:border-gray-200">
+    <div className="relative container mx-auto px-4 py-8 lg:px-8 mt-16 md:mt-28 mb-32 md:bg-white md:rounded md:border-2 md:border-gray-200">
       <div className="relative z-10">
         <div className="breadcrumb text-gray-600 text-sm mb-4 flex flex-row">
           <Link href={"/dashboard/student/courses"}>

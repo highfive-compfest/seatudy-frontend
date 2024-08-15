@@ -63,6 +63,15 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl md:ml-4 border-2 border-gray-200">
       <h1 className="text-2xl font-bold mb-8">Edit Profile</h1>
@@ -97,12 +106,12 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-600">Created at</label>
-          <input type="text" value={user?.created_at || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-500 sm:text-sm" readOnly />
+          <input type="text" value={user?.created_at ? formatDate(user.created_at) : ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-500 sm:text-sm" readOnly />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-600">Updated at</label>
-          <input type="text" value={user?.updated_at || ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-500 sm:text-sm" readOnly />
+          <input type="text" value={user?.updated_at ? formatDate(user.updated_at) : ""} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-gray-500 sm:text-sm" readOnly />
         </div>
       </div>
       <div className="flex gap-2 justify-center mt-6">

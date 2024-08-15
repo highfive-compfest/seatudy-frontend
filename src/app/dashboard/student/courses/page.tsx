@@ -57,7 +57,7 @@ const Courses = () => {
   };
 
   return (
-    <section className="pt-[7rem]">
+    <section className="pt-[7rem] pb-8">
       <h1 className="text-2xl font-bold">Start Learning Now!</h1>
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center md:justify-start pb-8">

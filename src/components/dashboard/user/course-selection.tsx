@@ -23,9 +23,9 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({ courses, selectedCour
   };
 
   return (
-    <div className="relative border-2 border-gray-200 rounded-lg bg-white shadow-lg p-6 h-auto">
+    <div className="relative border-2 border-gray-200 rounded-lg bg-white shadow-lg p-6 h-[calc(100vh-100px)] md:h-auto">
       <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">Select a Course</h2>
-      <ul className="space-y-4 overflow-y-auto scrollbar-hide" style={{ maxHeight: "calc(100vh - 180px)" }}>
+      <ul className="space-y-4 overflow-y-auto scrollbar-hide h-full md:h-auto">
         {currentCourses.map((course) => (
           <li
             key={course.id}

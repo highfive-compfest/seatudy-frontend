@@ -61,7 +61,7 @@ const Profile = () => {
   };
 
   return (
-    <section className="p-4 pt-28 flex flex-col md:flex-row pb-8 h-full">
+    <section className="p-0 pb-8 pt-24 md:p-4 md:pt-28 flex flex-col md:flex-row md:pb-8 h-full">
       {/* Sidebar */}
       <aside className="w-full md:w-60 bg-white text-gray-800 py-6 px-4 rounded-lg shadow-lg border-2 border-gray-200 mb-6 md:mb-0">
         <h2 className="text-xl font-semibold mb-6">Actions</h2>
