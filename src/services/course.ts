@@ -7,10 +7,8 @@ export interface GetCoursesParams {
   limit?: number;
 }
 
-export const getAllCourses = async (params: GetCoursesParams = { page: 1, limit: 10 }): Promise<CoursesResponse> => {
+export const getAllCourses = async (page: number = 1, limit: number = 10): Promise<CoursesResponse> => {
   try {
-    const { page = 1, limit = 10 } = params;
-
     const response = await axiosInstance.get<CoursesResponse>("courses", {
       params: { page, limit },
     });
