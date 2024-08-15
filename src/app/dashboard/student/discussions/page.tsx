@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const [courses, setCourses] = useState<CourseProgress[]>([]);
-  const coursesArray: Course[] = courses.map((item) => item.course);
+  const coursesArray: Course[] = (courses ?? []).filter((item) => item.course !== null).map((item) => item.course);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const authToken = getCookie("authToken") as string;
 

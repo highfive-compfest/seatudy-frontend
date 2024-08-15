@@ -22,7 +22,7 @@ export const NotifIcon: React.FC = () => {
 
     const fetchNotifications = async () => {
       try {
-        const response = await getNotifications(token, 1, 10);
+        const response = await getNotifications(token, 1, 5);
         const notificationsData = response.payload.data;
         if (Array.isArray(notificationsData)) {
           setNotifications(notificationsData);
