@@ -16,12 +16,42 @@ export const createSubmission = async (formData: FormData, token: string): Promi
   }
 };
 
-export const getSubmission= async (assignmentId: string): Promise<GetAllSubmissionRes> => {
+export const getSubmission = async (assignmentId: string): Promise<GetAllSubmissionRes> => {
   try {
-      const response = await axiosInstance.get<GetAllSubmissionRes>(`submissions/assignments/${assignmentId}`);
-      return response.data;
-      } catch (error) {
-      console.error("Error fetching course details:", error);
-      throw error;
-      }
-  };
+    const response = await axiosInstance.get<GetAllSubmissionRes>(`submissions/assignments/${assignmentId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    throw error;
+  }
+};
+
+export const updateSubmission = async (submissionId: string, formData: FormData, token: string): Promise<{ message: string; payload: any }> => {
+  try {
+    const response = await axiosInstance.put(`submissions/${submissionId}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating submission:", error);
+    throw error;
+  }
+};
+
+export const deleteSubmission = async (submissionId: string, token: string): Promise<{ message: string }> => {
+  try {
+    const response = await axiosInstance.delete(`submissions/${submissionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting submission:", error);
+    throw error;
+  }
+};

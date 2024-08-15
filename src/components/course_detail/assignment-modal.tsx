@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { AssignmentType } from "@/types/assignment/assignment";
-import { createSubmission } from "@/services/submission";
+import { createSubmission, getSubmission, updateSubmission, deleteSubmission } from "@/services/submission";
 import { getCookie } from "cookies-next";
 
 interface AssignmentDetailsModalProps {
@@ -12,9 +12,30 @@ interface AssignmentDetailsModalProps {
 
 const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignment, onClose, markAsDone }) => {
   const authToken = getCookie("authToken") as string;
+  const currentUserId = getCookie("userId") as string;
   const [submissionFile, setSubmissionFile] = useState<File | null>(null);
   const [submissionText, setSubmissionText] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [userSubmission, setUserSubmission] = useState<any>(null);
+
+  useEffect(() => {
+    if (assignment) {
+      const fetchSubmission = async () => {
+        try {
+          const response = await getSubmission(assignment.id);
+          const userSub = response.payload.find((sub) => sub.user_id === currentUserId);
+          if (userSub) {
+            setUserSubmission(userSub);
+            setSubmissionText(userSub.content);
+          }
+        } catch (error) {
+          console.error("Error fetching submission details:", error);
+        }
+      };
+
+      fetchSubmission();
+    }
+  }, [assignment, currentUserId]);
 
   if (!assignment) return null;
 
@@ -40,7 +61,12 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
     setLoading(true);
 
     try {
-      const response = await createSubmission(formData, authToken);
+      let response;
+      if (userSubmission) {
+        response = await updateSubmission(userSubmission.id, formData, authToken);
+      } else {
+        response = await createSubmission(formData, authToken);
+      }
       alert(response.message);
       onClose();
     } catch (error) {
@@ -51,38 +77,66 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
     }
   };
 
+  const handleDelete = async () => {
+    if (!userSubmission) return;
+    setLoading(true);
+    try {
+      const response = await deleteSubmission(userSubmission.id, authToken);
+      alert(response.message);
+      onClose();
+    } catch (error) {
+      console.error("Error deleting submission:", error);
+      alert("Failed to delete submission. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog open={Boolean(assignment)} onClose={onClose} className="fixed z-50 inset-0 overflow-y-auto">
-      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm">
-        <div className="flex items-center justify-center min-h-screen px-4 py-6">
-          <div className="bg-white rounded-3xl p-8 w-full max-w-3xl mx-auto z-10 shadow-xl">
-            <Dialog.Title className="text-4xl font-semibold mb-6 border-b-2 pb-3 text-gray-800">{assignment.title}</Dialog.Title>
-            <p className="text-lg mb-6 text-gray-700">{assignment.description}</p>
+      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center min-h-screen px-4 py-6">
+        <div className="bg-white rounded-3xl p-8 w-full max-w-3xl mx-auto z-10 shadow-xl">
+          <Dialog.Title className="text-4xl font-semibold mb-6 border-b-2 pb-3 text-gray-800">{assignment.title}</Dialog.Title>
+          <p className="text-lg mb-4 text-gray-700">{assignment.description}</p>
+          <p className="text-lg mb-6 text-gray-700">
+            <strong>Due Date:</strong> {new Date(assignment.due).toLocaleDateString()}
+          </p>
 
-            <div className="mb-8">
-              <h3 className="text-2xl font-semibold mb-4 text-gray-800">Submit Your Work</h3>
-              <div className="mb-4">
-                <label className="block mb-2 text-gray-700" htmlFor="submissionFile">
-                  Upload File
-                </label>
-                <input id="submissionFile" type="file" onChange={handleFileChange} className="block w-full border border-gray-300 rounded-lg py-2 px-3 text-gray-700 focus:ring-2 focus:ring-blue-500 transition" />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2 text-gray-700" htmlFor="submissionText">
-                  Or Type Your Submission
-                </label>
-                <textarea id="submissionText" rows={4} value={submissionText} onChange={handleTextChange} className="block w-full border border-gray-300 rounded-lg py-2 px-3 text-gray-700 focus:ring-2 focus:ring-blue-500 transition" />
-              </div>
+          <div className="mb-8">
+            <h3 className="text-2xl font-semibold mb-4 text-gray-800">Submit Your Work</h3>
+            <div className="mb-4">
+              <label className="block mb-2 text-gray-700" htmlFor="submissionFile">
+                Upload File
+              </label>
+              <input id="submissionFile" type="file" onChange={handleFileChange} className="block w-full border border-gray-300 rounded-lg py-2 px-3 text-gray-700 focus:ring-2 focus:ring-blue-500 transition" />
             </div>
+            {userSubmission && userSubmission.attachments && (
+              <div className="mb-4">
+                <a href={userSubmission.attachments} download className="text-blue-500 underline">
+                  Download Submitted Attachment
+                </a>
+              </div>
+            )}
+            <div className="mb-4">
+              <label className="block mb-2 text-gray-700" htmlFor="submissionText">
+                Or Type Your Submission
+              </label>
+              <textarea id="submissionText" rows={4} value={submissionText} onChange={handleTextChange} className="block w-full border border-gray-300 rounded-lg py-2 px-3 text-gray-700 focus:ring-2 focus:ring-blue-500 transition" />
+            </div>
+          </div>
 
-            <div className="flex justify-end gap-3">
-              <button className="py-2 px-4 rounded-lg border-2 border-gray-300 text-gray-800 hover:bg-gray-100 transition" onClick={onClose}>
-                Close
+          <div className="flex justify-end gap-3">
+            <button className="py-2 px-4 rounded-lg border-2 border-gray-300 text-gray-800 hover:bg-gray-100 transition" onClick={onClose}>
+              Close
+            </button>
+            {userSubmission && (
+              <button className={`py-2 px-4 rounded-lg bg-red-600 text-white hover:bg-red-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleDelete} disabled={loading}>
+                {loading ? "Deleting..." : "Delete"}
               </button>
-              <button className={`py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleSubmit} disabled={loading}>
-                {loading ? "Submitting..." : "Submit"}
-              </button>
-            </div>
+            )}
+            <button className={`py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleSubmit} disabled={loading}>
+              {loading ? (userSubmission ? "Updating..." : "Submitting...") : userSubmission ? "Update" : "Submit"}
+            </button>
           </div>
         </div>
       </div>
