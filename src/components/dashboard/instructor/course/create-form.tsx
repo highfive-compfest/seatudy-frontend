@@ -1,5 +1,5 @@
-import { Course, CoursesResponse } from "@/types/course/course";
-import React, { useState, ChangeEvent, useEffect } from "react";
+import { Course } from "@/types/course/course";
+import React, { useState, ChangeEvent } from "react";
 
 interface CourseFormProps {
   onSubmit: (formData: FormData) => void;
@@ -9,13 +9,32 @@ interface CourseFormProps {
 
 const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }) => {
   const [formData, setFormData] = useState({
-    title: values?.title,
-    description: values?.description,
-    price: values?.price,
-    difficulty: values?.difficulty,
+    title: values?.title || "",
+    description: values?.description || "",
+    price: values?.price || "",
+    difficulty: values?.difficulty || "beginner",
+    category: values?.category || "Programming",
     image: null as File | null,
     syllabus: null as File | null,
   });
+
+  const categories = [
+    "Web Development",
+    "Game Development",
+    "Cloud Computing",
+    "Data Science & Analytics",
+    "Programming Languages",
+    "Cybersecurity",
+    "Mobile App Development",
+    "Database Management",
+    "Software Development",
+    "DevOps & Automation",
+    "Networking",
+    "AI & Machine Learning",
+    "Internet of Things (IoT)",
+    "Blockchain & Cryptocurrency",
+    "Augmented Reality (AR) & Virtual Reality (VR)",
+  ];
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -42,6 +61,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
     form.append("description", formData.description);
     form.append("price", formData.price);
     form.append("difficulty", formData.difficulty);
+    form.append("category", formData.category);
     if (formData.image) form.append("image", formData.image);
     if (formData.syllabus) form.append("syllabus", formData.syllabus);
 
@@ -59,6 +79,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
       syllabus_url: formData.syllabus ? URL.createObjectURL(formData.syllabus) : "",
       instructor_id: "",
       difficulty: formData.difficulty,
+      category: formData.category,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       rating: 0,
@@ -95,29 +116,51 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
         </div>
 
         <div className="flex flex-col md:flex-row md:space-x-6">
-          <input
-            type="number"
-            name="price"
-            placeholder="Course Price"
-            value={formData.price}
-            onChange={handleChange}
-            className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
-            required
-          />
-          <select
-            name="difficulty"
-            value={formData.difficulty}
-            onChange={handleChange}
-            className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 mt-4 md:mt-0"
-          >
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="expert">Expert</option>
-          </select>
+          <div className="w-full mt-4 md:mt-0">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+            <input
+              type="number"
+              name="price"
+              placeholder="0"
+              value={formData.price}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              required
+            />
+          </div>
+
+          <div className="w-full mt-4 md:mt-0">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Difficulty</label>
+            <select
+              name="difficulty"
+              value={formData.difficulty}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 mt-4 md:mt-0"
+            >
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="expert">Expert</option>
+            </select>
+          </div>
+          <div className="w-full mt-4 md:mt-0">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row md:space-x-6">
-          <div className="w-full">
+          <div className="w-full mt-4 md:mt-0">
             <label className="block text-sm font-medium text-gray-700 mb-1">Course Image</label>
             <input
               type="file"

@@ -45,6 +45,11 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             Price: <strong>Rp.{course.price}</strong>
           </span>
         </div>
+        <div className="mt-2">
+          <span className="text-gray-700 text-sm" data-testid="course-category">
+            Category: <strong>{course.category}</strong>
+          </span>
+        </div>
         <Link href={getLinkPath()}>
           <p className="mt-4 text-blue-500 hover:underline" data-testid="show-more-button">
             {pathname === "/dashboard/instructor/manage" ? "Manage" : "Show more"} &rarr;
