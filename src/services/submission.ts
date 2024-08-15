@@ -69,3 +69,4 @@ export const updateGrade = async (submissionId:string, value: number, token: str
     console.error("Error uploading Grade:", error);
     throw error;
   }
+}

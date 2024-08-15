@@ -20,10 +20,6 @@ export const Submission = () => {
         getSubmissions()
     },[])
 
-    useEffect(()=>{
-        console.log(submissions)
-    },[submissions])
-
     return (
         <>
             <h2 className="mt-4 mb-1 text-xl font-bold">Submission</h2>
