@@ -170,7 +170,7 @@ const DiscoverCoursesPage = () => {
           </>
         ) : (
           <div className="px-4 mt-12 mb-12 overflow-x-auto scrollbar-hide mx-4">
-            <h2 className="text-2xl font-bold mb-4">Filtered Courses</h2>
+            <h2 className="text-2xl font-bold mb-4">{`${selectedCategory}`}</h2>
             {courses.length > 0 ? (
               <div className="flex space-x-4 overflow-x-auto">
                 {courses.map((course) => (
