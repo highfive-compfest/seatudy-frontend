@@ -6,6 +6,7 @@ import { MobileNavbar } from "./mobile-navbar";
 import { DesktopNavbar } from "./desktop-navbar";
 import { ProfileIcon } from "./profile-icon";
 import Image from "next/image";
+import { NotifIcon } from "./notif-icon";
 
 function getCookie(name: string): string | undefined {
   const value = `; ${document.cookie}`;
@@ -64,7 +65,8 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center">
           {isLoggedIn ? (
-            <div className="mr-4">
+            <div className="flex gap-4 mr-4">
+              <NotifIcon />
               <ProfileIcon />
             </div>
           ) : (

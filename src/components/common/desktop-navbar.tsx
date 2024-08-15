@@ -7,6 +7,7 @@ import { Course } from "@/types/course/course";
 import { getPopularCourses } from "@/services/course";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
+import { NotifIcon } from "./notif-icon";
 
 interface NavbarProps {
   toggleCourses: () => void;
@@ -94,9 +95,10 @@ export const DesktopNavbar: React.FC<NavbarProps> = ({ toggleCourses, toggleCate
       </li>
 
       {isLoggedIn ? (
-        <li data-testid="profile-link">
+        <div className="flex gap-4 md:mr-10">
+          <NotifIcon />
           <ProfileIcon />
-        </li>
+        </div>
       ) : (
         <>
           <li data-testid="register-link">
