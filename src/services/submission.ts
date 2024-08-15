@@ -56,9 +56,9 @@ export const deleteSubmission = async (submissionId: string, token: string): Pro
   }
 };
 
-export const updateGrade = async (submissionId:string, value: number, token: string) => {
+export const updateGrade = async (submissionId:string, value: number, token: string) : Promise<{ message: string }> => {
   try {
-    const response = await axiosInstance.put(`submissions/grade/${submissionId}`, {grade : value}, {
+    const response = await axiosInstance.put<{message:string}>(`submissions/grade/${submissionId}`, {grade : value}, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

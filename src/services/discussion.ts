@@ -1,4 +1,4 @@
-import { DiscussionsResponse, ReplyResponse } from "@/types/discussion/discussion";
+import { DiscusByIdRes, DiscussionsResponse, ReplyResponse } from "@/types/discussion/discussion";
 import { axiosInstance } from "./api-config";
 
 export const getDiscussionsByCourseId = async (courseId: string, token: string, limit: number = 10, page: number = 1): Promise<DiscussionsResponse> => {
@@ -70,7 +70,7 @@ export const createReply = async (discussionId: string, content: string, token: 
 
 export const updateDiscussion = async (discussionId: string, title: string, content: string, token: string): Promise<any> => {
   try {
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.patch(
       `forums/discussions/${discussionId}`,
       {
         title,
