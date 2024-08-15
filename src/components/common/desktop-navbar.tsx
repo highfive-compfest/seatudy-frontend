@@ -56,7 +56,7 @@ const CoursesDropdown = () => {
   return (
     <DropdownMenu
       items={[
-        <div key="search" className="flex flex-col space-y-2 p-2 rounded-md">
+        <div className="flex flex-col space-y-2 p-2 rounded-md">
           <div className="flex items-center space-x-2 mb-3">
             <input
               type="text"
@@ -71,8 +71,8 @@ const CoursesDropdown = () => {
           {courses.length > 0 ? (
             <ul className="space-y-2">
               {courses.map((course) => (
-                <Link href={`/course_detail?id=${course.id}`}>
-                  <li key={course.id} className="flex items-center space-x-3 py-2 px-3 border-b border-gray-200 hover:bg-gray-50">
+                <Link href={`/course_detail?id=${course.id}`} key={course.id}>
+                  <li className="flex items-center space-x-3 py-2 px-3 border-b border-gray-200 hover:bg-gray-50">
                     <img src={course.image_url} alt={course.title} className="w-14 h-14 object-cover rounded-md" />
                     <span className="text-sm font-semibold text-gray-800">{course.title}</span>
                   </li>
