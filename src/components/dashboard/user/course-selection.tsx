@@ -36,8 +36,8 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({ courses, selectedCour
           >
             <img src={course.image_url} alt={course.title} className="w-16 h-16 object-cover rounded-lg" />
             <div>
-              <h3 className="text-lg font-semibold">{course.title}</h3>
-              <p className="text-sm text-gray-600 mt-1 line-clamp-2">{course.description}</p>
+              <h3 className="text-medium font-semibold">{course.title}</h3>
+              <p className="text-xs text-gray-600 mt-1 line-clamp-2">{course.description}</p>
             </div>
           </li>
         ))}

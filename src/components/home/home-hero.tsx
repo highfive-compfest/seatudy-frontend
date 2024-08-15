@@ -82,19 +82,19 @@ const Hero: React.FC = () => {
       <div>
         <div className="flex md:hidden bg-blue-500 md:mx-32 lg:mx-64 mb-0s md:mb-8 md:rounded-lg p-4 md:bg-white text-black justify-around shadow-md fade-animation">
           <div className="flex flex-col items-center transition-transform duration-300 ease-in-out hover:scale-95">
-            <FaBook className="h-6 w-6 text-white md:text-blue-500 mb-2" />
-            <p className="text-white md:text-black text-xl font-bold">{counterValues.courses}+</p>
-            <p className="text-white text-sm md:text-l md:text-blue-500">Online Courses</p>
+            <FaBook className="h-5 w-5 text-white md:text-blue-500 mb-2" />
+            <p className="text-white md:text-black text-lg font-bold">{counterValues.courses}+</p>
+            <p className="text-white text-xs md:text-l md:text-blue-500">Online Courses</p>
           </div>
           <div className="flex flex-col items-center transition-transform duration-300 ease-in-out hover:scale-95">
-            <FaChalkboardTeacher className="h-6 w-6 text-white md:text-blue-500 mb-2" />
-            <p className="text-white md:text-black text-xl font-bold">{counterValues.instructors}+</p>
-            <p className="text-white text-sm md:text-l md:text-blue-500">Expert Instructors</p>
+            <FaChalkboardTeacher className="h-5 w-5 text-white md:text-blue-500 mb-2" />
+            <p className="text-white md:text-black text-lg font-bold">{counterValues.instructors}+</p>
+            <p className="text-white text-xs md:text-l md:text-blue-500">Expert Instructors</p>
           </div>
           <div className="flex flex-col items-center transition-transform duration-300 ease-in-out hover:scale-95">
-            <FaStar className="h-6 w-6 text-white md:text-blue-500 mb-2" />
-            <p className="text-white md:text-black text-xl font-bold">{counterValues.successStories}+</p>
-            <p className="text-white text-sm md:text-l md:text-blue-500">Success Stories</p>
+            <FaStar className="h-5 w-5 text-white md:text-blue-500 mb-2" />
+            <p className="text-white md:text-black text-lg font-bold">{counterValues.successStories}+</p>
+            <p className="text-white text-xs md:text-l md:text-blue-500">Success Stories</p>
           </div>
         </div>
       </div>

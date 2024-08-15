@@ -51,11 +51,13 @@ const Hero: React.FC<CourseInfoProps> = ({ courses, onTabChange }) => {
         <p className="text-gray-700 mb-8 text-sm sm:text-base">The more that you read, the more things you will know. The more that you learn, the more places you&apos;ll go.</p>
 
         <div className="mb-8">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
             {Object.entries(tabs).map(([fullName, shortName]) => (
               <button
                 key={fullName}
-                className={`py-2 px-6 rounded-full text-sm sm:text-base ${activeTab === fullName ? "bg-gradient-to-r from-blue-600 to-blue-400 text-white" : "bg-gray-200 text-gray-700"} transition duration-300 ease-in-out`}
+                className={`py-2 px-6 rounded-full text-sm sm:text-base ${
+                  activeTab === fullName ? "bg-gradient-to-r from-violet-600 to-blue-400 text-white" : "bg-white border-2 border-gray-200 text-gray-700"
+                } transition duration-300 ease-in-out`}
                 onClick={() => handleTabClick(fullName)}
               >
                 {shortName}

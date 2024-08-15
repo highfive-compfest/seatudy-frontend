@@ -70,8 +70,8 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
   if (!user) return null;
 
   return (
-    <li className={`flex flex-col items-start space-y-4 p-4 rounded-lg shadow-md ${message.user_id === getCookie("userId") ? "bg-blue-100 text-blue-800 self-end" : "bg-gray-100 text-gray-800"}`}>
-      <div className="flex items-start space-x-4">
+    <li className={`flex flex-col items-start w-auto space-y-4 p-4 rounded-lg shadow-md ${message.user_id === getCookie("userId") ? "bg-blue-100 text-blue-800 self-end" : "bg-gray-100 text-gray-800"}`}>
+      <div className="flex items-start space-x-4 w-full">
         <div className={`w-12 h-12 rounded-full overflow-hidden border-2 ${message.user_id === getCookie("userId") ? "border-blue-300" : "border-gray-300"}`}>
           <img src={user.image_url || "/default-avatar.png"} alt={user.name} className="w-full h-full object-cover" />
         </div>

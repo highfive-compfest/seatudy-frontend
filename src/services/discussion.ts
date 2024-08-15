@@ -1,4 +1,4 @@
-import { DiscusByIdRes, DiscussionsResponse, ReplyResponse } from "@/types/discussion/discussion";
+import { DiscussionsResponse, ReplyResponse } from "@/types/discussion/discussion";
 import { axiosInstance } from "./api-config";
 
 export const getDiscussionsByCourseId = async (courseId: string, token: string, limit: number = 10, page: number = 1): Promise<DiscussionsResponse> => {

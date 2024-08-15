@@ -33,7 +33,6 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
         setMessages(response.payload.data);
       } catch (error) {
         console.error("Error fetching discussions:", error);
-        alert("Error fetching discussions: " + error);
       }
     };
 

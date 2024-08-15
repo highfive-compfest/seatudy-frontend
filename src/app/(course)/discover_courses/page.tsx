@@ -101,7 +101,7 @@ const DiscoverCoursesPage = () => {
   };
 
   return (
-    <>
+    <div className="bg-gradient-to-br from-blue-100 to-blue-50">
       <Navbar />
       <Hero courses={courses} onTabChange={setSelectedCategory} />
 
@@ -120,7 +120,7 @@ const DiscoverCoursesPage = () => {
               </div>
             </section>
 
-            <div className="flex flex-col md:flex-row items-center mb-4 px-4 mt-6 ml-5">
+            <div className="flex flex-col md:flex-row items-center mb-4 px-4 mt-6 ml-5 pr-5 md:pr-0">
               <label htmlFor="difficulty" className="mr-4">
                 Difficulty:
               </label>
@@ -185,7 +185,7 @@ const DiscoverCoursesPage = () => {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 };
 
