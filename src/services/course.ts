@@ -30,6 +30,57 @@ export const getCourseById = async (courseId: string): Promise<getCoursesIdRespo
   }
 };
 
+export const getCoursesByCategory = async (category: string, page: number = 1, limit: number = 10): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>("courses/filter", {
+      params: {
+        category,
+        page,
+        limit,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching courses by category:", error);
+    throw error;
+  }
+};
+
+export const getCoursesByDifficulty = async (page: number = 1, limit: number = 10, difficulty: string = "beginner"): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>("courses/filter", {
+      params: {
+        page,
+        limit,
+        difficulty,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching courses by difficulty:", error);
+    throw error;
+  }
+};
+
+export const getCoursesByRating = async (page: number = 1, limit: number = 10, sort: "lowest" | "highest" = "lowest"): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>("courses/filter", {
+      params: {
+        page,
+        limit,
+        sort,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching courses by rating:", error);
+    throw error;
+  }
+};
+
 export const getInstructorCourse = async (accessToken: string, instructorId: string, page: number = 1, limit: number = 10): Promise<CoursesResponse> => {
   const DEFAULT_PAGE = 1;
   const DEFAULT_LIMIT = 10;
