@@ -56,3 +56,8 @@ export interface ReplyResponse {
     pagination: ReplyPagination;
   };
 }
+
+export interface ReplyIdRes {
+  message: string;
+  payload: Reply;
+}

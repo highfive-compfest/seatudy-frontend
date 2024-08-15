@@ -1,4 +1,4 @@
-import { DiscussionsResponse, ReplyResponse } from "@/types/discussion/discussion";
+import { DiscusByIdRes, DiscussionsResponse, ReplyIdRes, ReplyResponse } from "@/types/discussion/discussion";
 import { axiosInstance } from "./api-config";
 
 export const getDiscussionsByCourseId = async (courseId: string, token: string, limit: number = 10, page: number = 1): Promise<DiscussionsResponse> => {
@@ -140,3 +140,38 @@ export const deleteReply = async (replyId: string, token: string): Promise<any> 
     throw error;
   }
 };
+
+export const getDiscusById = async (discusId: string): Promise<DiscusByIdRes> => {
+  try {
+      const response = await axiosInstance.get<DiscusByIdRes>(`forums/discussions/${discusId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching course details:", error);
+      throw error;
+    }
+  };
+
+export const updateReply = async (replyId:string, value: string, token: string) => {
+  try {
+    const response = await axiosInstance.patch(`forums/replies/${replyId}`, {content:value}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Course uploaded successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading course:", error);
+    throw error;
+  }
+};
+
+export const getReplyById = async (replyId: string): Promise<ReplyIdRes> => {
+  try {
+      const response = await axiosInstance.get<ReplyIdRes>(`forums/replies/${replyId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching course details:", error);
+      throw error;
+    }
+  };

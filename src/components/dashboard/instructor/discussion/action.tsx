@@ -6,7 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MaterialType } from "@/types/material/material-courseid";
 import { useDiscussions } from "./discussion";
-import { deleteDiscussion } from "@/services/discussion";
+import { deleteDiscussion, getDiscusById } from "@/services/discussion";
 import { Discussion } from "@/types/discussion/discussion";
 import { EditDiscus } from "./edit-discus";
 
@@ -30,8 +30,8 @@ export const ActionDiscusButton = ({ discusId }: { discusId: string }) => {
   };
 
   const getDiscus = async () => {
-    // const res = await getDiscusById(discusId);
-    // setDiscusActive(res.payload);
+    const res = await getDiscusById(discusId);
+    setDiscusActive(res.payload);
     setEdit(true);
   };
 
