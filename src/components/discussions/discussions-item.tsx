@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { getUserById } from "@/services/user";
 import { UserPayload } from "@/types/user/user";
 import ReplyForm from "@/components/discussions/reply-form";
-import { getRepliesByDiscussionId, createReply } from "@/services/discussion";
+import { getRepliesByDiscussionId, createReply, deleteReply } from "@/services/discussion";
+import ReplyItem from "@/components/discussions/reply-item";
 
 interface DiscussionItemProps {
   message: Discussion;
@@ -60,10 +61,26 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
         setLocalReplyMessage("");
         setReplyMessage("");
         setShowReplies(true);
-        alert("reply sent successfullys");
+        alert("Reply sent successfully");
       } catch (error) {
         alert("Error sending reply: " + error);
       }
+    }
+  };
+
+  const handleEditReply = (reply: Reply) => {
+    console.log("Editing reply:", reply);
+  };
+
+  const handleDeleteReply = async (replyId: string) => {
+    try {
+      const authToken = getCookie("authToken") as string;
+      await deleteReply(replyId, authToken);
+      setReplies(replies.filter((reply) => reply.id !== replyId));
+      alert("Reply deleted successfully");
+    } catch (error) {
+      console.error("Error deleting reply:", error);
+      alert("Error deleting reply: " + error);
     }
   };
 
@@ -99,18 +116,7 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
           {showReplies && replies.length > 0 && (
             <ul className="mt-2 space-y-2">
               {replies.map((reply) => (
-                <li key={reply.id} className="flex flex-col items-start p-2 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
-                  <div className="flex items-start space-x-2">
-                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300">
-                      <img src={user.image_url || "/default-avatar.png"} alt={user.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex-1">
-                      <strong className="text-sm">{user.name}</strong>
-                      <p className="text-xs text-gray-600">{new Date(reply.created_at).toLocaleDateString()}</p>
-                      <p className="text-sm mt-1">{reply.content}</p>
-                    </div>
-                  </div>
-                </li>
+                <ReplyItem key={reply.id} reply={reply} user={user} handleEdit={handleEditReply} handleDelete={handleDeleteReply} />
               ))}
             </ul>
           )}

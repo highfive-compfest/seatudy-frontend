@@ -125,3 +125,18 @@ export const getRepliesByDiscussionId = async (discussionId: string, token: stri
     throw error;
   }
 };
+
+export const deleteReply = async (replyId: string, token: string): Promise<any> => {
+  try {
+    const response = await axiosInstance.delete(`forums/replies/${replyId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting reply:", error);
+    throw error;
+  }
+};
