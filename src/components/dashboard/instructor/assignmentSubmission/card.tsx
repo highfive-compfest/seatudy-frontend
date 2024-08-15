@@ -45,7 +45,7 @@ export const CardSubmission = ({submission, getSubmissions}:{submission: Submiss
             const newGrade = parseFloat(grade)
             const res = await updateGrade(submission.id,newGrade, accToken)
             getSubmissions()
-            console.log(res)
+            alert(res.message)
         } catch (error:any) {
             console.error(error.response)
         }

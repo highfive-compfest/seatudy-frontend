@@ -1,4 +1,4 @@
-import { DiscussionsResponse } from "@/types/discussion/discussion";
+import { DiscusByIdRes, DiscussionsResponse } from "@/types/discussion/discussion";
 import { axiosInstance } from "./api-config";
 
 export const getDiscussionsByCourseId = async (courseId: string, token: string, limit: number = 10, page: number = 1): Promise<DiscussionsResponse> => {
@@ -70,7 +70,7 @@ export const createReply = async (discussionId: string, content: string, token: 
 
 export const updateDiscussion = async (discussionId: string, title: string, content: string, token: string): Promise<any> => {
   try {
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.patch(
       `forums/discussions/${discussionId}`,
       {
         title,
@@ -105,3 +105,13 @@ export const deleteDiscussion = async (discussionId: string, token: string): Pro
     throw error;
   }
 };
+
+export const getDiscusById = async (discusId: string): Promise<DiscusByIdRes> => {
+  try {
+      const response = await axiosInstance.get<DiscusByIdRes>(`/forums/discussions/${discusId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching course details:", error);
+      throw error;
+    }
+  };

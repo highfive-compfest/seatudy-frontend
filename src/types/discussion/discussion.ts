@@ -17,6 +17,11 @@ interface Pagination {
   prev_page: number | null;
 }
 
+export interface DiscusByIdRes {
+  message : string;
+  payload : Discussion
+}
+
 export interface DiscussionsResponse {
   message: string;
   payload: {

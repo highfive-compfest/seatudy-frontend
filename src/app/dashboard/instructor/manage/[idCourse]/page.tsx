@@ -10,6 +10,7 @@ import { Course } from "@/types/course/course";
 import { HeaderCourse } from "@/components/dashboard/instructor/course/header";
 import { Material } from "@/components/dashboard/instructor/material/material";
 import { Assignment } from "@/components/dashboard/instructor/assignment/assignment";
+import { Discuss } from "@/components/dashboard/instructor/discussion/discussion";
 
 const Manage = () => {
   const router = useRouter();
@@ -71,7 +72,7 @@ const Manage = () => {
           </button>
         )}
       </nav>
-      {activeSection === "Edit" ? <EditCourse course={course} /> : activeSection === "Material" && course ? <Material courseId={course.id} /> : activeSection === "Assignment" && course ? <Assignment courseId={course.id} />:null}
+      {activeSection === "Edit" ? <EditCourse course={course} /> : activeSection === "Material" && course ? <Material courseId={course.id} /> : activeSection === "Assignment" && course ? <Assignment courseId={course.id} />:course&&<Discuss courseId={course.id}/>}
     </section>
   );
 };
