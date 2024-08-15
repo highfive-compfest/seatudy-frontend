@@ -56,7 +56,7 @@ const CoursesDropdown = () => {
   return (
     <DropdownMenu
       items={[
-        <div className="flex flex-col space-y-2 p-2 rounded-md">
+        <div key="search" className="flex flex-col space-y-2 p-2 rounded-md">
           <div className="flex items-center space-x-2 mb-3">
             <input
               type="text"
