@@ -31,6 +31,11 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ courseDetail }) => {
           </div>
 
           <div>
+            <h3 className="text-base md:text-lg font-medium text-gray-700 mb-1">Category</h3>
+            <p className="text-base md:text-gray-800 capitalize">{courseDetail.category}</p>
+          </div>
+
+          <div>
             <h3 className="text-base md:text-lg font-medium text-gray-700 mb-1">Syllabus</h3>
             <a href={courseDetail.syllabus_url} className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
               View Syllabus

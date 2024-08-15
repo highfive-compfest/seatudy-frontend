@@ -42,6 +42,12 @@ const CourseCard2: React.FC<CourseCardProps> = ({ course, progress }) => {
           <StarRatings rating={course.rating} starRatedColor="gold" numberOfStars={5} starDimension="20px" starSpacing="2px" name="rating" />
         </div>
 
+        <div className="mt-2">
+          <span className="text-gray-700 text-sm" data-testid="course-category">
+            Category: <strong>{course.category}</strong>
+          </span>
+        </div>
+
         <div className="mt-4">
           <div className="relative pt-1">
             <div className="flex mb-2 items-center justify-between text-xs font-medium text-gray-700">
