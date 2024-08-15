@@ -39,6 +39,9 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
 
   if (!assignment) return null;
 
+  const isGraded = userSubmission?.grade != null; // true if grade is not null or undefined
+  const isGradeNotZero = userSubmission?.grade !== undefined && userSubmission.grade !== 0;
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setSubmissionFile(e.target.files[0]);
@@ -96,11 +99,17 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
     <Dialog open={Boolean(assignment)} onClose={onClose} className="fixed z-50 inset-0 overflow-y-auto">
       <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center min-h-screen px-4 py-6">
         <div className="bg-white rounded-3xl p-8 w-full max-w-3xl mx-auto z-10 shadow-xl">
-          <Dialog.Title className="text-4xl font-semibold mb-6 border-b-2 pb-3 text-gray-800">{assignment.title}</Dialog.Title>
+          <Dialog.Title className="text-4xl font-semibold mb-6 border-b-2 pb-2 text-gray-800">{assignment.title}</Dialog.Title>
+          <div className="flex flex-row justify-between">
+            <p className="text-lg mb-6 text-gray-700">
+              <strong>Due Date:</strong> {new Date(assignment.due).toLocaleDateString()}
+            </p>
+
+            <p className="text-lg mb-6 text-gray-700">
+              <strong>Grade:</strong> {userSubmission?.grade ?? "Not graded yet"}
+            </p>
+          </div>
           <p className="text-lg mb-4 text-gray-700">{assignment.description}</p>
-          <p className="text-lg mb-6 text-gray-700">
-            <strong>Due Date:</strong> {new Date(assignment.due).toLocaleDateString()}
-          </p>
 
           <div className="mb-8">
             <h3 className="text-2xl font-semibold mb-4 text-gray-800">Submit Your Work</h3>
@@ -129,14 +138,24 @@ const AssignmentDetailsModal: React.FC<AssignmentDetailsModalProps> = ({ assignm
             <button className="py-2 px-4 rounded-lg border-2 border-gray-300 text-gray-800 hover:bg-gray-100 transition" onClick={onClose}>
               Close
             </button>
-            {userSubmission && (
-              <button className={`py-2 px-4 rounded-lg bg-red-600 text-white hover:bg-red-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleDelete} disabled={loading}>
-                {loading ? "Deleting..." : "Delete"}
-              </button>
+            {!isGradeNotZero && (
+              <>
+                {!userSubmission ? (
+                  <button className={`py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleSubmit} disabled={loading}>
+                    {loading ? "Submitting..." : "Submit"}
+                  </button>
+                ) : (
+                  <button className={`py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleSubmit} disabled={loading}>
+                    {loading ? "Updating..." : "Update"}
+                  </button>
+                )}
+                {userSubmission && (
+                  <button className={`py-2 px-4 rounded-lg bg-red-600 text-white hover:bg-red-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleDelete} disabled={loading}>
+                    {loading ? "Deleting..." : "Delete"}
+                  </button>
+                )}
+              </>
             )}
-            <button className={`py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`} onClick={handleSubmit} disabled={loading}>
-              {loading ? (userSubmission ? "Updating..." : "Submitting...") : userSubmission ? "Update" : "Submit"}
-            </button>
           </div>
         </div>
       </div>
