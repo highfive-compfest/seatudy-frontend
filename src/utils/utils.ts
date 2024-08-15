@@ -20,6 +20,7 @@ export const dummyCourse: Course = {
   review_count: 0,
   materials: [],
   assignments: [],
+  category: "Programming",
 };
 
 export const getExtFile = (url: string) => {
@@ -38,12 +39,12 @@ export const getTimeNow = () => {
 };
 
 export const optionsDate: Intl.DateTimeFormatOptions = {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
   hour12: false, // Ubah ke true untuk format 12-jam
-  timeZone: 'UTC' // Ganti dengan zona waktu yang sesuai jika perlu
+  timeZone: "UTC", // Ganti dengan zona waktu yang sesuai jika perlu
 };
