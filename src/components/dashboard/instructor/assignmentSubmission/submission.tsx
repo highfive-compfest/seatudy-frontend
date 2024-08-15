@@ -3,17 +3,20 @@ import { useEffect, useState } from "react";
 import { getSubmission } from "@/services/submission";
 import { SubmissionType } from "@/types/submission/submission";
 import { useAssignAttach } from "@/context/assignment-attach";
+import { CardSubmission } from "./card";
+import { optionsDate } from "@/utils/utils";
 
 export const Submission = () => {
     const {assignmentId}:any = useAssignAttach()
 
     const [submissions, setSubmissions] = useState<SubmissionType[]>()
 
+    const getSubmissions = async () => {
+        const res = await getSubmission(assignmentId)
+        setSubmissions(res.payload)
+    }
+
     useEffect(()=>{
-        const getSubmissions = async () => {
-            const res = await getSubmission(assignmentId)
-            setSubmissions(res.payload)
-        }
         getSubmissions()
     },[])
 
@@ -24,15 +27,9 @@ export const Submission = () => {
     return (
         <>
             <h2 className="mt-4 mb-1 text-xl font-bold">Submission</h2>
-            {submissions && <div>
+            {submissions && <div className="mt-4 flex flex-col gap-4">
                 {submissions.length===0?<p>there are no submission yet</p>:
-                submissions.map((submission, idx)=>{
-                    return (
-                        <div>
-                            <h1>{submission.content}</h1>
-                        </div>
-                    )
-                })
+                submissions.map((submission, idx)=><CardSubmission key={idx} getSubmissions={getSubmissions} submission={submission}/>)
                 }
             </div>}
         </>

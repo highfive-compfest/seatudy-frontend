@@ -10,7 +10,7 @@ export interface SubmissionType {
     assignment_id: string;
     user_id: string;
     content: string;
-    grade: number;
+    grade: string;
     attachments : Attachment[]
     created_at : string;
     updated_at : string;

@@ -36,3 +36,14 @@ export const getTimeNow = () => {
   const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
   return formattedDate;
 };
+
+export const optionsDate: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false, // Ubah ke true untuk format 12-jam
+  timeZone: 'UTC' // Ganti dengan zona waktu yang sesuai jika perlu
+};
