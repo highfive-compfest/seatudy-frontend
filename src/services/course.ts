@@ -145,3 +145,19 @@ export const getPopularCourses = async (page: number = 1, limit: number = 5): Pr
     throw error;
   }
 };
+
+export const searchCourses = async (title: string, page: number = 1, limit: number = 5): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>(`courses/search`, {
+      params: {
+        title,
+        page,
+        limit,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw error;
+  }
+};

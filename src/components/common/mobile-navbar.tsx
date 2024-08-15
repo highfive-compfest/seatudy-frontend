@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { AiOutlineClose, AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Course } from "@/types/course/course";
-import { getPopularCourses } from "@/services/course";
+import { getPopularCourses, searchCourses } from "@/services/course";
 
 interface NavbarProps {
   toggleCourses: () => void;
@@ -15,7 +15,10 @@ interface NavbarProps {
 
 export const MobileNavbar: React.FC<NavbarProps & { toggleMenu: () => void; isMenuOpen: boolean }> = ({ toggleMenu, toggleCourses, toggleCategory, isCoursesOpen, isCategoryOpen, isMenuOpen, isLoggedIn }) => {
   const [popularCourses, setPopularCourses] = useState<Course[]>([]);
+  const [searchResults, setSearchResults] = useState<Course[]>([]);
+  const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [searchLoading, setSearchLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,15 +36,55 @@ export const MobileNavbar: React.FC<NavbarProps & { toggleMenu: () => void; isMe
     fetchPopularCourses();
   }, []);
 
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      if (!query) {
+        setSearchResults([]);
+        return;
+      }
+
+      setSearchLoading(true);
+      setError(null);
+
+      try {
+        const response = await searchCourses(query);
+        setSearchResults(response.payload.courses);
+      } catch (err) {
+        setError("Failed to fetch search results.");
+      } finally {
+        setSearchLoading(false);
+      }
+    };
+
+    fetchSearchResults();
+  }, [query]);
+
   return (
     <div className={`fixed inset-0 bg-white shadow-md pt-24 ease-in-out duration-500 z-40 ${isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`} data-testid="mobile-menu">
       <ul className="flex flex-col p-5 space-y-4">
         <li>
-          <div className="flex items-center space-x-2 bg-white border border-gray-300 rounded overflow-hidden">
-            <input type="text" placeholder="Search courses..." className="flex-1 px-4 py-2 border-none focus:outline-none text-medium placeholder-gray-500" />
-            <button className="bg-blue-500 border-blue-500 border-2 text-white px-4 py-2 rounded-r hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" type="button">
-              Search
-            </button>
+          <div className="flex flex-col space-y-2 bg-white border border-gray-300 rounded overflow-hidden">
+            <div className="flex items-center space-x-2 bg-white border-b border-gray-300 rounded-t-md">
+              <input type="text" placeholder="Search courses..." value={query} onChange={(e) => setQuery(e.target.value)} className="flex-1 px-4 py-2 border-none focus:outline-none text-medium placeholder-gray-500" />
+            </div>
+            <div className="max-h-60 overflow-y-auto">
+              {searchLoading ? (
+                <p className="px-4 py-2 text-gray-500">Searching...</p>
+              ) : error ? (
+                <p className="px-4 py-2 text-red-500">{error}</p>
+              ) : searchResults.length > 0 ? (
+                searchResults.map((course) => (
+                  <Link href={`/course_detail?id=${course.id}`} key={course.id}>
+                    <div className="flex items-center space-x-3 px-4 py-2 hover:bg-gray-200 cursor-pointer transition duration-200 mb-2 rounded-md" onClick={toggleMenu}>
+                      <img src={course.image_url || "/default-image.png"} alt={course.title} className="w-16 h-16 object-cover rounded-md" />
+                      <p className="text-sm font-semibold">{course.title}</p>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <p className="px-4 py-2 text-gray-600">No results found.</p>
+              )}
+            </div>
           </div>
         </li>
         <li data-testid="mobile-home-link">

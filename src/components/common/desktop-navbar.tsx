@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 import { ProfileIcon } from "./profile-icon";
 import { Course } from "@/types/course/course";
-import { getPopularCourses } from "@/services/course";
+import { getPopularCourses, searchCourses } from "@/services/course";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
 import { NotifIcon } from "./notif-icon";
@@ -18,23 +18,75 @@ interface NavbarProps {
 }
 
 const DropdownMenu = ({ items }: { items: JSX.Element[] }) => (
-  <div className="scrollbar-hide absolute hidden group-hover:block bg-white shadow-lg p-4 rounded-lg min-w-72 border border-gray-200 overflow-y-auto max-h-80 right-0">
+  <div className="scrollbar-hide absolute hidden group-hover:block bg-white shadow-lg p-2 rounded-lg min-w-72 border border-gray-200 overflow-y-auto max-h-80 right-0">
     {items.map((item, index) => React.cloneElement(item, { key: index }))}
   </div>
 );
 
-const CoursesDropdown = () => (
-  <DropdownMenu
-    items={[
-      <div key="search" className="flex items-center space-x-2">
-        <input type="text" placeholder="Search courses..." className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg" />
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" type="button">
-          Search
-        </button>
-      </div>,
-    ]}
-  />
-);
+const CoursesDropdown = () => {
+  const [query, setQuery] = useState("");
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      if (!query) {
+        setCourses([]);
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await searchCourses(query);
+        setCourses(response.payload.courses);
+      } catch (err) {
+        setError("Failed to fetch courses.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, [query]);
+
+  return (
+    <DropdownMenu
+      items={[
+        <div key="search" className="flex flex-col space-y-2 p-2 rounded-md">
+          <div className="flex items-center space-x-2 mb-3">
+            <input
+              type="text"
+              placeholder="Search courses..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            />
+          </div>
+          {loading && <p className="text-blue-500 text-sm mb-2">Searching...</p>}
+          {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
+          {courses.length > 0 ? (
+            <ul className="space-y-2">
+              {courses.map((course) => (
+                <Link href={`/course_detail?id=${course.id}`}>
+                  <li key={course.id} className="flex items-center space-x-3 py-2 px-3 border-b border-gray-200 hover:bg-gray-50">
+                    <img src={course.image_url} alt={course.title} className="w-14 h-14 object-cover rounded-md" />
+                    <span className="text-sm font-semibold text-gray-800">{course.title}</span>
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-600 text-sm">No results found.</p>
+          )}
+        </div>,
+      ]}
+    />
+  );
+};
 
 const PopularDropdown = ({ courses }: { courses: Course[] }) => (
   <DropdownMenu
