@@ -1,4 +1,4 @@
-import { DiscussionsResponse } from "@/types/discussion/discussion";
+import { DiscussionsResponse, ReplyResponse } from "@/types/discussion/discussion";
 import { axiosInstance } from "./api-config";
 
 export const getDiscussionsByCourseId = async (courseId: string, token: string, limit: number = 10, page: number = 1): Promise<DiscussionsResponse> => {
@@ -102,6 +102,26 @@ export const deleteDiscussion = async (discussionId: string, token: string): Pro
     return response.data;
   } catch (error) {
     console.error("Error deleting discussion:", error);
+    throw error;
+  }
+};
+
+export const getRepliesByDiscussionId = async (discussionId: string, token: string, page: number = 1, limit: number = 10): Promise<ReplyResponse> => {
+  try {
+    const response = await axiosInstance.get("forums/replies", {
+      params: {
+        DiscussionID: discussionId,
+        page,
+        limit,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching replies:", error);
     throw error;
   }
 };

@@ -1,3 +1,5 @@
+import React from "react";
+
 interface ReplyFormProps {
   replyMessage: string;
   setReplyMessage: React.Dispatch<React.SetStateAction<string>>;

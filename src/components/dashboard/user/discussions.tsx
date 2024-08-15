@@ -21,7 +21,6 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
   const [title, setTitle] = useState<string>("");
   const [replyMessage, setReplyMessage] = useState<string>("");
   const [selectedMessage, setSelectedMessage] = useState<Discussion | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
   const [hasPurchased, setHasPurchased] = useState<boolean>(false);
   const [replyToMessageId, setReplyToMessageId] = useState<string | null>(null);
@@ -32,10 +31,9 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
       try {
         const response = await getDiscussionsByCourseId(courseId, authToken);
         setMessages(response.payload.data);
-        setError(null);
       } catch (error) {
         console.error("Error fetching discussions:", error);
-        alert("Error fetching: " + error);
+        alert("Error fetching discussions: " + error);
       }
     };
 
@@ -50,7 +48,7 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
         setHasPurchased(response.payload.some((course) => course.course.id === courseId));
       } catch (error) {
         console.error("Error fetching bought courses:", error);
-        alert("Error fetching: " + error);
+        alert("Error fetching bought courses: " + error);
       }
     };
 
@@ -64,36 +62,34 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
           await createReply(replyToMessageId, replyMessage, authToken);
           setReplyMessage("");
           setReplyToMessageId(null);
-          setError(null);
+          alert("Reply sent successfully.");
         } catch (error) {
           console.error("Error sending reply:", error);
           alert("Error sending reply: " + error);
         }
+      } else {
+        alert("Reply message cannot be empty.");
       }
     } else {
       if (newMessage.trim() && title.trim()) {
         try {
-          await createDiscussion(courseId, title, newMessage, authToken);
+          if (selectedMessage) {
+            await updateDiscussion(selectedMessage.id, title, newMessage, authToken);
+            setSelectedMessage(null);
+            alert("Discussion updated successfully.");
+          } else {
+            await createDiscussion(courseId, title, newMessage, authToken);
+            alert("Discussion created successfully.");
+          }
           setNewMessage("");
           setTitle("");
-          setError(null);
           setIsInputVisible(false);
         } catch (error) {
           console.error("Error sending message:", error);
           alert("Error sending message: " + error);
         }
-      } else if (selectedMessage) {
-        try {
-          await updateDiscussion(selectedMessage.id, title, newMessage, authToken);
-          setSelectedMessage(null);
-          setNewMessage("");
-          setTitle("");
-          setError(null);
-          setIsInputVisible(false);
-        } catch (error) {
-          console.error("Error updating discussion:", error);
-          alert("Error updating discussion: " + error);
-        }
+      } else {
+        alert("Title and message cannot be empty.");
       }
     }
   };
@@ -125,10 +121,10 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
     try {
       await deleteDiscussion(messageId, authToken);
       setMessages(messages.filter((msg) => msg.id !== messageId));
-      setError(null);
+      alert("Discussion deleted successfully.");
     } catch (error) {
       console.error("Error deleting discussion:", error);
-      setError("Failed to delete discussion.");
+      alert("Error deleting discussion: " + error);
     }
   };
 

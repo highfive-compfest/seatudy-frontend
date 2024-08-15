@@ -1,8 +1,10 @@
-import { Discussion } from "@/types/discussion/discussion";
+import { Discussion, Reply } from "@/types/discussion/discussion";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
 import { getUserById } from "@/services/user";
 import { UserPayload } from "@/types/user/user";
+import ReplyForm from "@/components/discussions/reply-form";
+import { getRepliesByDiscussionId, createReply } from "@/services/discussion";
 
 interface DiscussionItemProps {
   message: Discussion;
@@ -16,6 +18,9 @@ interface DiscussionItemProps {
 
 const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, handleEdit, handleDelete, replyToMessageId, setReplyMessage, replyMessage }) => {
   const [user, setUser] = useState<UserPayload | null>(null);
+  const [showReplies, setShowReplies] = useState(false);
+  const [replies, setReplies] = useState<Reply[]>([]);
+  const [localReplyMessage, setLocalReplyMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -30,7 +35,40 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
     fetchUser();
   }, [message.user_id]);
 
+  useEffect(() => {
+    const fetchReplies = async () => {
+      try {
+        const authToken = getCookie("authToken") as string;
+        const data = await getRepliesByDiscussionId(message.id, authToken);
+        setReplies(data.payload.data);
+      } catch (error) {
+        console.error("Error fetching replies:", error);
+        alert("Error fetching replies: " + error);
+      }
+    };
+
+    if (showReplies) {
+      fetchReplies();
+    }
+  }, [showReplies, message.id]);
+
+  const handleSendReply = async () => {
+    if (localReplyMessage.trim()) {
+      try {
+        const authToken = getCookie("authToken") as string;
+        await createReply(message.id, localReplyMessage, authToken);
+        setLocalReplyMessage("");
+        setReplyMessage("");
+        setShowReplies(true);
+        alert("reply sent successfullys");
+      } catch (error) {
+        alert("Error sending reply: " + error);
+      }
+    }
+  };
+
   if (!user) return null;
+
   return (
     <li className={`flex flex-col items-start space-y-4 p-4 rounded-lg shadow-md ${message.user_id === getCookie("userId") ? "bg-blue-100 text-blue-800 self-end" : "bg-gray-100 text-gray-800"}`}>
       <div className="flex items-start space-x-4">
@@ -54,19 +92,27 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
               Delete
             </button>
           </div>
-          {replyToMessageId === message.id && (
-            <div className="mt-4">
-              <textarea
-                value={replyMessage}
-                onChange={(e) => setReplyMessage(e.target.value)}
-                className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-                placeholder="Type a reply..."
-                rows={3}
-              />
-              <button onClick={() => handleReply(message.id)} className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-                Send Reply
-              </button>
-            </div>
+          {replyToMessageId === message.id && <ReplyForm replyMessage={localReplyMessage} setReplyMessage={setLocalReplyMessage} handleSendMessage={handleSendReply} />}
+          <button onClick={() => setShowReplies(!showReplies)} className="mt-2 text-blue-600 text-xs hover:underline focus:outline-none">
+            {showReplies ? "Hide Replies" : "Show Replies"}
+          </button>
+          {showReplies && replies.length > 0 && (
+            <ul className="mt-2 space-y-2">
+              {replies.map((reply) => (
+                <li key={reply.id} className="flex flex-col items-start p-2 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
+                  <div className="flex items-start space-x-2">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300">
+                      <img src={user.image_url || "/default-avatar.png"} alt={user.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1">
+                      <strong className="text-sm">{user.name}</strong>
+                      <p className="text-xs text-gray-600">{new Date(reply.created_at).toLocaleDateString()}</p>
+                      <p className="text-sm mt-1">{reply.content}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       </div>

@@ -23,7 +23,7 @@ export const NotifIcon: React.FC = () => {
       }
 
       try {
-        const response = await getNotifications(token, 1, 5);
+        const response = await getNotifications(token, 1, 4);
         const notificationsData = response.payload.data;
         if (Array.isArray(notificationsData)) {
           setNotifications(notificationsData);
@@ -38,6 +38,10 @@ export const NotifIcon: React.FC = () => {
     };
 
     fetchNotifications();
+
+    const intervalId = setInterval(fetchNotifications, 10000);
+
+    return () => clearInterval(intervalId);
   }, [token]);
 
   const handleMarkAsRead = async (notificationId: string) => {
@@ -59,7 +63,7 @@ export const NotifIcon: React.FC = () => {
     <div className="relative">
       <button onClick={toggleDropdown} className="relative p-2 focus:outline-none hover:bg-gray-100 rounded-full transition-colors">
         <MdOutlineNotificationsNone size={24} />
-        {unreadCount > 0 && <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1 translate-x-1/2 -translate-y-1/2">{unreadCount}</span>}
+        {unreadCount > 0 && <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1 translate-x-1/3 -translate-y-1/4">{unreadCount}</span>}
       </button>
 
       {showDropdown && (
@@ -68,17 +72,17 @@ export const NotifIcon: React.FC = () => {
 
           {error && <div className="p-3 text-red-500">{error}</div>}
 
-          {!loading && !error && notifications.length === 0 && <div className="p-3 text-gray-500">No notifications yet</div>}
+          {!loading && !error && notifications.length === 0 && <div className="p-3 text-sm text-gray-500">No notifications yet</div>}
 
           {!loading && !error && notifications.length > 0 && (
             <>
-              {filteredNotifications.length === 0 && <div className="p-3 text-gray-500">No unread notifications</div>}
+              {filteredNotifications.length === 0 && <div className="p-3 text-sm text-gray-500">No unread notifications</div>}
               {filteredNotifications.map((notification) => (
-                <div key={notification.id} className={`flex flex-col p-3 ${notification.is_read ? "bg-white" : "bg-gray-100"} rounded-md border border-gray-300 transition-colors duration-300 ease-in-out`}>
+                <div key={notification.id} className={`flex flex-col p-3 ${notification.is_read ? "bg-white" : "bg-gray-100"} border border-gray-300 transition-colors duration-300 ease-in-out`}>
                   <div className="flex items-start justify-between">
                     <div>
-                      <strong className="text-lg font-semibold">{notification.title}</strong>
-                      <p className="text-sm text-gray-700">{notification.detail}</p>
+                      <strong className="text-medium font-semibold">{notification.title}</strong>
+                      <p className="text-xs text-gray-700">{notification.detail}</p>
                       <small className="text-xs text-gray-500">{new Date(notification.created_at).toLocaleString()}</small>
                     </div>
                     {!notification.is_read && (
@@ -95,7 +99,7 @@ export const NotifIcon: React.FC = () => {
                   </div>
                 </div>
               ))}
-              <div onClick={() => setShowAll((prev) => !prev)} className="px-3 py-2 text-sm text-blue-500 cursor-pointer hover:bg-gray-100 transition-colors duration-200 ease-in-out">
+              <div onClick={() => setShowAll((prev) => !prev)} className="px-3 py-2 text-xs text-blue-500 cursor-pointer hover:bg-gray-100 transition-colors duration-200 ease-in-out">
                 {showAll ? "Show Unread Only" : "Show All Notifications"}
               </div>
             </>
