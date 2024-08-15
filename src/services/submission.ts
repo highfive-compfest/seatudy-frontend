@@ -55,3 +55,18 @@ export const deleteSubmission = async (submissionId: string, token: string): Pro
     throw error;
   }
 };
+
+export const updateGrade = async (submissionId:string, value: number, token: string) => {
+  try {
+    const response = await axiosInstance.put(`submissions/grade/${submissionId}`, {grade : value}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Grade uploaded successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading Grade:", error);
+    throw error;
+  }
+}

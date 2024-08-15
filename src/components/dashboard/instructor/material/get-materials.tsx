@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { ActionButton } from "./action";
 import { useMaterials } from "./material";
 import { MaterialsContextType, MaterialType } from "@/types/material/material-courseid";
+import { optionsDate } from "@/utils/utils";
 
 
 export const GetMaterials = () => {
@@ -23,19 +24,10 @@ export const GetMaterials = () => {
             <h2 className="font-semibold text-2xl">Materials</h2>
             <div className="mt-2 flex flex-col gap-4">{materials?.length === 0? <p>there are no materials yet.</p>:
                 materials?.map((materi:MaterialType, idx:number)=>{
-                    const options: Intl.DateTimeFormatOptions = {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false, // Ubah ke true untuk format 12-jam
-                        timeZone: 'UTC' // Ganti dengan zona waktu yang sesuai jika perlu
-                      };
                     
-                    const created = new Date(materi.created_at).toLocaleDateString(undefined, options);
-                    const updated = new Date(materi.updated_at).toLocaleDateString(undefined, options);
+                    
+                    const created = new Date(materi.created_at).toLocaleDateString(undefined, optionsDate);
+                    const updated = new Date(materi.updated_at).toLocaleDateString(undefined, optionsDate);
                     const createdDate = new Date(materi.created_at).toLocaleDateString();
                     const updatedDate = new Date(materi.updated_at).toLocaleDateString();
                     
