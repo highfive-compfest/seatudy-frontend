@@ -44,3 +44,64 @@ export const createDiscussion = async (courseId: string, title: string, content:
     throw error;
   }
 };
+
+export const createReply = async (discussionId: string, content: string, token: string): Promise<any> => {
+  try {
+    const response = await axiosInstance.post(
+      "forums/replies",
+      {
+        discussion_id: discussionId,
+        content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error creating reply:", error);
+    throw error;
+  }
+};
+
+export const updateDiscussion = async (discussionId: string, title: string, content: string, token: string): Promise<any> => {
+  try {
+    const response = await axiosInstance.put(
+      `forums/discussions/${discussionId}`,
+      {
+        title,
+        content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating discussion:", error);
+    throw error;
+  }
+};
+
+export const deleteDiscussion = async (discussionId: string, token: string): Promise<any> => {
+  try {
+    const response = await axiosInstance.delete(`forums/discussions/${discussionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting discussion:", error);
+    throw error;
+  }
+};
