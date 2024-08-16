@@ -13,13 +13,16 @@ interface CourseFormProps {
   }
 }
 
-const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values, isSubmitting,  text}) => {
+const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values, isSubmitting, text }) => {
+  const defaultCategory = "Web Development";
+  const defaultDifficulty = "beginner";
+
   const [formData, setFormData] = useState({
     title: values?.title || "",
     description: values?.description || "",
     price: values?.price || "",
-    difficulty: values?.difficulty || "Beginner",
-    category: values?.category || "Web Development",
+    difficulty: values?.difficulty || "beginner",
+    category: values?.category || "Programming",
     image: null as File | null,
     syllabus: null as File | null,
   });
@@ -66,8 +69,8 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values, 
     form.append("title", formData.title);
     form.append("description", formData.description);
     form.append("price", formData.price);
-    form.append("difficulty", formData.difficulty);
-    form.append("category", formData.category);
+    form.append("difficulty", formData.difficulty || defaultDifficulty);
+    form.append("category", formData.category || defaultCategory);
     if (formData.image) form.append("image", formData.image);
     if (formData.syllabus) form.append("syllabus", formData.syllabus);
     const target = e.target as HTMLFormElement
@@ -85,8 +88,8 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values, 
       image_url: formData.image ? URL.createObjectURL(formData.image) : "",
       syllabus_url: formData.syllabus ? URL.createObjectURL(formData.syllabus) : "",
       instructor_id: "",
-      difficulty: formData.difficulty,
-      category: formData.category,
+      difficulty: formData.difficulty || defaultDifficulty,
+      category: formData.category || defaultCategory,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       rating: 0,
@@ -126,12 +129,12 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values, 
           <div className="w-full mt-4 md:mt-0">
             <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
             <input
-              min={0}
               type="number"
               name="price"
               placeholder="0"
               value={formData.price}
               onChange={handleChange}
+              min="0" // Prevents negative values
               className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
               required
             />

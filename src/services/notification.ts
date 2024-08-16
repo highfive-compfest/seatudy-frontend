@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { axiosInstance } from "./api-config";
-import { NotificationsResponse } from "@/types/notification/notification";
+import { NotificationsResponse, UnreadCountResponse } from "@/types/notification/notification";
 
 export const getNotifications = async (token: string, page: number = 1, limit: number = 10): Promise<NotificationsResponse> => {
   try {
@@ -33,6 +33,20 @@ export const markNotificationAsRead = async (token: string, notificationId: stri
     );
   } catch (error) {
     console.error("Error marking notification as read:", error);
+    throw error;
+  }
+};
+
+export const getUnreadCount = async (token: string): Promise<UnreadCountResponse> => {
+  try {
+    const response: AxiosResponse<UnreadCountResponse> = await axiosInstance.get("notifications/my/unread-count", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching unread count:", error);
     throw error;
   }
 };

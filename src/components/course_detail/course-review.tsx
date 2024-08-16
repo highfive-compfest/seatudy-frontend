@@ -11,6 +11,8 @@ const CourseReviews: React.FC<CourseReviewsProps> = ({ courseId }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     if (!courseId) {
@@ -18,11 +20,12 @@ const CourseReviews: React.FC<CourseReviewsProps> = ({ courseId }) => {
       return;
     }
 
-    setLoading(true);
     const fetchReviews = async () => {
+      setLoading(true);
       try {
-        const reviewsResponse: ReviewsResponse = await getReviews(courseId, 1, 10, 0);
+        const reviewsResponse: ReviewsResponse = await getReviews(courseId, currentPage, 5, 0);
         setReviews(reviewsResponse.payload.data);
+        setTotalPages(reviewsResponse.payload.pagination.total_page);
       } catch (error) {
         setError("Error fetching reviews.");
         console.error("Error fetching reviews:", error);
@@ -32,7 +35,13 @@ const CourseReviews: React.FC<CourseReviewsProps> = ({ courseId }) => {
     };
 
     fetchReviews();
-  }, [courseId]);
+  }, [courseId, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <div className="mt-12 bg-gray-100 border-2 border-x-gray-200 p-6 rounded-lg shadow">
@@ -47,6 +56,17 @@ const CourseReviews: React.FC<CourseReviewsProps> = ({ courseId }) => {
         ) : (
           reviews.map((review) => <ReviewItem key={review.id} review={review} />)
         )}
+      </div>
+      <div className="flex justify-between items-center mt-6">
+        <button className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span className="text-gray-700 text-sm">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          Next
+        </button>
       </div>
     </div>
   );

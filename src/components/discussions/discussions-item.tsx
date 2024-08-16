@@ -38,18 +38,18 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
     fetchUser();
   }, [message.user_id]);
 
-  useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const authToken = getCookie("authToken") as string;
-        const data = await getRepliesByDiscussionId(message.id, authToken);
-        setReplies(data.payload.data);
-      } catch (error) {
-        console.error("Error fetching replies:", error);
-        alert("Error fetching replies: " + error);
-      }
-    };
+  const fetchReplies = async () => {
+    try {
+      const authToken = getCookie("authToken") as string;
+      const data = await getRepliesByDiscussionId(message.id, authToken);
+      setReplies(data.payload.data);
+    } catch (error) {
+      console.error("Error fetching replies:", error);
+      alert("Error fetching replies: " + error);
+    }
+  };
 
+  useEffect(() => {
     if (showReplies) {
       fetchReplies();
     }
@@ -64,6 +64,7 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
         setReplyMessage("");
         setShowReplies(true);
         alert("Reply sent successfully");
+        await fetchReplies();
       } catch (error) {
         alert("Error sending reply: " + error);
       }
@@ -83,6 +84,7 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
         setEditingReply(null);
         setEditReplyMessage("");
         alert("Reply updated successfully");
+        await fetchReplies();
       } catch (error) {
         alert("Error updating reply: " + error);
       }
@@ -95,6 +97,7 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
       await deleteReply(replyId, authToken);
       setReplies(replies.filter((reply) => reply.id !== replyId));
       alert("Reply deleted successfully");
+      await fetchReplies(); // Refresh replies
     } catch (error) {
       console.error("Error deleting reply:", error);
       alert("Error deleting reply: " + error);

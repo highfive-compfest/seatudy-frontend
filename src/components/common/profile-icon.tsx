@@ -62,6 +62,19 @@ export const ProfileIcon = () => {
             label: "Dashboard",
           },
           {
+            textValue: "Payout",
+            href: isEmailVerified ? "/payout" : "/dashboard/instructor/profile",
+            icon: <FaMoneyBill />,
+            label: "Payout",
+            onClick: () => {
+              if (!isEmailVerified) {
+                alert("Please verify your email to access this feature.");
+                return false;
+              }
+              return true;
+            },
+          },
+          {
             textValue: "Log Out",
             onClick: logOut,
             icon: <MdLogout />,

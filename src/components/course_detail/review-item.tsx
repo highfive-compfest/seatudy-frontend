@@ -42,7 +42,11 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
             <p className="text-red-500">{error}</p>
           ) : user ? (
             <>
-              <img src={user.image_url || "/default-profile.png"} alt={`${user.name}'s profile`} className="w-12 h-12 rounded-full mr-4 object-cover" />
+              <img
+                src={user.image_url || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
+                alt={`${user.name}'s profile`}
+                className="w-12 h-12 rounded-full mr-4 object-cover"
+              />
               <div>
                 <span className="block text-gray-800 font-semibold">{user.name}</span>
               </div>

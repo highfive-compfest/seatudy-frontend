@@ -3,34 +3,35 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Submit } from "./button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useData } from "@/context/reset-password";
 import { verifyPasswordReset } from "@/services/auth";
 import { VerifyPasswordResetRequest } from "@/types/sign/verify-password";
 
 export const FormVerifyPasswordReset: React.FC = () => {
   const searchParams = useSearchParams();
-  const { data, setData } = useData();
-  const [info, setInfo] = useState("");
-  const [isPending, setPending] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [token, setToken] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [info, setInfo] = useState<string>("");
+  const [isPending, setPending] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
-    const email = searchParams.get("email");
-    const token = searchParams.get("token");
+    const emailParam = searchParams.get("email");
+    const tokenParam = searchParams.get("token");
 
-    if (email) {
-      setData((prevData) => ({ ...prevData, email }));
+    if (emailParam) {
+      setEmail(emailParam);
     }
-    if (token) {
-      setData((prevData) => ({ ...prevData, token }));
+    if (tokenParam) {
+      setToken(tokenParam);
     }
-  }, [searchParams, setData]);
+  }, [searchParams]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    if (name in data) {
-      setData((prevData) => ({ ...prevData, [name]: value }));
+    if (name === "newPassword") {
+      setNewPassword(value);
     } else {
       console.error(`Unknown field: ${name}`);
     }
@@ -43,9 +44,9 @@ export const FormVerifyPasswordReset: React.FC = () => {
 
     try {
       const request: VerifyPasswordResetRequest = {
-        email: data.email,
-        token: data.token,
-        new_password: data.newPassword,
+        email,
+        token,
+        new_password: newPassword,
       };
       const response = await verifyPasswordReset(request);
       alert(response.message);
@@ -66,7 +67,7 @@ export const FormVerifyPasswordReset: React.FC = () => {
       </div>
       <h2 className="text-3xl mt-10 mb-5 text-center font-bold">Reset Your Password</h2>
       <p className="text-center text-gray-600 mt-4 mb-8">
-        You are about to reset your password for the account associated with <strong>{data.email}</strong>. Please enter your new password below.
+        You are about to reset your password for the account associated with <strong>{email}</strong>. Please enter your new password below.
       </p>
 
       <input
@@ -76,7 +77,7 @@ export const FormVerifyPasswordReset: React.FC = () => {
         onChange={handleChange}
         placeholder="New Password"
         type="password"
-        value={data.newPassword}
+        value={newPassword}
       />
 
       <Submit isPending={isPending} name="Reset Password" />
