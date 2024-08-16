@@ -229,19 +229,19 @@ export const getAllUserBuyCourse = async (courseId: string, token : string): Pro
   }
 };
 
-// export const getStudentProgres = async (courseId: string, studentId:string, token : string): Promise<GetProgressRes> => {
-//   try {
-//     const response = await axiosInstance.get<GetProgressRes>(`courses/progress/${courseId}`,
-//       {user_id:studentId},
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching course details:", error);
-//     throw error;
-//   }
-// };
+export const getStudentProgres = async (courseId: string, studentId:string, token : string): Promise<GetProgressRes> => {
+  try {
+    const response = await axiosInstance.get<GetProgressRes>(`courses/progress/${courseId}`,
+      {
+        params:{user_id : studentId},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    throw error;
+  }
+};
