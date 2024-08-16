@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { createAssignment } from "@/services/assignment";
 import { useAssignments } from "./assignment";
 import { getTimeNow } from "@/utils/utils";
+import { Spinner } from "@nextui-org/spinner";
 
 export const AssignmrntForm = () => {
 
@@ -17,6 +18,7 @@ export const AssignmrntForm = () => {
 
     const [info, setInfo] = useState("")
     const [timeNow, setTimeNow] = useState("")
+    const [isPending, setPending] = useState(false)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = event.target as HTMLInputElement;
@@ -27,6 +29,7 @@ export const AssignmrntForm = () => {
     };
 
     const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+        setPending(true)
         try {
             event.preventDefault()
             const dueISO = new Date(formData.due).toISOString()
@@ -41,6 +44,8 @@ export const AssignmrntForm = () => {
             target.reset();
         } catch (error:any) {
             console.error(error.response)
+        } finally {
+            setPending(false)
         }
     }
 
@@ -80,9 +85,9 @@ export const AssignmrntForm = () => {
                         />
                 </div>
                 <p>{info}</p>
-                <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                {isPending?<div className="flex justify-center"><Spinner/></div>:<button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
                     Create Assignment
-                </button>
+                </button>}
             </form>
         </div>
     )

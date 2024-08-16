@@ -4,6 +4,7 @@ import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
 import { useMaterials } from "./material";
 import { getMaterialById, updateMaterial } from "@/services/material";
 import { getCookie } from "cookies-next";
+import { Spinner } from "@nextui-org/spinner";
 
 interface Type {
     materiActive : MaterialType|undefined;
@@ -14,7 +15,8 @@ export const EditMaterial = ({materiActive}:Type) => {
 
     
     const {isEdit, setEdit, getMaterials}:any = useMaterials()
-    
+
+    const [isPending, setPending] = useState(false)
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -39,6 +41,7 @@ export const EditMaterial = ({materiActive}:Type) => {
 
     const handleSubmit = async (event: FormEvent) => {
         if (materiActive) {
+            setPending(true)
             event.preventDefault()
             try {
                 const form = new FormData();
@@ -49,6 +52,8 @@ export const EditMaterial = ({materiActive}:Type) => {
                 setEdit(false)
             } catch (error:any) {
                 console.error(error.response)
+            } finally {
+                setPending(false)
             }
         }
     }
@@ -72,12 +77,12 @@ export const EditMaterial = ({materiActive}:Type) => {
                     rows={6} 
                     placeholder="Description" 
                     className="resize-none block border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"/>
-                <button onClick={()=>setEdit(false)} type="button" className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">
+                {!isPending&&<button onClick={()=>setEdit(false)} type="button" className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">
                     Cancel
-                </button>
-                <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                </button>}
+                {isPending?<div className="justify-center flex"><Spinner/></div>:<button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
                     Save
-                </button>
+                </button>}
             </form>
         </div>
     )

@@ -9,7 +9,7 @@ import { getCookie } from "cookies-next";
 import Link from "next/link";
 import React, { FormEvent, useEffect, useState } from "react";
 import { FaFile } from "react-icons/fa6";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoMdSend } from "react-icons/io";
 
 export const CardSubmission = ({submission, getSubmissions}:{submission: SubmissionType, getSubmissions: ()=>void}) => {
 
@@ -18,6 +18,7 @@ export const CardSubmission = ({submission, getSubmissions}:{submission: Submiss
     const [student, setStudent] = useState<UserPayload>()
     const [grade, setGrade] = useState<string>(submission.grade)
     const [isActive, setActive] = useState("")
+    const [isFocus, setFocus] = useState(false)
 
     useEffect(()=>{
         const getStudent = async () => {
@@ -48,6 +49,8 @@ export const CardSubmission = ({submission, getSubmissions}:{submission: Submiss
             alert(res.message)
         } catch (error:any) {
             console.error(error.response)
+        } finally {
+            setFocus(false)
         }
     }
 
@@ -86,9 +89,10 @@ export const CardSubmission = ({submission, getSubmissions}:{submission: Submiss
                     )
                 })}
             </div>
-            <form onSubmit={handleSubmit} className={`${isActive===submission.id?"border-t-1":"border-t-0"} border-black pt-2`}>
+            <form onSubmit={handleSubmit} className={`${isActive===submission.id?"border-t-1":"border-t-0"} border-black pt-2 flex items-center gap-2`}>
                 <label htmlFor="grade">Grade : </label>
-                <input 
+                <input
+                    onFocus={()=>setFocus(true)}
                     className="w-12 outline-none appearance-none bg-inherit border-black border-b-2" 
                     id="grade" 
                     value={grade} 
@@ -97,6 +101,7 @@ export const CardSubmission = ({submission, getSubmissions}:{submission: Submiss
                     onChange={handleChange} 
                     type="number"/>
                 <label htmlFor="grade">/100</label>
+                {isFocus&&<button type="submit"><IoMdSend/></button>}
             </form>
         </div>
     )

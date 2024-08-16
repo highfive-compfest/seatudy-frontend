@@ -25,10 +25,6 @@ export const Assignment = ({courseId}:{courseId:string}) => {
         getAssignments();
     }, [courseId]);
 
-    useEffect(()=>{
-        console.log(assignments)
-    },[assignments])
-
     return (
         <AssignmentContext.Provider value={{assignments, getAssignments, courseId, isEdit, setEdit, accToken}}>
             <section className="grid grid-cols-1 md:grid-cols-2 mt-4 gap-6">

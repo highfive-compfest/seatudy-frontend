@@ -4,6 +4,7 @@ import { Course } from "@/types/course/course";
 import { useState, useEffect } from "react";
 import { getInstructorCourse } from "../../../../services/course";
 import { getCookie } from "cookies-next";
+import { Spinner } from "@nextui-org/spinner";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -44,7 +45,7 @@ const Courses = () => {
       <h1 className="text-2xl font-bold">Manage Your Courses</h1>
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center md:justify-start pb-8">
-        {isPending && <p>Loading...</p>}
+        {isPending && <Spinner/>}
         {courses.length > 0 ? courses.map((course) => <CourseCard key={course.id} course={course} />) : <p>No courses found.</p>}
       </div>
 

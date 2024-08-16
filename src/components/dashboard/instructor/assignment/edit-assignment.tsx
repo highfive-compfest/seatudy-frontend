@@ -6,6 +6,7 @@ import { getCookie } from "cookies-next";
 import { AssignmentsContextType, AssignmentType } from "@/types/assignment/assignment";
 import { useAssignments } from "./assignment";
 import { updateAssignment } from "@/services/assignment";
+import { Spinner } from "@nextui-org/spinner";
 
 interface Type {
     assignmentActive : AssignmentType|undefined;
@@ -13,6 +14,7 @@ interface Type {
 export const EditAssignment = ({assignmentActive}:Type) => {
     
     const {setEdit, getAssignments, accToken}:any = useAssignments()
+    const [isPending, setPending] = useState(false)
     
     const [formData, setFormData] = useState({
         title: "",
@@ -50,6 +52,7 @@ export const EditAssignment = ({assignmentActive}:Type) => {
     const handleSubmit = async (event: FormEvent) => {
         if (assignmentActive) {
             event.preventDefault()
+            setPending(true)
             try {
                 const dueISO = new Date(formData.due).toISOString()
                 const updatedFormData = {
@@ -61,6 +64,8 @@ export const EditAssignment = ({assignmentActive}:Type) => {
                 setEdit(false)
             } catch (error:any) {
                 console.error(error.response)
+            } finally {
+                setPending(false)
             }
         }
     }
@@ -95,12 +100,12 @@ export const EditAssignment = ({assignmentActive}:Type) => {
                         className="block w-full border-2 outline-none p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
                         />
                 </div>
-                <button onClick={()=>setEdit(false)} type="button" className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">
+                {!isPending&&<button onClick={()=>setEdit(false)} type="button" className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">
                     Cancel
-                </button>
-                <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                </button>}
+                {isPending?<div className="flex justify-center"><Spinner/></div>:<button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
                     Save
-                </button>
+                </button>}
             </form>
         </div>
     )

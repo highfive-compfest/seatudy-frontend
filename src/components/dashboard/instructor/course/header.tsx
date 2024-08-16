@@ -25,7 +25,7 @@ export const HeaderCourse = ({ course }: { course: Course | undefined }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-lg mb-6 overflow-hidden">
-      <div className="w-full h-fit md:h-[20rem] overflow-hidden relative">
+      <div className="w-full h-[20rem] overflow-hidden relative">
           {course && <Image 
             src={course.image_url} 
             alt="Hero" 
@@ -33,7 +33,7 @@ export const HeaderCourse = ({ course }: { course: Course | undefined }) => {
             style={{ objectFit : "cover" }}
             width={2000}
             height={2000}
-            className="w-full max-h-[20rem]" />}
+            className="w-full h-full" />}
           <div className="absolute inset-0 flex justify-between flex-col p-6 bg-[rgba(0,0,50,0.4)]">
             <div className="flex gap-4 items-center">
               <Avatar isBordered className="w-[4rem] h-[4rem]" src={dataUser?.image_url} />

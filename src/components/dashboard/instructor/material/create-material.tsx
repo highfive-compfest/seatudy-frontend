@@ -3,6 +3,7 @@ import { createMaterial } from "@/services/material";
 import { getCookie } from "cookies-next";
 import React, { useState } from "react";
 import { useMaterials } from "./material";
+import { Spinner } from "@nextui-org/spinner";
 
 export const MaterialForm = () => {
 
@@ -17,6 +18,7 @@ export const MaterialForm = () => {
       });
 
     const [info, setInfo] = useState("")
+    const [isPending, setPending] = useState(false)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = event.target as HTMLInputElement;
@@ -27,6 +29,7 @@ export const MaterialForm = () => {
     };
 
     const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+        setPending(true)
         try {
             event.preventDefault()
             const form = new FormData();
@@ -40,6 +43,8 @@ export const MaterialForm = () => {
             target.reset();
         } catch (error:any) {
             console.error(error.response)
+        } finally {
+            setPending(false)
         }
     }
     return (
@@ -61,9 +66,9 @@ export const MaterialForm = () => {
                     placeholder="Description" 
                     className="resize-none block border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"/>
                 <p>{info}</p>
-                <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                {isPending?<div className="justify-center flex"><Spinner/></div>:<button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
                     Create Material
-                </button>
+                </button>}
             </form>
         </div>
     )
