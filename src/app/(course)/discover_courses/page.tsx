@@ -4,8 +4,10 @@ import Hero from "@/components/discover_courses/discover-hero";
 import Navbar from "@/components/common/main-navbar";
 import React, { useEffect, useState, useCallback } from "react";
 import Footer from "@/components/common/main-footer";
-import { getCoursesByCategory, getCoursesByDifficulty, getCoursesByRating, getPopularCourses } from "../../../services/course";
+import { getCoursesByCategory, getCoursesByDifficulty, getCoursesByRate, getCoursesByRating, getPopularCourses } from "../../../services/course";
 import { Course } from "@/types/course/course";
+import { FaStar } from "react-icons/fa6";
+import { Pagination } from "@nextui-org/react";
 
 const DiscoverCoursesPage = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -19,6 +21,11 @@ const DiscoverCoursesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [coursesPerPage] = useState(10);
+
+  const [courseRate, setCourseRate] = useState<Course[]>()
+  const [page, setPage] = useState(1)
+  const [currPage, setCurrPage] = useState(1)
+  const [selectRate, setSelectRate] = useState("1")
 
   useEffect(() => {
     const fetchPopularCourses = async () => {
@@ -99,6 +106,29 @@ const DiscoverCoursesPage = () => {
     setSortOrder(e.target.value as "lowest" | "highest");
     setCurrentPage(1);
   };
+
+  const getRate = async (page:number, rate:string) => {
+    const res = await getCoursesByRate(page,10,rate)
+    setCourseRate(res.payload.courses)
+    setPage(res.payload.pagination.total_page)
+  }
+  useEffect(()=>{
+    getRate(1,selectRate)
+  },[])
+
+  const handleRate = (e:any) => {
+    const value = e.target.value
+    setSelectRate(value)
+  }
+
+  useEffect(()=>{
+    getRate(1,selectRate)
+  },[selectRate])
+
+  useEffect(()=>{
+    getRate(currPage,selectRate)
+  },[currPage])
+
 
   return (
     <div className="bg-gradient-to-br from-blue-100 to-blue-50">
@@ -183,6 +213,30 @@ const DiscoverCoursesPage = () => {
           </div>
         )}
       </div>
+      <div className="flex items-center ml-2 py-4">
+        <label htmlFor="sortRate" className="ml-4 mr-4 mt-3 md:mt-0">
+          <div className="flex gap-2 items-center">
+          Sort by: <FaStar color="orange"/>
+          </div>
+        </label>
+        <select id="sortrater" value={selectRate} onChange={handleRate} className="px-4 py-2 border rounded-lg w-auto">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+        <div className="flex overflow-auto">
+        {courseRate&&<div className="flex gap-4 px-6">
+          {courseRate.length===0?<p className="mb-4 text-lg">Course Not Found</p>:courseRate.map((course, idx)=>(
+            <CourseCard key={idx} course={course}/>
+          ))}
+        </div>}
+        </div>
+      {page !==0 &&<div className="flex justify-center my-4">
+        <Pagination onChange={setCurrPage} total={page}/>
+      </div>}
 
       <Footer />
     </div>

@@ -81,6 +81,23 @@ export const getCoursesByRating = async (page: number = 1, limit: number = 10, s
   }
 };
 
+export const getCoursesByRate = async (page: number = 1, limit: number = 10, rating: string): Promise<CoursesResponse> => {
+  try {
+    const response = await axiosInstance.get<CoursesResponse>("courses/filter", {
+      params: {
+        page,
+        limit,
+        rating,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching courses by rating:", error);
+    throw error;
+  }
+};
+
 export const getInstructorCourse = async (accessToken: string, instructorId: string, page: number = 1, limit: number = 10): Promise<CoursesResponse> => {
   const DEFAULT_PAGE = 1;
   const DEFAULT_LIMIT = 10;
