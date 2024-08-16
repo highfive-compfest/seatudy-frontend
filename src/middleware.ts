@@ -8,27 +8,40 @@ export function middleware(request: NextRequest) {
   const userId = getCookie("userId", { req: request });
   const pathname = request.nextUrl.pathname;
 
-  if (!authToken || !refreshToken || !userRole || !userId) return NextResponse.redirect(new URL("/login", request.url));
-
-  switch (userRole) {
-    case "student":
-      if (pathname.startsWith("/dashboard/instructor/create") || pathname.startsWith("/dashboard/instructor/manage") || pathname.startsWith("/dashboard/instructor/profile")|| pathname.startsWith("/payout")) {
-        return NextResponse.redirect(new URL("/dashboard/student/courses", request.url));
-      }
-      break;
-    case "instructor":
-      if (pathname.startsWith("/dashboard/student/courses") || pathname.startsWith("/dashboard/student/histories") || pathname.startsWith("/dashboard/student/profile")|| pathname.startsWith("/topup") || pathname.startsWith("/dashboard/student/profile")|| pathname.startsWith("/topup/finish")) {
-        return NextResponse.redirect(new URL("/dashboard/instructor/manage", request.url));
-      }
-
-      if (pathname.startsWith("/topup")) {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
-      break;
+  if (!authToken || !refreshToken || !userRole || !userId) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
+
+  const studentRestrictedPaths = [
+    "/dashboard/instructor/create",
+    "/dashboard/instructor/manage",
+    "/dashboard/instructor/profile",
+    "/payout"
+  ];
+
+  const instructorRestrictedPaths = [
+    "/dashboard/student/courses",
+    "/dashboard/student/histories",
+    "/dashboard/student/profile",
+    "/topup",
+    "/topup/finish"
+  ];
+
+  if (userRole === "student" && studentRestrictedPaths.some(path => pathname.startsWith(path))) {
+    return NextResponse.redirect(new URL("/dashboard/student/courses", request.url));
+  }
+
+  if (userRole === "instructor" && instructorRestrictedPaths.some(path => pathname.startsWith(path))) {
+    return NextResponse.redirect(new URL("/dashboard/instructor/manage", request.url));
+  }
+
+  if (userRole === "instructor" && pathname.startsWith("/topup")) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/verify-otp", "/topup","/payout", "/topup/finish"],
+  matcher: ["/dashboard/:path*", "/verify-otp", "/topup", "/payout", "/topup/finish"],
 };
