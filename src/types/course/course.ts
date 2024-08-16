@@ -1,3 +1,5 @@
+import { UserPayload } from "../user/user";
+
 export interface Course {
   id: string;
   title: string;
@@ -66,4 +68,14 @@ export interface getCoursesIdResponse {
 export interface DeleteCourseResponse {
   message: string;
   payload: null;
+}
+
+export interface GetAllStudentByCourse {
+  message: string;
+  payload: UserPayload[];
+}
+
+export interface GetProgressRes {
+  message: string;
+  payload: number;
 }
