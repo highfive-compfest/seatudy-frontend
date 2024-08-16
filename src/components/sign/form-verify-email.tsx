@@ -4,8 +4,9 @@ import { Submit } from "./button";
 import Link from "next/link";
 import OtpInput from "react-otp-input";
 import { reqOTP, verifyEmail } from "@/services/auth";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { getMe } from "@/services/user";
+import { useRouter } from "next/router";
 
 export const FormVerify = () => {
   const [otp, setOtp] = useState("");
@@ -15,6 +16,7 @@ export const FormVerify = () => {
   const [isVerified, setVerified] = useState(false);
 
   const accToken = getCookie("authToken") as any;
+  const router = useRouter()
 
   useEffect(() => {
     const fetchUserEmail = async () => {
@@ -36,6 +38,10 @@ export const FormVerify = () => {
     try {
       await verifyEmail(otp, accToken);
       setPending(false);
+      deleteCookie("authToken");
+      deleteCookie("refreshToken");
+      deleteCookie("userId");
+      deleteCookie("userRole");
       setVerified(true);
     } catch (error: any) {
       const message = error.response.data.message;
@@ -88,10 +94,11 @@ export const FormVerify = () => {
       {!isVerified && <p className="text-center text-red-500 mt-4 text-sm">{info}</p>}
       {isVerified ? (
         <p className="text-sm mt-6 text-center">
-          Go To{" "}
-          <Link href="/dashboard/student/courses" className="text-blue-600 font-medium hover:underline">
-            Dashboard
+          Please{" "}
+          <Link href="/login" className="text-blue-600 font-medium hover:underline">
+            log in
           </Link>
+          again.
         </p>
       ) : (
         <p className="text-sm mt-6 text-center">

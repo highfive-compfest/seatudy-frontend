@@ -40,7 +40,7 @@ export function FormLogin() {
         if (user_role === "student") {
           router.push("dashboard/student/courses");
         } else {
-          router.push("dashboard/instructor/manage");
+          router.push("dashboard/instructor/profile");
         }
         alert(response.message);
       } else {
