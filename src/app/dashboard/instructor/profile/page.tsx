@@ -45,14 +45,6 @@ const Profile = () => {
     fetchUserData();
   }, [accToken, router]);
 
-  useEffect(()=>{
-    if (user) {
-      if (user.is_email_verified == "false") {
-        alert("Verify your email before creating courses or other actions.")
-      }
-    }
-  },[user])
-
   const handleClick = async () => {
     setPending(true);
     try {

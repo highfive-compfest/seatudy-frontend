@@ -20,7 +20,7 @@ const ShowProfile: React.FC<ProfileProps> = ({ user, isPending, handleClick }) =
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl mx-auto border-2 border-gray-200 md:ml-4">
-      {user?.is_email_verified ? <></> : <p className="p-4 w-full text-center text-sm text-red-500">Please verify your email to start using the payment feature</p>}
+      {user?.is_email_verified ? <></> : <p className="p-4 w-full text-center text-sm text-red-500">{user?.role=="student"?"Please verify your email to start using the payment feature":"Verify your email before creating courses or other actions."}</p>}
 
       <h1 className="text-2xl font-bold mb-8 text-center">Profile</h1>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
