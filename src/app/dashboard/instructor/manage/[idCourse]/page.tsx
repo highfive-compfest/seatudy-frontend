@@ -11,11 +11,12 @@ import { HeaderCourse } from "@/components/dashboard/instructor/course/header";
 import { Material } from "@/components/dashboard/instructor/material/material";
 import { Assignment } from "@/components/dashboard/instructor/assignment/assignment";
 import { Discuss } from "@/components/dashboard/instructor/discussion/discussion";
+import { StudentEnroll } from "@/components/dashboard/instructor/students/get-students";
 
 const Manage = () => {
   const router = useRouter();
 
-  const navs = ["Material", "Assignment", "Forum", "Edit"];
+  const navs = ["Material", "Assignment", "Student", "Forum", "Edit"];
 
   const [course, setCourse] = useState<Course | undefined>(undefined);
   const [isPending, setPending] = useState(false);
@@ -72,7 +73,7 @@ const Manage = () => {
           </button>
         )}
       </nav>
-      {activeSection === "Edit" ? <EditCourse course={course} /> : activeSection === "Material" && course ? <Material courseId={course.id} /> : activeSection === "Assignment" && course ? <Assignment courseId={course.id} />:course&&<Discuss courseId={course.id}/>}
+      {activeSection === "Edit" ? <EditCourse course={course} /> : activeSection === "Material" && course ? <Material courseId={course.id} /> : activeSection === "Assignment" && course ? <Assignment courseId={course.id} />:activeSection === "Forum" && course?<Discuss courseId={course.id}/>:course && <StudentEnroll courseId={course.id}/>}
     </section>
   );
 };

@@ -80,26 +80,6 @@ const MaterialPage = () => {
                     <p className="text-justify">{discussion.content}</p>
                 </div>
                 <Replies/>
-                {/* <AddMateriAttach/>
-                <div className="flex flex-col gap-3">
-                    {materi.attachments.length === 0?<p>there are no attachments yet.</p>:
-                        materi.attachments.map((content, idx)=>{
-                            const extFile = getExtFile(content.url)
-                            return (
-                                <div className="border-2 p-4" key={idx}>
-                                    <div className="flex justify-between">
-                                        <Link className="p-4 rounded-lg bg-gray-200 w-fit text-blue-600 flex flex-col items-center gap-2" href={content.url}>
-                                                <FaFile size={30}/>
-                                                <small>file .{extFile}</small>
-                                        </Link>
-                                        <ActionBtnAttach attachId={content.id}/>
-                                    </div>
-                                    <p className="mt-2">{content.description}</p>
-                                </div>
-                            )
-                        })
-                    }
-                </div> */}
             </section>
         </ReplyProvider>
     )

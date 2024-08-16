@@ -1,4 +1,4 @@
-import { CourseResponse2, CoursesResponse, DeleteCourseResponse, getCoursesIdResponse } from "@/types/course/course";
+import { CourseResponse2, CoursesResponse, DeleteCourseResponse, GetAllStudentByCourse, getCoursesIdResponse, GetProgressRes } from "@/types/course/course";
 import { axiosInstance } from "./api-config";
 import { title } from "process";
 
@@ -212,3 +212,36 @@ export const searchCourses = async (title: string, page: number = 1, limit: numb
     throw error;
   }
 };
+
+export const getAllUserBuyCourse = async (courseId: string, token : string): Promise<GetAllStudentByCourse> => {
+  try {
+    const response = await axiosInstance.get<GetAllStudentByCourse>(`courses/usersEnroll/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching course details:", error);
+    throw error;
+  }
+};
+
+// export const getStudentProgres = async (courseId: string, studentId:string, token : string): Promise<GetProgressRes> => {
+//   try {
+//     const response = await axiosInstance.get<GetProgressRes>(`courses/progress/${courseId}`,
+//       {user_id:studentId},
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching course details:", error);
+//     throw error;
+//   }
+// };
