@@ -36,12 +36,39 @@ const ReviewPage: React.FC = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       if (selectedCourse) {
-        try {
-          const reviewsResponse: ReviewsResponse = await getReviews(selectedCourse.id, 1, 999, 0);
-          setReviews(reviewsResponse.payload?.data || []);
-        } catch (error) {
-          console.error("Error fetching reviews:", error);
+        let allReviews: Review[] = [];
+        let page = 1;
+        const pageSize = 30;
+        let userReviewFound = false;
+        const currentUserId = getCookie("userId") as string;
+
+        while (!userReviewFound) {
+          try {
+            const reviewsResponse: ReviewsResponse = await getReviews(selectedCourse.id, page, pageSize, 0);
+            const fetchedReviews = reviewsResponse.payload?.data || [];
+            allReviews = [...allReviews, ...fetchedReviews];
+
+            const existingReview = fetchedReviews.find((review) => review.user_id === currentUserId);
+            if (existingReview) {
+              setIsEditing(true);
+              setCurrentReviewId(existingReview.id);
+              setNewReview(existingReview.feedback || "");
+              setRating(existingReview.rating || 0);
+              userReviewFound = true;
+            }
+
+            if (fetchedReviews.length < pageSize) {
+              break;
+            }
+
+            page++;
+          } catch (error) {
+            console.error("Error fetching reviews:", error);
+            break;
+          }
         }
+
+        setReviews(allReviews);
       }
     };
 
@@ -49,8 +76,8 @@ const ReviewPage: React.FC = () => {
   }, [selectedCourse]);
 
   useEffect(() => {
-    const currentUserId = (getCookie("userId") as string) || "";
     if (selectedCourse) {
+      const currentUserId = getCookie("userId") as string;
       const existingReview = reviews.find((review) => review.user_id === currentUserId);
       if (existingReview) {
         setIsEditing(true);
@@ -76,13 +103,13 @@ const ReviewPage: React.FC = () => {
     if (newReview && rating > 0 && selectedCourse) {
       try {
         if (isEditing && currentReviewId) {
-          const response = await updateReview(currentReviewId, rating, newReview);
+          await updateReview(currentReviewId, rating, newReview);
           alert("Review updated successfully!");
         } else {
           const response = await createReview(authToken, selectedCourse.id, rating, newReview);
           const newReviewData: Review = {
             id: response.payload?.id || "",
-            user_id: authToken,
+            user_id: getCookie("userId") as string,
             course_id: selectedCourse.id,
             rating: rating,
             feedback: newReview,

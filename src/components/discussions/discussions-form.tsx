@@ -21,7 +21,7 @@ const DiscussionForm: React.FC<DiscussionFormProps> = ({ newMessage, title, setN
           <button onClick={handleSendMessage} className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300">
             {selectedMessage ? "Update" : "Send"}
           </button>
-          <button onClick={toggleInputVisibility} className="flex-1 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300">
+          <button onClick={toggleInputVisibility} className="flex-2 bg-white text-blue-500 border-2 border-blue-500 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors duration-300">
             Cancel
           </button>
         </div>
