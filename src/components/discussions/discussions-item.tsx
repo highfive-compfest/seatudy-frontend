@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { getUserById } from "@/services/user";
 import { UserPayload } from "@/types/user/user";
 import ReplyForm from "@/components/discussions/reply-form";
-import { getRepliesByDiscussionId, createReply, deleteReply } from "@/services/discussion";
+import { getRepliesByDiscussionId, createReply, deleteReply, updateReply } from "@/services/discussion";
 import ReplyItem from "@/components/discussions/reply-item";
 
 interface DiscussionItemProps {
@@ -22,6 +22,8 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
   const [showReplies, setShowReplies] = useState(false);
   const [replies, setReplies] = useState<Reply[]>([]);
   const [localReplyMessage, setLocalReplyMessage] = useState<string>("");
+  const [editingReply, setEditingReply] = useState<Reply | null>(null);
+  const [editReplyMessage, setEditReplyMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -68,8 +70,23 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
     }
   };
 
-  const handleEditReply = (reply: Reply) => {
-    console.log("Editing reply:", reply);
+  const handleEditReply = (updatedReply: Reply) => {
+    setReplies(replies.map((reply) => (reply.id === updatedReply.id ? updatedReply : reply)));
+  };
+
+  const handleUpdateReply = async () => {
+    if (editingReply && editReplyMessage.trim()) {
+      try {
+        const authToken = getCookie("authToken") as string;
+        await updateReply(editingReply.id, editReplyMessage, authToken);
+        setReplies(replies.map((reply) => (reply.id === editingReply.id ? { ...reply, content: editReplyMessage } : reply)));
+        setEditingReply(null);
+        setEditReplyMessage("");
+        alert("Reply updated successfully");
+      } catch (error) {
+        alert("Error updating reply: " + error);
+      }
+    }
   };
 
   const handleDeleteReply = async (replyId: string) => {
@@ -87,41 +104,41 @@ const DiscussionItem: React.FC<DiscussionItemProps> = ({ message, handleReply, h
   if (!user) return null;
 
   return (
-    <li className={`flex flex-col items-start w-auto space-y-4 p-4 rounded-lg shadow-md ${message.user_id === getCookie("userId") ? "bg-blue-100 text-blue-800 self-end" : "bg-gray-100 text-gray-800"}`}>
+    <li className={`flex flex-col items-start w-auto space-y-4 p-4 rounded-lg shadow border-2 ${message.user_id === getCookie("userId") ? "bg-blue-100 text-blue-800 self-end border-blue-500" : "bg-gray-100 text-gray-800 border-gray-200"}`}>
       <div className="flex items-start space-x-4 w-full">
         <div className={`w-12 h-12 rounded-full overflow-hidden border-2 ${message.user_id === getCookie("userId") ? "border-blue-300" : "border-gray-300"}`}>
           <img src={user.image_url || "/default-avatar.png"} alt={user.name} className="w-full h-full object-cover" />
         </div>
         <div className="flex-1">
           <div className="flex items-center mb-1">
-            <strong className="text-lg mr-2">{user.name}</strong>
+            <strong className="text-xl mr-2">{user.name}</strong>
             <span className="text-xs text-gray-500">{new Date(message.created_at).toLocaleDateString()}</span>
           </div>
+          <p className="text-medium font-bold">{message.title}</p>
           <p className="text-sm mb-2">{message.content}</p>
-          <div className="flex space-x-3">
-            <button onClick={() => handleReply(message.id)} className="text-blue-600 text-xs hover:underline focus:outline-none">
-              Reply
-            </button>
-            <button onClick={() => handleEdit(message)} className="text-blue-600 text-xs hover:underline focus:outline-none">
-              Edit
-            </button>
-            <button onClick={() => handleDelete(message.id)} className="text-blue-600 text-xs hover:underline focus:outline-none">
-              Delete
-            </button>
-          </div>
-          {replyToMessageId === message.id && <ReplyForm replyMessage={localReplyMessage} setReplyMessage={setLocalReplyMessage} handleSendMessage={handleSendReply} />}
-          <button onClick={() => setShowReplies(!showReplies)} className="mt-2 text-blue-600 text-xs hover:underline focus:outline-none">
-            {showReplies ? "Hide Replies" : "Show Replies"}
-          </button>
-          {showReplies && replies.length > 0 && (
-            <ul className="mt-2 space-y-2">
-              {replies.map((reply) => (
-                <ReplyItem key={reply.id} reply={reply} user={user} handleEdit={handleEditReply} handleDelete={handleDeleteReply} />
-              ))}
-            </ul>
+          {message.user_id === getCookie("userId") && (
+            <div className="flex space-x-3">
+              <button onClick={() => handleEdit(message)} className="text-blue-600 text-xs hover:underline focus:outline-none">
+                Edit
+              </button>
+              <button onClick={() => handleDelete(message.id)} className="text-blue-600 text-xs hover:underline focus:outline-none">
+                Delete
+              </button>
+            </div>
           )}
         </div>
       </div>
+      <button onClick={() => setShowReplies(!showReplies)} className="text-blue-600 text-xs hover:underline focus:outline-none">
+        {showReplies ? "Hide" : "Show"} Replies ({replies.length})
+      </button>
+      {showReplies && (
+        <ul className="pl-8 w-full space-y-4">
+          {replies.map((reply) => (
+            <ReplyItem key={reply.id} reply={reply} user={user} handleEdit={(updatedReply) => handleEditReply(updatedReply)} handleDelete={handleDeleteReply} />
+          ))}
+          <ReplyForm replyMessage={localReplyMessage} setReplyMessage={setLocalReplyMessage} handleSendMessage={handleSendReply} />
+        </ul>
+      )}
     </li>
   );
 };
