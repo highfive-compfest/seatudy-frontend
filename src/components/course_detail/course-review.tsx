@@ -1,7 +1,7 @@
 import { getReviews } from "@/services/reviews";
 import { Review, ReviewsResponse } from "@/types/reviews/reviews";
 import React, { useState, useEffect } from "react";
-import { AiFillStar } from "react-icons/ai";
+import ReviewItem from "./review-item";
 
 interface CourseReviewsProps {
   courseId: string;
@@ -13,18 +13,25 @@ const CourseReviews: React.FC<CourseReviewsProps> = ({ courseId }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!courseId) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     const fetchReviews = async () => {
       try {
         const reviewsResponse: ReviewsResponse = await getReviews(courseId, 1, 10, 0);
         setReviews(reviewsResponse.payload.data);
       } catch (error) {
+        setError("Error fetching reviews.");
         console.error("Error fetching reviews:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchReviews();
-    setLoading(false);
   }, [courseId]);
 
   return (
@@ -38,21 +45,7 @@ const CourseReviews: React.FC<CourseReviewsProps> = ({ courseId }) => {
         ) : reviews.length === 0 ? (
           <p className="text-gray-700 bg-gray-100">No reviews yet. Be the first to review this course!</p>
         ) : (
-          reviews.map((review) => (
-            <div key={review.id} className="p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
-              <div className="flex items-center flex-row justify-between">
-                <p className="text-gray-700 mb-4 h-auto items-center">{review.feedback}</p>
-                <div className="flex flex-row items-center">
-                  <AiFillStar className="text-yellow-500 mr-2" />
-                  <span className="text-lg font-medium text-gray-800">{review.rating}</span>
-                </div>
-              </div>
-
-              <div className="text-sm text-gray-500">
-                <span>User ID: {review.user_id}</span>
-              </div>
-            </div>
-          ))
+          reviews.map((review) => <ReviewItem key={review.id} review={review} />)
         )}
       </div>
     </div>
