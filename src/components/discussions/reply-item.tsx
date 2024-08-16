@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Reply } from "@/types/discussion/discussion";
 import { UserPayload } from "@/types/user/user";
 import { getCookie } from "cookies-next";
@@ -11,6 +12,13 @@ interface ReplyItemProps {
 
 const ReplyItem: React.FC<ReplyItemProps> = ({ reply, user, handleEdit, handleDelete }) => {
   const currentUserId = getCookie("userId");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(reply.content);
+
+  const handleUpdate = () => {
+    handleEdit({ ...reply, content: editContent });
+    setIsEditing(false);
+  };
 
   return (
     <li className="flex flex-col items-start p-2 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
@@ -21,16 +29,32 @@ const ReplyItem: React.FC<ReplyItemProps> = ({ reply, user, handleEdit, handleDe
         <div className="flex-1">
           <strong className="text-sm">{user.name}</strong>
           <p className="text-xs text-gray-600">{new Date(reply.created_at).toLocaleDateString()}</p>
-          <p className="text-sm mt-1">{reply.content}</p>
-          {reply.user_id === currentUserId && (
-            <div className="flex space-x-3 mt-1">
-              <button onClick={() => handleEdit(reply)} className="text-blue-600 text-xs hover:underline focus:outline-none">
-                Edit
-              </button>
-              <button onClick={() => handleDelete(reply.id)} className="text-blue-600 text-xs hover:underline focus:outline-none">
-                Delete
-              </button>
+          {isEditing ? (
+            <div className="mt-1">
+              <textarea className="p-2 border border-gray-300 rounded-lg w-full" value={editContent} onChange={(e) => setEditContent(e.target.value)} />
+              <div className="flex space-x-2 mt-1">
+                <button onClick={handleUpdate} className="text-blue-600 text-xs hover:underline focus:outline-none">
+                  Update
+                </button>
+                <button onClick={() => setIsEditing(false)} className="text-blue-600 text-xs hover:underline focus:outline-none">
+                  Cancel
+                </button>
+              </div>
             </div>
+          ) : (
+            <>
+              <p className="text-sm mt-1">{reply.content}</p>
+              {reply.user_id === currentUserId && (
+                <div className="flex space-x-3 mt-1">
+                  <button onClick={() => setIsEditing(true)} className="text-blue-600 text-xs hover:underline focus:outline-none">
+                    Edit
+                  </button>
+                  <button onClick={() => handleDelete(reply.id)} className="text-blue-600 text-xs hover:underline focus:outline-none">
+                    Delete
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
