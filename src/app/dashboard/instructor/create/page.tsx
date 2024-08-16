@@ -45,7 +45,7 @@ const Create: React.FC = () => {
 
   return (
     <section className="p-4 pt-28 flex flex-col lg:flex-row pb-8 h-auto">
-      <CreateCourse values={values} onSubmit={handleSubmit} onPreview={handlePreview} />
+      <CreateCourse values={values} isSubmitting={isSubmitting} text={{tittle:"Create New Course", button:"Create Course"}} onSubmit={handleSubmit} onPreview={handlePreview} />
       <div className="flex-1 mt-4 lg:mt-0 lg:ml-4 relative">
         <h2 className="font-bold mb-4">Course Preview</h2>
         <div className="relative">

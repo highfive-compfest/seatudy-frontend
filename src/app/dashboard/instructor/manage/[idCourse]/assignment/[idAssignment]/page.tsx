@@ -70,7 +70,7 @@ const MaterialPage = () => {
                     <button 
                         onClick={()=>setNavActive(1)} 
                         className={`${navActive===1?"text-blue-500 border-blue-600":"text-black border-transparent"} px-4 pt-4 pb-3 border-b-4`}>
-                        Submission
+                        Submissions
                     </button>
                 </div>
                 {navActive===0?<Attachments assignment={assignment}/>:<Submission/>}

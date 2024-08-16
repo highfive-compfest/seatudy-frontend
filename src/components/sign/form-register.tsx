@@ -120,7 +120,6 @@ export function FormRegister() {
       />
       <p className="text-center text-red-500 mb-4">{info}</p>
       <Submit isPending={isPending} name="Register" />
-      {isPending && <div className="loader animate-spin bg-slate-900 w-12 h-12 rounded-full m-auto my-4"></div>}
       <p className="text-sm mt-6 text-center">
         Already have an account?{" "}
         <Link className="text-blue-700 font-medium hover:underline" href="/login">

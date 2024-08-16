@@ -22,9 +22,9 @@ export const Submission = () => {
 
     return (
         <>
-            <h2 className="mt-4 mb-1 text-xl font-bold">Submission</h2>
+            <h2 className="mt-4 mb-1 text-xl font-bold">Submissions</h2>
             {submissions && <div className="mt-4 flex flex-col gap-4">
-                {submissions.length===0?<p>there are no submission yet</p>:
+                {submissions.length===0?<p>there are no submissions yet</p>:
                 submissions.map((submission, idx)=><CardSubmission key={idx} getSubmissions={getSubmissions} submission={submission}/>)
                 }
             </div>}

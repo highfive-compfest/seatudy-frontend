@@ -37,7 +37,7 @@ export const StudentEnroll = ({courseId}:{courseId:string}) => {
                             </div>
                         </div>
                         <div className="mt-2">
-                            <span>progess</span>
+                            <span>progress</span>
                             <ProgresBar courseId={courseId} studentId={student.id}/>
                         </div>
                     </div>

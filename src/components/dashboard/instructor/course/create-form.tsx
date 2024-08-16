@@ -1,19 +1,25 @@
 import { Course } from "@/types/course/course";
+import { Spinner } from "@nextui-org/spinner";
 import React, { useState, ChangeEvent } from "react";
 
 interface CourseFormProps {
   onSubmit: (formData: FormData) => void;
   onPreview: (course: Course) => void;
   values: any;
+  isSubmitting : boolean;
+  text : {
+    tittle : string;
+    button : string
+  }
 }
 
-const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }) => {
+const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values, isSubmitting,  text}) => {
   const [formData, setFormData] = useState({
     title: values?.title || "",
     description: values?.description || "",
     price: values?.price || "",
-    difficulty: values?.difficulty || "beginner",
-    category: values?.category || "Programming",
+    difficulty: values?.difficulty || "Beginner",
+    category: values?.category || "Web Development",
     image: null as File | null,
     syllabus: null as File | null,
   });
@@ -64,7 +70,8 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
     form.append("category", formData.category);
     if (formData.image) form.append("image", formData.image);
     if (formData.syllabus) form.append("syllabus", formData.syllabus);
-
+    const target = e.target as HTMLFormElement
+    target.reset()
     onSubmit(form);
   };
 
@@ -92,7 +99,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
 
   return (
     <section className="bg-white p-10 rounded-lg shadow-lg border-2 border-gray-200 w-full h-auto md:max-w-3xl">
-      <h1 className="text-3xl font-extrabold text-gray-800 mb-6">Create New Course</h1>
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-6">{text.tittle}</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col md:flex-col">
           <input
@@ -119,6 +126,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
           <div className="w-full mt-4 md:mt-0">
             <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
             <input
+              min={0}
               type="number"
               name="price"
               placeholder="0"
@@ -186,9 +194,9 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
         <button type="button" onClick={handlePreview} className="w-full border-2 border-blue-600 text-blue-600 p-3 rounded-lg font-semibold hover:bg-gray-200 transition duration-300">
           Preview
         </button>
-        <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
-          Create Course
-        </button>
+        {isSubmitting?<div className="flex justify-center"><Spinner/></div>:<button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+          {text.button}
+        </button>}
       </form>
     </section>
   );
