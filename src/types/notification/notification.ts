@@ -20,3 +20,8 @@ export interface NotificationsResponse {
     };
   };
 }
+
+export interface UnreadCountResponse {
+  message: string;
+  payload: number;
+}

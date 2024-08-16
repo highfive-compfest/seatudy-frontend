@@ -26,33 +26,30 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
   const [replyToMessageId, setReplyToMessageId] = useState<string | null>(null);
   const authToken = getCookie("authToken") as string;
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const response = await getDiscussionsByCourseId(courseId, authToken);
-        setMessages(response.payload.data);
-      } catch (error) {
-        console.error("Error fetching discussions:", error);
-      }
-    };
+  const fetchMessages = async () => {
+    try {
+      const response = await getDiscussionsByCourseId(courseId, authToken);
+      setMessages(response.payload.data);
+    } catch (error) {
+      console.error("Error fetching discussions:", error);
+    }
+  };
 
+  const getBought = async () => {
+    try {
+      const response = await getBoughtCourse(authToken);
+      setCourses(response.payload);
+      setHasPurchased(response.payload.some((course) => course.course.id === courseId));
+    } catch (error) {
+      console.error("Error fetching bought courses:", error);
+      alert("Error fetching bought courses: " + error);
+    }
+  };
+
+  useEffect(() => {
     fetchMessages();
-  }, [courseId, authToken]);
-
-  useEffect(() => {
-    const getBought = async () => {
-      try {
-        const response = await getBoughtCourse(authToken);
-        setCourses(response.payload);
-        setHasPurchased(response.payload.some((course) => course.course.id === courseId));
-      } catch (error) {
-        console.error("Error fetching bought courses:", error);
-        alert("Error fetching bought courses: " + error);
-      }
-    };
-
     getBought();
-  }, [authToken, courseId]);
+  }, [courseId, authToken]);
 
   const handleSendMessage = async () => {
     if (replyToMessageId) {
@@ -62,6 +59,7 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
           setReplyMessage("");
           setReplyToMessageId(null);
           alert("Reply sent successfully.");
+          await fetchMessages();
         } catch (error) {
           console.error("Error sending reply:", error);
           alert("Error sending reply: " + error);
@@ -83,6 +81,7 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
           setNewMessage("");
           setTitle("");
           setIsInputVisible(false);
+          await fetchMessages();
         } catch (error) {
           console.error("Error sending message:", error);
           alert("Error sending message: " + error);
@@ -121,6 +120,7 @@ const DiscussionPage: React.FC<DiscussionPageProps> = ({ courseId }) => {
       await deleteDiscussion(messageId, authToken);
       setMessages(messages.filter((msg) => msg.id !== messageId));
       alert("Discussion deleted successfully.");
+      await fetchMessages();
     } catch (error) {
       console.error("Error deleting discussion:", error);
       alert("Error deleting discussion: " + error);

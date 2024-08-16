@@ -52,13 +52,6 @@ const Page = () => {
   return (
     <div className="relative container mx-auto px-4 py-8 lg:px-8 mt-16 md:mt-28 mb-32 md:bg-white md:rounded md:border-2 md:border-gray-200">
       <div className="relative z-10">
-        <div className="breadcrumb text-gray-600 text-sm mb-4 flex flex-row">
-          <Link href={"/dashboard/student/courses"}>
-            <p className="hover:underline mr-1">Courses</p>
-          </Link>
-          <span> - {course?.id}</span>
-        </div>
-
         {course && (
           <div className="flex flex-col lg:flex-row">
             <CourseInfo courseDetail={course} />

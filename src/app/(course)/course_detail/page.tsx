@@ -115,7 +115,7 @@ const CourseDetailPage = () => {
       alert("Purchase successful!");
       setIsPurchased(true);
     } catch (error) {
-      alert("Failed to purchase course.");
+      alert("Please top up your balance");
     } finally {
       setIsModalOpen(false);
     }
@@ -127,13 +127,6 @@ const CourseDetailPage = () => {
 
   return (
     <div className="container mx-auto px-4 lg:px-8 pb-32">
-      <div className="breadcrumb text-gray-600 text-sm mb-4">
-        <a href="discover_courses" className="hover:underline">
-          Courses
-        </a>{" "}
-        - <span>{course?.id}</span>
-      </div>
-
       {course && (
         <div className="flex flex-col lg:flex-row">
           <CourseInfo courseDetail={course} />

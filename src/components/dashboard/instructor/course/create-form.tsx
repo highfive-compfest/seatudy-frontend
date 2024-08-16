@@ -8,12 +8,15 @@ interface CourseFormProps {
 }
 
 const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }) => {
+  const defaultCategory = "Web Development";
+  const defaultDifficulty = "beginner";
+
   const [formData, setFormData] = useState({
     title: values?.title || "",
     description: values?.description || "",
     price: values?.price || "",
-    difficulty: values?.difficulty || "beginner",
-    category: values?.category || "Programming",
+    difficulty: values?.difficulty || defaultDifficulty,
+    category: values?.category || defaultCategory,
     image: null as File | null,
     syllabus: null as File | null,
   });
@@ -60,8 +63,8 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
     form.append("title", formData.title);
     form.append("description", formData.description);
     form.append("price", formData.price);
-    form.append("difficulty", formData.difficulty);
-    form.append("category", formData.category);
+    form.append("difficulty", formData.difficulty || defaultDifficulty);
+    form.append("category", formData.category || defaultCategory);
     if (formData.image) form.append("image", formData.image);
     if (formData.syllabus) form.append("syllabus", formData.syllabus);
 
@@ -78,8 +81,8 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
       image_url: formData.image ? URL.createObjectURL(formData.image) : "",
       syllabus_url: formData.syllabus ? URL.createObjectURL(formData.syllabus) : "",
       instructor_id: "",
-      difficulty: formData.difficulty,
-      category: formData.category,
+      difficulty: formData.difficulty || defaultDifficulty,
+      category: formData.category || defaultCategory,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       rating: 0,
@@ -124,6 +127,7 @@ const CreateCourse: React.FC<CourseFormProps> = ({ onSubmit, onPreview, values }
               placeholder="0"
               value={formData.price}
               onChange={handleChange}
+              min="0" // Prevents negative values
               className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
               required
             />

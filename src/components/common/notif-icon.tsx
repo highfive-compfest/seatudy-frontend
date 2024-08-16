@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
-import { getNotifications, markNotificationAsRead } from "@/services/notification";
-import { getCookie } from "cookies-next";
+import { getNotifications, getUnreadCount, markNotificationAsRead } from "@/services/notification";
+import { getCookie, setCookie } from "cookies-next";
 import { Notification } from "@/types/notification/notification";
 
 export const NotifIcon: React.FC = () => {
@@ -11,38 +11,63 @@ export const NotifIcon: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showAll, setShowAll] = useState<boolean>(false);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
 
   const token = getCookie("authToken") as string;
 
+  const fetchUnreadCount = async () => {
+    if (!token) return;
+
+    try {
+      const response = await getUnreadCount(token);
+      const newUnreadCount = response.payload;
+      const storedUnreadCountString = getCookie("unreadCount");
+      const storedUnreadCount = storedUnreadCountString ? parseInt(storedUnreadCountString as string, 10) : 0;
+
+      if (newUnreadCount !== storedUnreadCount) {
+        setCookie("unreadCount", newUnreadCount.toString());
+        setUnreadCount(newUnreadCount);
+      }
+    } catch (error) {
+      setError("Failed to fetch unread count: " + (error instanceof Error ? error.message : "Unknown error"));
+    }
+  };
+
+  const fetchNotifications = async () => {
+    if (!token) {
+      setError("No authentication token found");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await getNotifications(token, 1, 4);
+      const notificationsData = response.payload.data;
+
+      if (Array.isArray(notificationsData)) {
+        setNotifications(notificationsData);
+      } else {
+        setError("Unexpected response format");
+      }
+    } catch {
+      setError("Failed to fetch notifications");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchNotifications = async () => {
-      if (!token) {
-        setError("No authentication token found");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await getNotifications(token, 1, 4);
-        const notificationsData = response.payload.data;
-        if (Array.isArray(notificationsData)) {
-          setNotifications(notificationsData);
-        } else {
-          setError("Unexpected response format");
-        }
-      } catch {
-        setError("Failed to fetch notifications");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNotifications();
-
-    const intervalId = setInterval(fetchNotifications, 10000);
-
+    fetchUnreadCount();
+    const intervalId = setInterval(fetchUnreadCount, 10000);
     return () => clearInterval(intervalId);
   }, [token]);
+
+  useEffect(() => {
+    if (showDropdown) {
+      fetchNotifications();
+    }
+  }, [showDropdown]);
 
   const handleMarkAsRead = async (notificationId: string) => {
     try {
@@ -53,15 +78,18 @@ export const NotifIcon: React.FC = () => {
     }
   };
 
-  const toggleDropdown = () => setShowDropdown((prev) => !prev);
-
-  const unreadCount = notifications.filter((notification) => !notification.is_read).length;
+  const handleBellClick = () => {
+    setShowDropdown((prev) => !prev);
+    if (!showDropdown) {
+      fetchNotifications();
+    }
+  };
 
   const filteredNotifications = showAll ? notifications : notifications.filter((notification) => !notification.is_read);
 
   return (
     <div className="relative">
-      <button onClick={toggleDropdown} className="relative p-2 focus:outline-none hover:bg-gray-100 rounded-full transition-colors">
+      <button onClick={handleBellClick} className="relative p-2 focus:outline-none hover:bg-gray-100 rounded-full transition-colors">
         <MdOutlineNotificationsNone size={24} />
         {unreadCount > 0 && <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1 translate-x-1/3 -translate-y-1/4">{unreadCount}</span>}
       </button>
@@ -69,11 +97,8 @@ export const NotifIcon: React.FC = () => {
       {showDropdown && (
         <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg border border-gray-300 rounded-md overflow-hidden transition-transform transform scale-100 duration-300 ease-out">
           {loading && <div className="p-3 text-gray-500">Loading...</div>}
-
           {error && <div className="p-3 text-red-500">{error}</div>}
-
           {!loading && !error && notifications.length === 0 && <div className="p-3 text-sm text-gray-500">No notifications yet</div>}
-
           {!loading && !error && notifications.length > 0 && (
             <>
               {filteredNotifications.length === 0 && <div className="p-3 text-sm text-gray-500">No unread notifications</div>}
