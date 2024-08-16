@@ -42,7 +42,7 @@ export const EditDiscus = ({discusActive}:{discusActive:Discussion}) => {
             event.preventDefault()
             try {
                 await updateDiscussion(discusActive.id, formData.title, formData.content, accToken)
-                getDiscussions()
+                getDiscussions(1)
                 setEdit(false)
             } catch (error:any) {
                 console.error(error.response)

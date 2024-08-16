@@ -15,7 +15,7 @@ export const Replies = () => {
     const handleCreate = async (event:FormEvent) => {
         event.preventDefault()
         await createReply(discussionId,value,accToken)
-        getReplies()
+        getReplies(1)
         const target = event.target as HTMLFormElement
         target.reset()
     }

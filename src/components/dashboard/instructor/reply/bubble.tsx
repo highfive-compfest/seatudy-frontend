@@ -55,7 +55,7 @@ export const Bubble = ({reply}:{reply:Reply}) => {
 
     const saveReply = async () => {
         await updateReply(reply.id, value, accToken)
-        getReplies()
+        getReplies(1)
         setEdit("")
     }
 

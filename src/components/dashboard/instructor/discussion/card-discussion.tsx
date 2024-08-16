@@ -7,8 +7,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ActionDiscusButton } from "./action";
+import { getCookie } from "cookies-next";
 
 export const CardDiscus = ({discus}:{discus:Discussion}) => {
+    const userId = getCookie("userId") as string
     const [user, setuser] = useState<UserPayload>()
 
     const pathname = usePathname()
@@ -36,7 +38,7 @@ export const CardDiscus = ({discus}:{discus:Discussion}) => {
                     <p>{discus.content}</p>
                 </div>
             </Link>
-            <ActionDiscusButton discusId={discus.id}/>
+            {userId===discus.user_id&&<ActionDiscusButton discusId={discus.id}/>}
         </div>
     )
 };

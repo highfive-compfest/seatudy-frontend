@@ -31,7 +31,7 @@ export const DiscusInstrucForm = () => {
             event.preventDefault()
             const res = await createDiscussion(formData.course_id, formData.title, formData.content, accToken)
             setInfo(res.message)
-            await getDiscussions()
+            await getDiscussions(1)
             const target = event.target as HTMLFormElement
             target.reset();
         } catch (error:any) {

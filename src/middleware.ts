@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
       }
       break;
     case "instructor":
-      if (pathname.startsWith("/dashboard/student/courses") || pathname.startsWith("/dashboard/student/histories") || pathname.startsWith("/dashboard/student/profile")|| pathname.startsWith("/topup")) {
+      if (pathname.startsWith("/dashboard/student/courses") || pathname.startsWith("/dashboard/student/histories") || pathname.startsWith("/dashboard/student/profile")|| pathname.startsWith("/topup") || pathname.startsWith("/dashboard/student/profile")|| pathname.startsWith("/topup/finish")) {
         return NextResponse.redirect(new URL("/dashboard/instructor/manage", request.url));
       }
 
@@ -26,10 +26,9 @@ export function middleware(request: NextRequest) {
       }
       break;
   }
-
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/verify-otp", "/topup","/payout"],
+  matcher: ["/dashboard/:path*", "/verify-otp", "/topup","/payout", "/topup/finish"],
 };

@@ -7,12 +7,13 @@ import { ReplyProvider } from "@/context/reply"
 import { getDiscusById, getRepliesByDiscussionId } from "@/services/discussion"
 import { getMaterialById } from "@/services/material"
 import { getUserById } from "@/services/user"
-import { Discussion, Reply } from "@/types/discussion/discussion"
+import { Discussion, PaginationType, Reply } from "@/types/discussion/discussion"
 import { MateriAttach } from "@/types/material/materi-attach"
 import { MaterialType } from "@/types/material/material-courseid"
 import { UserPayload } from "@/types/user/user"
 import { getExtFile, getSegment } from "@/utils/utils"
 import { Avatar } from "@nextui-org/avatar"
+import { Pagination } from "@nextui-org/react"
 import { getCookie } from "cookies-next"
 import Image from "next/image"
 import Link from "next/link"
@@ -30,10 +31,13 @@ const MaterialPage = () => {
     const [replyActive, setReplyActive] = useState<Reply>()
     const [replies, setReplies] = useState<Reply[]>()
     const [user, setuser] = useState<UserPayload>()
+    const [pagination, setPagination] = useState<PaginationType>()
+    const [currentPage, setCurrentPage] = useState(1)
 
-    const getReplies = async () => {
-        const res = await getRepliesByDiscussionId(discussionId,accToken);
+    const getReplies = async (page:number) => {
+        const res = await getRepliesByDiscussionId(discussionId,accToken,page,5);
         setReplies(res.payload.data);
+        setPagination(res.payload.pagination)
     };
   
     const getDiscus = async () => {
@@ -50,13 +54,17 @@ const MaterialPage = () => {
 
     useEffect(()=>{
         getUser()
-        getReplies()
+        getReplies(1)
         getDiscus()
     },[])
 
     useEffect(()=>{
         getUser()
     },[discussion])
+
+    useEffect(()=>{
+        getReplies(currentPage)
+    },[currentPage])
 
     if (discussion && user) return (
         <ReplyProvider value={{getReplies, isActive, setActive, accToken, discussionId, replyActive, setReplyActive, replies}}>
@@ -80,6 +88,9 @@ const MaterialPage = () => {
                     <p className="text-justify">{discussion.content}</p>
                 </div>
                 <Replies/>
+                <div className="mt-4 flex justify-center">
+                    {pagination&&<Pagination onChange={setCurrentPage} total={pagination.total_page}/>}
+                </div>
             </section>
         </ReplyProvider>
     )
