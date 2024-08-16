@@ -11,26 +11,21 @@ const Footer = () => {
           </p>
         </div>
         <div>
-          <h2 className="font-bold text-md mb-4">FAQs</h2>
+          <h2 className="font-bold text-md mb-4">Design References</h2>
           <ul>
             <li className="mb-2">
-              <a href="#" className="text-sm hover:text-gray-300 transition-colors">
-                How do I enroll in a course?
+              <a href="https://dribbble.com/shots/16517180-Online-Education-Course-Landing-Page/attachments/11534886?mode=media" className="text-sm hover:text-gray-300 transition-colors">
+                Mukter Hossain
               </a>
             </li>
             <li className="mb-2">
-              <a href="#" className="text-sm hover:text-gray-300 transition-colors">
-                What is the refund policy?
+              <a href="https://dribbble.com/shots/18340592-Online-learning-platform-Dashboard" className="text-sm hover:text-gray-300 transition-colors">
+                Nahid hossain
               </a>
             </li>
             <li className="mb-2">
-              <a href="#" className="text-sm hover:text-gray-300 transition-colors">
-                How can I contact support?
-              </a>
-            </li>
-            <li className="mb-2">
-              <a href="#" className="text-sm hover:text-gray-300 transition-colors">
-                Are there any prerequisites for the courses?
+              <a href="https://dribbble.com/shots/16924486-E-Learning-Dashboard" className="text-sm hover:text-gray-300 transition-colors">
+                Arvin Aradhana
               </a>
             </li>
           </ul>
