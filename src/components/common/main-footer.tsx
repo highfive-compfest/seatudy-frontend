@@ -11,7 +11,7 @@ const Footer = () => {
           </p>
         </div>
         <div>
-          <h2 className="font-bold text-md mb-4">Design References</h2>
+          <h2 className="font-bold text-md mb-4">DESIGN REFERENCES</h2>
           <ul>
             <li className="mb-2">
               <a href="https://dribbble.com/shots/16517180-Online-Education-Course-Landing-Page/attachments/11534886?mode=media" className="text-sm hover:text-gray-300 transition-colors">
