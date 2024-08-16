@@ -5,6 +5,8 @@ Welcome to the Seatudy Front-end repository! This project is the frontend part o
 ## Table of Contents
 
 - [About](#about)
+- [Developers](#developers)
+- [Documentation](#documentation)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -14,6 +16,32 @@ Welcome to the Seatudy Front-end repository! This project is the frontend part o
 ## About
 
 Seatudy is an educational platform that allows users to manage their courses, track their progress, and provide feedback through reviews. This frontend project is built using modern web technologies to offer a responsive and intuitive user interface.
+
+## Developers
+
+### Back-end
+
+- **Benardo** - Institut Teknologi Bandung
+- **I Putu Natha Kusuma** - Universitas Brawijaya
+
+### Front-end
+- **Elgin Brian Wahyu Brahmandhika** - Universitas Brawijaya
+- **Dindin Imanudin** - Institut Teknologi Nasional Bandung
+
+## Documentation
+
+### Entity Relationship Diagram (ERD)
+
+![image](https://github.com/user-attachments/assets/775dc28c-9942-456d-bed0-ab323b33d7d8)
+
+### Use Case Diagram
+
+![image](https://github.com/user-attachments/assets/59f7d18a-fc82-45a3-9daa-75b9ec36985f)
+
+### System Design Diagram
+
+![image](https://github.com/user-attachments/assets/3c2418dd-ff42-48f9-b349-1c85f606b41d)
+
 
 ## Features
 
